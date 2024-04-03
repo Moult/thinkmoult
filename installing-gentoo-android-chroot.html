@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Learn how to install Gentoo Linux on your Android phone inside a chroot, along with what quirks to expect after your install is done.">
+    <title>Installing Gentoo on Android with chroot</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Installing Gentoo on Android with chroot</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2014-01-03</p>
+    </header>
+    <article>
+
+<p>Note: recently edited 8th Nov 2014</p>
+<p>Installing Gentoo in a chroot alongside Android is easy, so if you
+already use Gentoo and have an Android phone, there's really no reason
+why you shouldn't do it. With a ginormous phablet like the Samsung
+Galaxy Note 2 and a bluetooth keyboard, you can get a super-mobile full
+Linux workstation everywhere you go.</p>
+<p>Before we begin, let's see the pretty pictures. Here's Larry saying
+hello :) (Installing a talking cow should be the top priority once the
+base system is up and running)</p>
+<p><img alt="Larry saying hello on Android" src="android-gentoo-cowsay.png"></p>
+<p>... and of course a shot of emerging stuff ...</p>
+<p><img alt="Gentoo on Android compiling stuff" src="gentoo-android-compiling.png"></p>
+<p>... and finally we're running Enlightenment 17 with the Webkit-based
+Midori browser with X, accessed via (Tight)VNC ...</p>
+<p><a href="enlightenment-android.png"><img alt="E17 on Android with Gentoo
+Linux" src="enlightenment-android.png"></a></p>
+<h2>Installing Gentoo on Android</h2>
+<p>Prerequisites first: you'll need a rooted device. You'll also need a
+terminal with busybox. I recommend <a href="https://play.google.com/store/apps/details?id=jackpal.androidterm">Android Terminal
+Emulator</a>
+and <a href="https://play.google.com/store/apps/details?id=stericson.busybox">busybox by
+stericson</a>.
+I would also recommend installing <a href="https://play.google.com/store/apps/details?id=org.pocketworkstation.pckeyboard">Hacker's
+Keyboard</a>,
+which gives you a full keylayout.</p>
+<p>Installing is rather straightforward: modern Android phones usually run
+on ARMv7 so just follow the <a href="http://www.gentoo.org/doc/en/handbook/handbook-arm.xml">appropriate
+handbook</a>. If
+you are installing it onto your internal storage (not on an external
+SD), you can skip to chapter 5 :)</p>
+<p>You will need to be root to install, so <code>su -</code> in your terminal emulator
+of choice. Similarly, remount Android into read-write so that you can
+create the necessary files for Gentoo with <code>mount -o remount,rw /</code>.
+Finally, remember to install in <code>/data/gentoo</code> instead of <code>/mnt/gentoo</code>
+so to not conflict with Android's mounting preferences.</p>
+<p>Since we're only installing a chroot and not booting alongside android,
+you can safely skip configuring the kernel, configuring fstab,
+configuring networking, and setting up the bootloader.</p>
+<p>When mounting, you will need to do so as root user, and use the busybox
+implementation for <code>--rbind</code> support, as so:</p>
+<pre><code>$ su -
+[ ... superuser access granted ... ]
+$ cd /
+$ mount -t proc proc /data/gentoo/proc
+$ busybox mount --rbind /dev /data/gentoo/dev
+$ busybox mount --rbind /sys /data/gentoo/sys
+$ chroot /data/gentoo /bin/bash
+[ ... now in the chroot ... ]
+$ source /etc/profile
+</code></pre>
+<p>This is assuming you've put Gentoo in <code>/data/gentoo</code></p>
+<h2>Android quirks</h2>
+<p>There doesn't seem to be a <code>/dev/fd</code> on Android, so let's fix that:</p>
+<pre><code>[ ... in Gentoo chroot ... ]
+$ cd /dev
+$ ln -s /proc/self/fd`
+</code></pre>
+<p>Portage won't be able to download files as it doesn't download as root,
+but instead as another user by default. No problem:</p>
+<pre><code>[ ... in /etc/portage/make.conf ... ]
+FEATURES="-userfetch"`
+</code></pre>
+<p>Sometimes I've noticed that on bad reboots the <code>/etc/resolv.conf</code> can
+get reset. This will cause host resolving issues. Resolving is as easy
+as:</p>
+<pre><code>[ ... in /etc/resolv.conf ... ]
+nameserver 8.8.4.4
+nameserver 8.8.8.8`
+</code></pre>
+<p>It will be a good idea to set your main user to the same UID as the
+Android normal user. Also, running <code>id -a</code> in android will show you that
+your user is part of various reserved Android groups. To fix issues such
+as your Gentoo user's (in)ability to go online or use bluetooth, just
+create these groups in your Gentoo install with matching GIDs, and add
+your user to these groups. Here's a list of <a href="http://android-dls.com/wiki/index.php?title=Android_UIDs_and_GIDs">Android UIDS and
+GIDS</a>.
+For example, I needed to add my Gentoo user to groups with GIDs 3003 and
+3004 before it could successfully go online.</p>
+<p>If you want an X server, VNC will do the trick. I recommend
+<a href="https://play.google.com/store/apps/details?id=android.androidVNC">android-vnc-viewer</a>
+24-bit colour seems to work, and perhaps change the input method to
+touchpad rather than touchscreen so it's relatively usable.</p>
+<p>Finally, with no fan and big heatsink on a mobile phone, you might find
+yourself running hot. So even though monsters like the Galaxy Note 2
+have 4 cores, I recommend sticking it to <code>MAKEOPT="-j2"</code></p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

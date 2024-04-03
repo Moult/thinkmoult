@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to use the Radiance rendering engine to render out different types of 360 panoramas for virtual reality. Create cube maps, equirectangular panoramas, sphere maps, fisheye views, and other environment maps.">
+    <title>Create 360 VR panoramas with Radiance</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Create 360 VR panoramas with Radiance</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-01-05</p>
+    </header>
+    <article>
+
+<p>Radiance can be used to create three different types of 360 panoramic images for
+use in virtual reality (VR). A 360 panoramic is often used for a static
+VR image, where the viewer can rotate their head and look around, but not move
+around the space nor interact dynamically with objects.</p>
+<p>The trick often works by placing the viewing camera inside of a sphere or cube,
+and mapping the 360 panoramic image as a texture to the inside of the sphere or
+cube. Looking around, this sphere or cube is set in a special way to not cast
+any shadows nor have any calculated lighting to give away the illusion that you
+are inside a sphere or cube, and then you can see the environment around you.</p>
+<p><img alt="An example of a camera inside of a sphere" src="360-spheremap-example.png"></p>
+<p>This technique has many names, known as a sky map, environment map, or sphere /
+cube map (specifically if the texture is created for a sphere or cube shape).
+It's quite an old and established technique, often used to create a background
+sky or environment in a 3D scene. The principle is exactly the same in VR, with
+the exception that you might create two images: one for the left eye and one for
+the right eye. The slight displacement creates a stereoscopic view that gives
+the illusion of depth.</p>
+<p>Choosing the type of 360 texture you create depends on what your viewing system
+allows. There are three types:</p>
+<ul>
+<li>Angular sphere map</li>
+<li>Equirectangular panoramic</li>
+<li>Cube map</li>
+</ul>
+<h2>Creating an angular sphere map</h2>
+<p>The most straightforward option is to create an angular sphere map / fisheye
+render. This type of render is circular, with the center of view in the center
+of the render, and 360 around the perimeter of the render.</p>
+<p>The advantage is that it's really easy. The disadvantage is that distortion
+increases as the view moves behind you (i.e. towards the perimeter of the
+rendered circle). This can create a pinch-like artifact in the VR.</p>
+<p><img alt="An example of an angular spheremap rendered with
+Radiance" src="angular-spheremap.png"></p>
+<p>This is very simple to render by setting the following options to <code>rpict</code>, and
+by setting a square (e.g. 1024 x 1024 px) output resolution:</p>
+<pre><code>-vta -vv 360 -vh 360
+</code></pre>
+<p>If you already have an equirectangular projection render (see below), you can
+alternatively convert it to a sphere map with <code>imagemagick</code>.</p>
+<h2>Creating a cubemap</h2>
+<p>The second most straightforward option is to create a cube map. This involves 6
+different views, each corresponding to an inside face of a 6-sided cube. The
+views are front, back, left, right, up, and down. Often, VR software requires
+that you format it in a certain order, or name them specific file names, or
+rotate them by 180 or 90 degrees.</p>
+<p>This is beneficial as it is basically 6 renders instead of one, and therefore
+can minimise any distortion in the VR. However, it does mean that you are
+rendering six views instead of one, and can take a lot longer. However, as it is
+a simple perspective view, you can benefit from doing a partial render / patch
+render instead of rendering absolutely everything if you make a small change.</p>
+<p><img alt="An example of a cubemap rendered with Radiance" src="radiance-cubemap-example.png"></p>
+<p>Each view is a perfect square, and is usually a power of 2, such as 1024x1024.
+Each view covers a vertical and horizontal field of view of 90 degrees, so that
+they combine to create a 360 image. This means that the following options can be
+used in your <code>.rif</code> file provided to <code>rad</code>.</p>
+<pre><code>view=front -vtv -vh 90 -vv 90 -vp 0 0 0 -vd 0 1 0 -vu 0 0 1
+view=back -vtv -vh 90 -vv 90 -vp 0 0 0 -vd 0 -1 0 -vu 0 0 1
+view=left -vtv -vh 90 -vv 90 -vp 0 0 0 -vd -1.0 0 0 -vu 0 0 1
+view=right -vtv -vh 90 -vv 90 -vp 0 0 0 -vd 1 0 0 -vu 0 0 1
+view=up -vtv -vh 90 -vv 90 -vp 0 0 0 -vd 0 0 1 -vu 0 0 1
+view=down -vtv -vh 90 -vv 90 -vp 0 0 0 -vd 0 0 -1 -vu 0 0 1
+# Must be square!
+RESOLUTION=1024 1024
+</code></pre>
+<p>Notice that the <code>-vp</code> coordinates remain constant in all views.  This is
+assuming that you want to define "front" as being perfectly facing <code>0 1 0</code> (the
++Y axis). What is front and what is back doesn't usually matter in VR, as you
+can turn around anyway, but the front view is usually what is presented first,
+and so it might be sensible to set it to a visually interesting direction.</p>
+<p>It may be that you have a different position or view direction and view up
+vector. You will have to calculate these yourself. However, if you use Blender,
+you can use this script in my <a href="../basic-rendering-tutorial-radiance/article.md">beginner Radiance
+tutorial</a> to calculate the
+<code>-vu</code> and <code>-vd</code> options.</p>
+<p><img alt="An example of 6 cameras set up in Blender" src="blender-cubemap-cameras.png"></p>
+<p>Once the views are rendered, you may need to rotate with <code>protate</code> or <code>pflip</code> if
+your VR software requires you to. These are pretty straightforward to apply.</p>
+<p>To ensure visual consistency, the views need to be adjusted to the same exposure
+values, otherwise you will see the seams of the cube. To solve this, we first
+calculate the combined histogram of all of your views. Assuming all your 6
+<code>.hdr</code> files are in the same directory, you can run:</p>
+<pre><code>$ phisto *.hdr &gt; combined.hist
+$ pcond -I &lt; combined.hist front_original.hdr &gt; front_adjusted.hdr
+$ pcond -I &lt; combined.hist back_original.hdr &gt; back_adjusted.hdr
+$ pcond -I &lt; combined.hist left_original.hdr &gt; left_adjusted.hdr
+$ pcond -I &lt; combined.hist right_original.hdr &gt; right_adjusted.hdr
+$ pcond -I &lt; combined.hist up_original.hdr &gt; up_adjusted.hdr
+$ pcond -I &lt; combined.hist down_original.hdr &gt; down_adjusted.hdr
+</code></pre>
+<p>You can still run a human adjustment by doing:</p>
+<pre><code>$ pcond -I -h &lt; combined.hist front_original.hdr &gt; front_adjusted.hdr
+[ ... etc ... ]
+</code></pre>
+<p>Alternatively, if you know the exposure value you want it to be (for example,
+let's say it's "-2"), you can run:</p>
+<pre><code>$ pfilt -1 -e -2 front_original.hdr &gt; front_adjusted.hdr
+[ ... etc ... ]
+</code></pre>
+<p>Once adjusted, you may be expected to combine the images together. There are
+many formats. One example format, is where each images are shown one after
+another in a 6x1 strip of tiles. You can do this with <code>pcompos</code> and the <code>-a</code>
+argument:</p>
+<pre><code>$ pcompos -a 6 front.hdr back.hdr left.hdr right.hdr up.hdr down.hdr &gt; cubemap.hdr
+</code></pre>
+<p>You should change the order depending on what order your VR software expects.
+As another example, this'll give you a 3x2 strip of tiles:</p>
+<pre><code>$ pcompos -a -3 front.hdr back.hdr left.hdr right.hdr up.hdr down.hdr &gt; cubemap.hdr
+</code></pre>
+<p>All done!</p>
+<h2>Creating an equirectangular projection</h2>
+<p>An equirectangular projection is something like the world map. The 360 view can
+be represented in a single 2x1 width x height aspect ratio image, with the
+expense of having distortion towards the poles.</p>
+<p><img alt="An example of an equirectangular projection in
+Radiance" src="equirectangular-projection.png"></p>
+<p>One approach to creating an equirectangular projection is to first render a
+sphere map, and then use a tool like <code>imagemagick</code> to convert the distortion.
+You can read up more about <a href="https://www.imagemagick.org/Usage/distorts/#circular_distorts">circular distortions</a> to see the full set of options. In short, the following will convert from sphere to equirectangular, known as a <em>DePolar</em> distortion:</p>
+<pre><code>$ convert sphere.jpg -distort DePolar 0 equirectangular.jpg 
+</code></pre>
+<p>Unfortunately, unlike the sphere map where we could tell <code>rpict</code> to use <code>-vta</code>
+and the cube map where we could use <code>-vtv</code>, there is no view type for an
+equirectangular projection. However, <a href="http://markjstock.org/">Mark J. Stock</a>
+(who does some fantastic computational artwork which you should check out!) has
+<a href="https://discourse.radiance-online.org/t/3d-360-video-rendered-with-radiance/154">created a cal
+file</a>
+that allows us to do just that. I have modified it slightly to produce a single
+360 image, instead of a stereoscopic pair, which I'll talk about later. So
+first, please <a href="2d360.cal">download this 2d360.cal file</a>.</p>
+<p>Because we will use this <code>.cal</code> file to influence how to calculate each pixel,
+we will need to render our image in a slightly different way. But first, let's
+save our output settings into <code>saved.opt</code> from <code>rad</code>:</p>
+<pre><code>$ rad -v 0 scene.rif OPT=saved.opt
+</code></pre>
+<p>Now you can render it using the following command. You will need to replace <code>X=0;Y=0;Z=0</code> with your <code>-vp</code>'s X, Y, and Z coordinates. You will also need to replace <code>NCORES</code> with the number of CPU cores that you have, to take advantage of multiprocessor rendering. Finally, replace <code>scene.oct</code> with your octree.</p>
+<pre><code>$ X=2048; Y=1024; cnt $Y $X | rcalc -f 2d360.cal -e &quot;XD=$X;YD=$Y;X=0;Y=0;Z=0&quot; | rtrace -n NCORES -x $X -y $Y -fac @saved.opt scene.oct &gt; out.hdr
+</code></pre>
+<p>This creates a 2048x1024px output image. That's it!</p>
+<h2>Creating a stereoscopic panorama</h2>
+<p>A stereoscopic panorama is the same as a monoscopic panorama, except that you
+create two of them: one for the left eye, and one for the right. Therefore, the
+most important factor is the inter-pupillary distance (IPD). This is the
+distance between your eyes and is usually 0.055m and 0.07m for most people.</p>
+<p>For the sphere map and cube map, it suffices to create another camera and render
+out more views. For the equirectangular projection, Mark J. Stock's original
+<code>.cal</code> file does the work for you by creating an over-under stereoscopic view.
+This is a 1:1 output image with the left image on the top and the right image on
+the bottom. You can <a href="3d360.cal">download 3d360.cal</a> here. Running <code>3d360.cal</code>
+needs a bit more work. Take note that the output resolution is square, and it
+specifies a few more variables, such as <code>IPD</code>, <code>EX</code>, and <code>EZ</code> which you can read
+what they mean in the <code>.cal</code> file. Here's the command:</p>
+<pre><code>$ X=2048; Y=2048; cnt $Y $X | rcalc -f cal/3d360.cal -e &quot;XD=$X;YD=$Y;X=0;Y=0;Z=0;IPD=0.06;EX=0;EZ=0&quot; | rtrace -n NCORES -x $X -y $Y -fac @saved.opt scene.oct &gt; out.hdr
+</code></pre>
+<p>You may need to split over-under output into individual images, which you can do
+easily with <code>imagemagick</code>:</p>
+<pre><code>$ mogrify -format jpg pano.hdr
+$ convert pano.jpg -crop 1x2@ +repage +adjoin pano_%d.jpg
+$ mv pano_0.jpg left.jpg
+$ mv pano_1.jpg right.jpg
+</code></pre>
+<p>In a future post, I will walk through how to place this on the web using WebVR,
+which you can view using things like Cardboard VR.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

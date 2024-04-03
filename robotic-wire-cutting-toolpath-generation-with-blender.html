@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Most toolpath generation focuses on minimising material wastage, tool wear, and robot movements. This article describes an alternative approach that uses the U/V direction of a surface, its edge loops, and edge rings, to intuitively describe a toolpath.">
+    <title>Robotic wire cutting toolpath generation with Blender</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Robotic wire cutting toolpath generation with Blender</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-05-06</p>
+    </header>
+    <article>
+
+<p>In a previous post, I talked about <a href="../robotic-stereotomy-stone-diamond-wire-cutting/article.md">using a diamond wire to cut
+stone</a>. The wire
+cutter would be attached to a 6-axis robot arm which would then be pushed
+through the stone. If you haven't yet read it, read it now.</p>
+<p>Today, I want to talk about the technical approach used.</p>
+<p>The robotic arm that performed the cutting was a German KUKA robot, which processes a
+proprietary toolpath instruction language known as KRL (KUKA Robot Language).
+Given that there was no open-hardware robot available, this had to do. KUKA
+robots come with a similarly proprietary simulation software, which is
+horrendously expensive. Luckily, there is a cheaper, but mostly functionally
+equivalent simulator called KukaPRC (some funky behaviour, but quite well done)
+written for Grasshopper, which is the visual scripting language used by Rhino.</p>
+<p>The visual scripting language comes with a set of nodes for drag-and-drop
+create-your-own toolpath. Although one valid approach was to parameterise the
+shape of each block and use Grasshopper to generate toolpaths, we had a wider
+goal of more generic toolpath generation due to strangely cut shapes.</p>
+<p>The good news is that every shape's surface is already parameterised in the form
+of the surface UV. Given a clean mesh topology with a lot of quads, we figured
+that the wire could simply follow edge rings, starting with U, an following V,
+until it had carved up the required shape.</p>
+<p><img alt="Edge loops and edge rings which create a natural
+toolpath" src="edge-loops-and-edge-rings.png"></p>
+<p>The KRL syntax in its simplest form supports an XYZ for the toolhead location,
+along with a tool axis vector and tool "up" vector. The XYZ is all relative to a
+datum which is calibrated at the beginning. The datum would be an arbitrary
+point on the jig which would hold the stone. Each edge in the edge ring would
+represent the toolhead axis, and the midpoint of the edge would represent the
+toolhead XYZ location. The "up" vector would be logically chosen to minimise
+robot arm clashes.</p>
+<p>I used Blender with a quick Python script to create the necessary vectors for
+the toolpath. Seams were used to denote where the cuts stopped and started,
+making the workflow similar to how any existing texture artist would work. This
+would also resolve any issues with poles made in the surface topology.</p>
+<p>Using Blender with quad-meshes created a very fluid workflow between scanning
+rocks, retopologising, and generating toolpaths. The Blender script would then
+spit out a KRL file which we could feed into the Grasshopper-based simulator, as
+a final sanity check before actually carving up stone.</p>
+<p>Because actually carving stone is slow and expensive, we would prototype with a
+hot-wire cutter (resistance wire with a haphazardous power pack tied to it) and
+styrofoam. If you clamp the foam down at the bottom and use dense foam, it sort
+of doesn't move around too much.</p>
+<p><img alt="Carving foam using toolpaths generated from edge
+loops" src="cutting-foam-block.png"></p>
+<p>By the time I write this post, all the languages, robot APIs and scripts would
+be deprecated, and so is probably not worth digging up and sharing. However, the
+principle of edge loops and seams as a workflow was really quite intuitive, and
+thought the concept was worth a post.</p>
+<p>Most toolpath generation techniques, however, do not have intuitiveness to the
+user as their top priority. Most also do not take into account surface striation
+patterns. Most would have a much more sensible goal such as minimising tool
+wear, or material wastage, or robot movement efficiency. This approach does
+absolutely none of that and is therefore useless for any proper production.
+Still, pretty slick for rapid prototyping.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

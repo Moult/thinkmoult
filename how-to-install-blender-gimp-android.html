@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to install and run Blender and the GIMP on Android phones using Gentoo Linux. This runs Blender and The GIMP as a native app with full desktop functionality. This also demonstrates two desktop environments: Fluxbox and E17 and shows running Midori as a browser.">
+    <title>How to install Blender and The GIMP on Android</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to install Blender and The GIMP on Android</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-01-10</p>
+    </header>
+    <article>
+
+<p>It is possible to install Blender and The GIMP on Android, with the full
+functionality just as their desktop counterparts. They can be installed as
+native applications as long as we have a few prerequisites.</p>
+<p>Blender and The GIMP do not have mobile / Android native interfaces, and so as a
+result we will need to set up a Linux-based "X" server environment on the phone
+so that their GUI will display, and the resulting interface will not be touch
+friendly and requires a bluetooth mouse and keyboard to be much use. I should
+also note that most Android phones are not as powerful as desktops, and so
+performance will be limited, but it is useful to know that it can be done.</p>
+<p>To start with, you will need to <a href="../installing-gentoo-android-chroot/article.md">install Gentoo Linux on your Android
+phone</a>. This is a
+straightforward process, does not require root, and allows you to run Gentoo
+inside a <code>chroot</code>, alongside your Android. As it's in a <code>chroot</code>, you can use Gentoo
+through a terminal emulator. As we will require a desktop interface, you will
+need to install <code>xorg-server</code>, a VNC server, and some sort of window manager (in
+this case, I use <code>fluxbox</code>). I use Android's bVNC free app as a VNC client, as
+it supports converting the screen to a touchpad, but you may choose any you
+like.</p>
+<pre><code>$ emerge xorg-server tigervnc fluxbox
+$ vncserver -geometry 960x540
+</code></pre>
+<p>You can watch this video demonstrating a working <a href="https://peertube.social/videos/watch/ad395c9b-9702-4060-ac05-4c94b64956ab">Gentoo on Android on
+Peertube</a>,
+or embedded as a video below.</p>
+<iframe src="https://peertube.social/videos/embed/ad395c9b-9702-4060-ac05-4c94b64956ab" style="min-height: 400px; width: 100%;" frameborder="0" sandbox="allow-same-origin allow-scripts" allowfullscreen="allowfullscreen"></iframe>
+
+<p>Finally, install Blender and The GIMP just as you would on a desktop. You will
+need to unmask them as they are technically untested on an <code>arm</code> processor,
+which your phone likely uses, but I can guarantee that it does compile, and
+certainly works fine on my Samsung Galaxy S7.</p>
+<pre><code>$ emerge blender gimp
+</code></pre>
+<p>And that's it! As you have a full desktop environment, you can treat your phone
+as a desktop and install desktop applications. You can watch a <a href="https://peertube.social/videos/watch/525aa253-5ef2-410f-b4e0-2c401064005d">video of Blender
+and the GIMP running on Android</a> on Peertube here, or see my demonstration below. I also demonstrate real-time rendering with Cycles and rendering out a scene. The scene I use is a city generated from <a href="../openstreetmaps-open-source-maps-application/article.md">OpenStreetMaps</a>.</p>
+<iframe src="https://peertube.social/videos/embed/525aa253-5ef2-410f-b4e0-2c401064005d" style="min-height: 400px; width: 100%;" frameborder="0" sandbox="allow-same-origin allow-scripts" allowfullscreen="allowfullscreen"></iframe>
+
+<p>In practice, I have found that I never tend to actually use Blender and the GIMP
+on my phone, as the screen is too small and it is too slow. But as a proof of
+concept I reckon it's pretty cool.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

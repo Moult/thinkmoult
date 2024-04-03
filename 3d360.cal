@@ -1,0 +1,51 @@
+{
+  3d360.cal
+
+  Definitions for full 360 over-under stereo equirectangular projection
+
+  (c)2014 Mark J. Stock
+
+  Use it like this:
+  X=2048; Y=2048; cnt $Y $X | rcalc -f 3d360.cal -e "XD=$X;YD=$Y;X=0;Y=0;Z=-0.1;IPD=0.06;EX=0;EZ=0" | rtrace [rpict options] -x $X -y $Y -fac scene.oct > out.hdr
+
+  Parameters defined externally:
+  X : neck rotation origin x
+  Y : neck rotation origin y
+  Z : neck rotation origin z
+  XD : horizontal picture dimension ( pixels )
+  YD : vertical picture dimension ( pixels )
+  IPD : inter-pupillary distance
+       this is between 0.055m and 0.07m on most humans
+  These don't seem to work all that well:
+  EX : forward distance between neck rotation center and bridge of nose (between eyes)
+       this is between 0.05m and 0.07m on most humans
+  EZ : vertical distance between neck rotation center and eye elevation when altitude is 0 degrees
+       this is around 0.1m on most humans
+}
+
+{ Direction of the current pixel (both angles in radians) }
+px = XD - $2;
+py = YD - $1;
+frac(x) : x - floor(x);
+altitude = (frac((py-0.5)/(YD/2)) - 0.5) * PI;
+{ to do over-under stereo, azimuth is easy }
+azimut = px * 2 * PI / XD;
+
+{ Transformation into a direction vector }
+xdir = cos(azimut) * cos(altitude);
+ydir = sin(azimut) * cos(altitude);
+zdir = sin(altitude);
+
+{ Transform the viewpoint to account for the eye position }
+dx = EX;
+dy = if($1 - YD/2, 0.5*IPD, -0.5*IPD);
+dz = EZ;
+xpos = X + xdir*dx - sin(azimut)*dy + cos(azimut)*zdir*dz;
+ypos = Y + ydir*dx + cos(azimut)*dy + sin(azimut)*zdir*dz;
+zpos = Z - zdir*dx +           0*dy + cos(altitude)   *dz;
+
+{ Output line to rtrace; each ray needs: xorg yorg zorg xdir ydir zdir }
+$1 = xpos; $2 = ypos; $3 = zpos;
+$4 = xdir; $5 = ydir; $6 = zdir;
+
+{ EOF }

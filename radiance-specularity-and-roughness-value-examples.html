@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Radiance specularity and roughness values are hard to measure without special equipment. This article describes measurement techniques and rules of thumb, along with benchmark images to understand specularity and roughness. These images help give an intuitive understanding of material properties.">
+    <title>Radiance specularity and roughness value examples</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Radiance specularity and roughness value examples</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-12-27</p>
+    </header>
+    <article>
+
+<p>Most Radiance material definitions require a specularity and roughness value to
+be set. Most 3D rendering programs have some sort of specularity and roughness
+parameter, but these are not necessarily linked back to a measurable physical
+property. In Radiance, these values are measurable.</p>
+<p>However, unlike the diffuse RGB reflectance, which can be estimated through
+greyscale charts and through calibration with <code>macbethcal</code> and a Macbeth
+ColourChecker, it is a bit harder to measure specularity and roughness.</p>
+<h2>How to measure specularity</h2>
+<p>Specularity is not clearly defined in the Radiance reference manual. However, it
+is basically the ratio of reflection that is specular and not diffuse. For
+instance, the total surface reflectance of an object is given as so.</p>
+<pre><code>total surface reflectance = diffuse reflectance + specular reflectance
+</code></pre>
+<p>An integrating sphere-based spectrometer measures the diffuse reflectance by
+giving a measurement with the specular component excluded (i.e. what's left is
+the diffuse component). It also measures the total surface reflectance by giving
+a measurement with the specular component included (i.e. diffuse + specular
+reflectance). Therefore you can calculate specularity as so:</p>
+<pre><code>specularity = specular component / total surface reflectance
+specular component = total surface reflectance - diffuse reflectance
+specularity = (SCI - SCE) / SCI
+</code></pre>
+<p>However, not all of us have access to a spectrometer. Unfortunately, the only
+alternative is to use more heuristic methods. One way is to simulate an object
+under controlled conditions and compare it to a physical sample. Another way is
+simply to make an educated guess. The good news is that our environment isn't
+filled with extremely specular materials, and so a slight inaccuracy may not
+harm the simulation too much, depending on what you are simulating.</p>
+<h2>How to measure roughness</h2>
+<p>Roughness is the root-mean-squared (RMS) facet slope of the surface. This is the
+microscopic surface roughness: the more jagged the facets are, the rougher it is
+and more blurry reflections will appear. Note that this is not the roughness
+that is visible to the naked eye. Unless you have access to a very powerful
+microscope, again, it's best to stick to a heuristic approach and fiddle with
+the number until you get what you like.</p>
+<h2>An intuitive example of specularity and roughness</h2>
+<p>There are a few rules of thumb when guessing these numbers, which I've taken
+from the Radiance reference manual:</p>
+<ul>
+<li>Most plastic (i.e. non-metallic) surfaces have a specularity of .0 to .1</li>
+<li>Metallic surfaces generally have a specularity from .8 to .99, but are
+   usually .9 or greater</li>
+<li>Both plastic and metallic surfaces rarely exceed a roughness of .2</li>
+</ul>
+<p>The <a href="http://radsite.lbl.gov/radiance/refer/s98c33.pdf">Siggraph 1998 course</a>
+gives some really great graphical examples of the difference in specular and
+roughness values. I've copied the images here for reference, but they are not
+produced by me and are the fine work and copyrighted by Rob Shakespeare.</p>
+<p>This set of images describes specularity and roughness values for plastic
+materials:</p>
+<p><img alt="Plastic materials with a variety of specularity and roughness
+values" src="radiance-plastic-specularity-roughness-s98.png"></p>
+<p>Here is the same for metallic materials:</p>
+<p><img alt="Metallic materials with a variety of specularity and roughness
+values" src="radiance-metal-specularity-roughness-s98.png"></p>
+<p>As great as these images are, I find some bugbears. Firstly, the values tend to
+jump around a bit instead of linearly. Secondly, although I'm sure it was a
+fantastic work of art in 1998, 20 years later we might need a more modernised
+test image, perhaps using higher-polygon models that we might typically use
+nowadays.</p>
+<p>I've recreated this benchmark image with this in mind. The principles are as
+follows:</p>
+<ul>
+<li>Show more complex geometry in the test image</li>
+<li>Show more colours in the test image</li>
+<li>Show a linear range of values</li>
+<li>Place the geometry in a more complex environment</li>
+</ul>
+<p>I've used a basic sphere, the <a href="http://www.holmes3d.net/graphics/teapot/?graphics/teapot">Utah
+teapot</a>, the <a href="https://graphics.stanford.edu/data/3Dscanrep/">Stanford
+bunny</a>, and <a href="https://docs.blender.org/manual/en/latest/modeling/meshes/primitives.html">Suzanne, the Blender
+monkey</a>.
+The materials are taken from the galvanised sheet metal that comes with the
+sample <code>materials.rad</code> file with Radiance, and the remaining red, green
+(foliage), and blue (sky blue) from the Macbeth ColourChecker chart. The range
+of values are those that follow the rules of thumb above. Also, The geometry is
+placed on top of a displaced rocky ground, with a skymap environment, where the
+sky itself has been swapped out for a <code>gensky</code> sky.</p>
+<p>All images are rendered using this publicly available <a href="https://gitlab.com/dionmoult/radiance-test-scene">Radiance test scene
+repository</a>. After a
+rendering, they are processed with <code>pcond -h</code>.</p>
+<p>To start with, here is a comparison for plastic materials with different levels
+of specularity and roughness. I recommend you <a href="plastic.png">download the high resolution
+version</a>, to fully appreciate the differences.</p>
+<p><img alt="Plastic examples of specularity and roughness" src="plastic-small.png"></p>
+<p>Plastics differ from metallic materials in that the specular highlights of
+plastics are white, whereas the specular highlights of metallic materials are
+tinted. Here's an example.</p>
+<p><img alt="A comparison between plastic and metallic materials" src="material-demo.png"></p>
+<p>So here is a final chart of examples for metallic materials. Again, you can
+<a href="metal.png">download the high resolution version here</a> to see the details.</p>
+<p><img alt="Metal examples of specularity and roughness" src="metal-small.png"></p>
+<p>As you can see, the effects can be quite subtle to notice, so I wouldn't stress
+too much if the value isn't perfectly right. Feel free to use the repository to
+create your own test images.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

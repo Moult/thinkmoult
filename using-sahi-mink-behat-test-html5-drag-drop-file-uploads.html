@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Fully automate testing HTML5 drag and drop file upload scripts using Behat and Mink through the Sahi driver. Files can be specified in base64 format.">
+    <title>Using Sahi, Mink and Behat to test HTML5 drag and drop file uploads</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Using Sahi, Mink and Behat to test HTML5 drag and drop file uploads</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2014-02-24</p>
+    </header>
+    <article>
+
+<p>For those that don't know, <a href="http://behat.org">Behat</a> is an excellent
+tool for testing the business expectations of an application. In other
+words, it's a <em>behavior-driven</em> approach towards full-stack application
+acceptance testing. <a href="http://mink.behat.org">Mink</a> is a browser
+abstraction layer, allowing you to easily control different browser
+emulators through a common interface. Combining the two together brings
+us a mean bag of tricks when it comes to testing web applications.</p>
+<p>This morning I had set myself the task of writing the tests for a spiffy
+HTML5 drag and drop file upload script that is all the rage nowadays.
+Needless to say it took far longer than I had thought it would. Let's
+get started.</p>
+<h2>Testable elements of the HTML5 drag and drop</h2>
+<p>Drag and drops work by triggering the drop event of an element. This
+drop event contains a list of files in a format defined by the HTML5
+FileAPI. The Javascript can loop over these file objects and perform
+client-side file validation checks. This data is then posted via AJAX to
+another URL. After the server-side processing is done, we get a response
+object with the results, and we parse these to give feedback to the user
+whether the upload finally succeeded. As you can see, there are various
+places we can begin to test.</p>
+<h2>Attempt 1: Just test the AJAX POST</h2>
+<p>Because the data is finally POSTed via AJAX, one option is to just test
+that and leave the rest to manual QA. In fact, we can forego AJAX
+altogther, and use PHP with cURL to make the request and check the
+response. Easy. Actually, too easy - we're ignoring what makes our app
+cool - the drag and drop!</p>
+<h2>Attempt 2: Test the legacy file input fallback</h2>
+<p>Bah. This isn't why you're reading this post. You <em>know</em> how to do this
+already. And anyway, you've probably already got a legacy test but now
+you want to test the spiffy HTML5 one. Moving on.</p>
+<h2>Attempt 3: Use Sahi to run your test</h2>
+<p>Hello <a href="http://sahi.co.in/">Sahi</a>! Sahi is a web test automation tool
+with fully fledged GUI. But more relevant is that it supports
+Javascript, unlike its faster headless relatives (yes, there's
+PhantomJS, but I wouldn't mind seeing what's going on in a drag-and-drop
+widget).</p>
+<p>Before we even hit Mink and Behat, try recording the events to turn into
+a Sahi script. You'll quickly notice that Sahi (unsurprisingly) doesn't
+properly record the event of dropping a file onto the page.</p>
+<p>The issue here is that Sahi has no concept of files <em>outside</em> the
+emulated browser window. There's a sneaky trick around this. In our
+Behat definition , we'll run <code>evaluateScript</code> to dynamically add a file
+input field, then attach our image file to that field. Now we can grab
+the file object from that!</p>
+<pre><code>$session = $this-&gt;getSession();
+$session-&gt;evaluateScript('$("body").after("&lt;input type=\"file\" id=\"sahibox\"&gt;")');
+$session-&gt;getPage()-&gt;attachFileToField('sahibox', '/home/dion/image.png');
+myfile = $("#sahibox").get(0).files[0];
+</code></pre>
+<p>If we run the Javascript manually, it works fine. And it also creates a
+good opportunity to stop and peek at exactly what's your File object
+built from. However in Sahi, we <em>don't</em> have the file object. Why?
+Because input file field values cannot be manipulated by Javascript for
+security reasons. But then why does Sahi even provide a function for
+this? Because "Sahi intercepts the request in the proxy, reads the file
+off the file system and inserts it into the multipart request". So Sahi
+just does a sneaky slide into the form submit at the end.</p>
+<p>Taking a peek at Sahi's <a href="http://sahi.co.in/w/_setFile">setFile
+documentation</a>, they note they have a
+<code>_setFile2</code> function - which essentially converts the input field into a
+text field in the process. This isn't going to work either, because we
+actually need the file object to test.</p>
+<p>Finally, Sahi provides a third alternative to selecting files to uploads
+by emulating native events in the process of selecting a file. It's at
+the bottom of their setFile documentation. It basically walks through
+the steps of opening up the file browse dialogue, typing in the file
+path with keystrokes ... on and on until we get what we want. It'll
+work!</p>
+<p>Yes, it'll work. But not nicely. It's slow. It's littered with
+<code>_waits()</code>. Wouldn't it be nicer if we could create the file object
+ourselves rather than emulate browsing our filesystem?</p>
+<h2>Attempt 4: Grab a file object from an image already on the server</h2>
+<p>Aha! We've already got images in our app, let's just try to upload one
+of those. We'll need two things: an image source, and a way to create a
+file.</p>
+<p>For an image source, we'll grab one with an <code>XMLHttpRequest()</code> in
+Javascript. We need to make sure that this image source is within Sahi's
+proxy, though. This is because otherwise we'd run into cross-domain
+issues. That's fine, we'll upload the Sahi logo as our test image.</p>
+<p>To create a <a href="http://www.w3.org/TR/file-upload/#dfn-file">File</a>, we'll
+create a <a href="http://www.w3.org/TR/file-upload/#dfn-Blob">Blob</a> instead.
+Files inherit from Blobs, and so we can swap them in an out. Right,
+let's see.</p>
+<pre><code>var xhr = new XMLHttpRequest();
+xhr.open( "GET", "http://sahi.example.com/_s_/spr/images/sahi_os_logo1.png", true );
+xhr.responseType = "arraybuffer";
+xhr.onload = function( e ) {
+    var arrayBufferView = new Uint8Array( this.response );
+    window.myfile = new Blob( [ arrayBufferView ], { type: "image/png" } );
+};
+xhr.send();
+</code></pre>
+<p>Great! So <code>window.myfile</code> will be populated with our file object now.
+But a test that relies on the existence of a Sahi image? Nasty.</p>
+<h2>Attempt 5: Create our file object from a base64 string</h2>
+<p>Simple but effective and none of that extra request messing around.
+Let's create an image first. I made a black 100px square image for
+testing. The simpler the image the better, as it'll make your base64
+string smaller. Now let's turn that image into base64:</p>
+<pre><code>$ base64 image.png 
+iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAAAAABVicqIAAAACXBIWXMAAAsTAAALEwEAmpwYAAAA
+B3RJTUUH3gIYBAEMHCkuWQAAAB1pVFh0Q29tbWVudAAAAAAAQ3JlYXRlZCB3aXRoIEdJTVBkLmUH
+AAAAQElEQVRo3u3NQQ0AAAgEoNN29i9kCh9uUICa3OtIJBKJRCKRSCQSiUQikUgkEolEIpFIJBKJ
+RCKRSCQSiUTyPlnSFQER9VCp/AAAAABJRU5ErkJggg==
+</code></pre>
+<p>Great. Now as it turns out, the folks at Mozilla have already worked out
+<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Base64_encoding_and_decoding#Appendix.3A_Decode_a_Base64_string_to_Uint8Array_or_ArrayBuffer">how to decode a base64 string into
+Uint8Array</a>.
+Steal their functions and we're good to go :)</p>
+<p>So our test script will:</p>
+<ol>
+<li>Convert a base64 image into a Uint8Array</li>
+<li>Use that Uint8Array to construct a Blob with the mimetype of
+    image/png</li>
+<li>Set various metadata that file uploaders need, such as file name and
+    last modified date</li>
+<li>Create a new list of files, and put our Blob in there</li>
+<li>Create a new "drop" event.</li>
+<li>Add our list of files to the dataTransfer attribute of that drop
+    event</li>
+<li>Trigger our on-page element with the drop event</li>
+<li>Wait for the AJAX call and server-side processing to be done</li>
+</ol>
+<p>And here is the full script in action from our Behat definition (with
+the base64 string snipped out because it's very long):</p>
+<pre><code>$session = $this-&gt;getSession();
+$session-&gt;evaluateScript('myfile = new Blob([base64DecToArr("...snip...")], {type: "image/png"})');
+$session-&gt;evaluateScript('myfile.name = "myfile.png"');
+$session-&gt;evaluateScript('myfile.lastModifiedDate = new Date()');
+$session-&gt;evaluateScript('myfile.webkitRelativePath = ""');
+$session-&gt;evaluateScript('sahiFileList = Array()');
+$session-&gt;evaluateScript('sahiFileList.push(myfile)');
+$session-&gt;evaluateScript('e = jQuery.Event("drop")');
+$session-&gt;evaluateScript('e.dataTransfer = { files: sahiFileList }');
+$session-&gt;evaluateScript('$("#dropbox").trigger(e)');
+$session-&gt;wait(1000);
+</code></pre>
+<p>Great! It's testable!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

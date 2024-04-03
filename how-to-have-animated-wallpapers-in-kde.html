@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="">
+    <title>How to have animated wallpapers in KDE</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to have animated wallpapers in KDE</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2012-06-20</p>
+    </header>
+    <article>
+
+<p>I've seen many people asking how to have animated wallpapers in KDE. The
+current options include specialised Plasma Widgets, or the rather
+limited yet specialised array of animated effects, such as desktop
+globe, seasonal change, or virus simulations.</p>
+<p>Unfortunately there isn't a native way to accomplish this, but KDE being
+KDE, there's always a workaround.</p>
+<p>The idea is to use <code>mplayer</code> to play a constantly looping, muted,
+fullscreen video and tell it to play on all desktops, underneath all
+apps, and not show up as a window in the taskbar, switcher, or pagers.</p>
+<p>Here's the snippet:</p>
+<pre><code>#!/bin/bash
+mplayer -fixed-vo -loop 0 -nosound -fs -name 'animbg' /path/to/yourvideo.avi
+</code></pre>
+<p>Save it as whatever.sh file and <code>chmod +x whatever.sh</code>. (not required but
+useful for convenience)</p>
+<p>The <code>-fixed-vo</code> flag prevents reopening a new window every type the
+<code>-loop 0</code> flag is called. <code>-nosound</code> and <code>-loop</code> is self explanatory,
+and <code>-fs</code> is fullscreen. The <code>-name</code> flag allows us to set a specific
+window class, which will be picked up by a specific KDE window rule we
+will create.</p>
+<p>A quick note here that <code>mplayer</code> also has the <code>-title</code> flag, which we
+should be able to use to create a KDE window rule for, but it seems as
+though either <code>mplayer</code> creates the window and only afterwards changes the
+title, or KDE has a bug, and so the KDE window rule doesn't match at
+runtime.</p>
+<p>We can then go into System settings -&gt; Window Behaviour -&gt; Window
+Rules and press "New" to create a new window rule. Set the window class
+to an exact match as shown below. For more information you can view the
+<a href="http://userbase.kde.org/KWin_Rules_Window_Matching/en">KDE Userbase page on window
+rules</a>.</p>
+<p><img alt="An animated background in KDE" src="kde_animated_backgrounds.png"></p>
+<p>In the Size &amp; Position tab, check Desktop, and set it to Force All Desktops. In
+the Arrangement &amp; Access tab, check Keep below, Skip taskbar, Skip pager, and
+Skip switcher, and set them all to Force Yes.  Hit OK, and Apply your settings.
+For more information you can again see the <a href="http://userbase.kde.org/KWin_Rules_Window_Attributes">KDE Userbase page on window
+attributes</a>.</p>
+<p>Tada! Now you have an animated wallpaper! You can set KDE System
+Settings -&gt; Startup &amp; Shutdown -&gt; Autostart to run your <code>.sh</code> file.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

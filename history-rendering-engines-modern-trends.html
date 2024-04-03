@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Discover the history behind how 3D rendering came to be, from flat shading, specular highlights, the phong shader, to ray-tracing engines and real-time rendering trends. Discover how scientifically validated rendering helps architects get closer to rapid prototyping and visualisation of designs.">
+    <title>A history of rendering engines and modern trends</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>A history of rendering engines and modern trends</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-03-13</p>
+    </header>
+    <article>
+
+<p>When working in the architecture industry, we often look at rendering
+engines from many angles, if you'd pardon the pun. We use simple
+renderings for diagrams, realistic rendering for architectural
+visualisations, real-time rendering for virtual reality prototyping,
+point cloud renderings for landscape and heritage scans, and so on. As
+the penultimate goal in archviz is to both represent abstractly and
+lower the costs of realistic prototyping, it pays to see what the future
+of rendering holds for the industry. But first, I'd like to briefly look
+at rendering's history.</p>
+<p>When the CG industry first considered how to render an image on the
+scene, they were mostly concerned with the <em><a href="https://en.wikipedia.org/wiki/Hidden_surface_determination">hidden surface
+determination</a></em>
+problem. In short, when you have a polygon, which surfaces are visible
+from the camera's POV, and which are not. This mentality of thinking
+about how to "colour in an object" as opposed to how to simulate light
+lead to the development of one of the first rendering techniques: <strong>flat
+shading</strong>.</p>
+<p>In flat shading, the rendering engine would consider the surface normal
+of each surface with respect to a light source. The more face-on each
+surface was, the lighter it was, and the more incident the surface was,
+the darker it was. If the path between the surface normal and a light
+source intersected with another surface (i.e., was blocked), it was
+shaded black. I've attached an example of flat shading in the first
+image below. This is roughly analogous to an actual physical phenomenon
+- that the angle of incidence to a material matters.</p>
+<p>This was very simple, and also not very realistic. Flat shading was then
+combined with <strong>specular shading</strong>, which was essentially the same but
+heavily biased the angle of the surface normal, and had another
+parameter to control the falloff of the highlight. Although this created
+a convincing metallic glint (see monkey two in the image below), it was
+again just an artistic trick and wasn't based off an actual physical
+phenomenon. Nevertheless, it stuck, even to this day.</p>
+<p>Shading techniques improved when a Vietnamese gentleman invented the
+infamous <strong>Phong shader</strong>. He had the idea of interpolating the vertex
+normals between vertices to give a gradient of colour through the face.
+This created much more realistic results (see monkey three), but again,
+had no real world equivalent.</p>
+<p>The next improvement to the shading model was when people observed
+completely black shadows. In real life, <strong>global illumination</strong> and
+ambient light ray bounces mean that almost everything can be very
+effectively indirectly lit. There was no computationally efficient
+solution to the problem at the time, and so an ambient light constant
+was added to simply bump up the global lighting (see monkey four). This
+sort of formed the segway into modern day rendering, and thus ends our
+history lesson.</p>
+<p><img alt="Flat, phone, interpolated, and ambient light
+shading" src="flat-phong-interpolated-shading.png"></p>
+<p>The moral of the story is that almost all the shading approaches had no
+real-life equivalent, and all the subsequent improvements were based
+upon a method that considered how to colour in a shape from the point of
+view of the shape itself. This is fundamentally incorrect - in the
+physical world, how an object looks (at people scales, forget quantum
+mechanic scales) depends on rays of light that are emitted from objects
+that are giving off photons (e.g. hot objects) bouncing around and
+losing energy. Energy is deposited and is reflected upon materials in
+very different ways depending on the microsurface imperfections of the
+material, and the chemical properties of a material.</p>
+<p>Luckily, in parallel as these artistic shaders were being developed,
+physically-based "ray-tracing" rendering engines were also being
+developed. These ray-tracers traced rays of photons from and to cameras
+and light sources in the same way that the real world worked. Back then,
+they were cool technical demos, but always were too inefficient for any
+practical work. However, theoretically we had proven that if you throw
+enough computing power at the problem, you can get photo-realistic
+results. Nowadays, of course, everybody knows about ray-tracing and it's
+practically the norm in the market. I've shown an example of a chrome
+Monkey below reflecting the environment - the textbook example of what
+ray-tracing can achieve that traditional shaders could not (well, not
+without hacks and light maps and what not). You can see another <a href="https://thinkmoult.com/breakdown-photo-realistic-image-blender-cycles/">example
+of photo-realistic rendering with
+Cycles</a>
+that I've done too.</p>
+<p><img alt="Glossy ray tracing render" src="2018-02-06-210617_682x461_scrot.png"></p>
+<p>Almost every single popular rendering engine nowadays, such as Blender
+Cycles, V-Ray, Maxwell, Renderman, and Arnold are ray-tracers. They are
+getting faster and now combining both GPU and CPU to provide almost
+real-time rendering. In recent years, Physically Based Rendering, better
+real world scanners, and improvements on texture painters are three
+among many advances that make photo-realistic rendering easier and
+easier.</p>
+<p>Basically, photo-realism is becoming really easy. An interesting subtle
+trend to additionally note is that we are actually getting more
+scientifically based. In the past, these ray-tracers, although somewhat
+physically based, had many approximations to the point that real-world
+units were ignored in favour of arbitrary values.</p>
+<p>The reason why this is important is because penultimate photorealism
+comes from scanning in real-world data at increasing levels of fidelity.
+Engines, no matter how physically based they are, will find it hard to
+use this information if they are unable to be easily linked back to
+physical units and measurable scientific values.</p>
+<p>Thankfully, this is actually improving. Simple things like using more
+IES profiles in lighting, or falsecolour luminance images are starting
+to be possible with mainstream renders. The popularisation of the Disney
+shader is slowly getting engines working on interoperability, and the
+ultimate interoperability, much like penultimate photorealism, depends
+on scientific values.</p>
+<p>At the very least, we know that if we throw more computers at the
+problem it will eventually converge and leave us with a beautiful real
+image.</p>
+<p>This is great news for architecture - the industry I'm in. Architecture
+is no stranger to smoke and mirrors when it comes to renders and a trend
+towards scientific rendering makes it easier to both cheaply prototype
+and still promise the same results to eager clients.</p>
+<p>Until then, let's play with photoreal game engines and VR while the hype
+lasts.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

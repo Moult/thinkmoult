@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Blender panoramic renders can be done with both Blender Internal and Blender Cycles. Learn what settings to choose and what renders you can create.">
+    <title>Blender panoramic renders howto and demonstration</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Blender panoramic renders howto and demonstration</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2013-08-19</p>
+    </header>
+    <article>
+
+<p>Doing a Blender panoramic render isn't easy. This is because you can't
+actually see what you're going to create in the regular OpenGL-shaded 3D
+view. In fact, even when looking through the Blender camera, you won't
+see what you're going to end up with.</p>
+<h2>Blender panoramic renders with Blender Internal renderer</h2>
+<p>The technique is actually rather simple: just select the camera. Then in
+the object data settings panel, just click the panoramic button and play
+with the focal length until you get something you want. You can see an
+example of how to create a simple Blender panoramic render in the
+screenshot below:</p>
+<p><img alt="Blender panoramic settings" src="blender_panoramic_settings.png"></p>
+<p>You'll soon discover is that you can only actually see what you're going
+to get when you hit the render button. If you're using the internal
+Blender renderer, this'll become a pain really quickly. This is because
+you'll have to constantly hit render and wait for the image to come up.</p>
+<h2>Blender panoramic renders with Cycles renderer</h2>
+<p>However if you switch the scene to Cycles Renderer, things become
+easier. This is because Cycles provides a real-time rendering view. Just
+set one window open to rendered view and you'll see what you're going to
+get (roughly) in real time. At the same time, you'll notice that Cycles
+opens up new options on how your panoramic render should be like: the
+type of panoramic - whether it's fish eye, equidistant, or rectangular,
+and how many degrees the field of view is.</p>
+<p><img alt="Blender cycles panoramic camera settings" src="blender_cycles_panoramic.png"></p>
+<p>Now comes the fun part, actually building your scene. The best strategy
+is to have planned out your scene beforehand on paper so you know its
+composition. With panoramic renders, if you haven't already got a scene
+built, now is your chance to bend reality in a Dali-esque manner and
+have fun with perspective.</p>
+<p>Once your composition is planned out, create simple cubes and planes as
+proxy objects for the rough locations of where your scene objects are
+going to be. Then slowly replace them with the more detailed meshes of
+what you want to make.</p>
+<p>Another useful tip is to use the Blender preview window. In Cycles, when
+in camera view, just press shift-b and drag and drop a cropped portion
+of your screen, and it'll only render that area. This keeps rendering
+times low. There are plenty of other tips on how to <a href="http://www.blenderguru.com/13-ways-to-reduce-render-times/">reduce rendering
+times</a>, so I
+won't repeat them all here.</p>
+<p>Below you can see a panoramic render I did a few months ago which uses
+the above techniques. As you can see, I've blended several scenes
+together with varying perspectives, which was only possible with a
+panoramic render.</p>
+<p><img alt="Blender panoramic render" src="blender_panoramic_render.png"></p>
+<p>Good luck, and create those awesome renders!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="This articles describes how to extract the audio from a Flash video file (FLV) into an MP3 format using free tools such as mencoder, with Linux.">
+    <title>Rip audio from an .FLV file</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Rip audio from an .FLV file</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2009-07-24</p>
+    </header>
+    <article>
+
+<p>How do you rip only the audio from an <code>.flv</code> file? <code>.flv</code> files, or Flash Video
+files are the format used in browser-embedded videos, common on video-sharing
+sites such as YouTube or Vimeo. For whatever reason if you have an <code>.flv</code> file
+of your favourite music video, now you can get the music rocking solo.</p>
+<pre><code>$ mencoder input.flv -o output.mp3 -of rawaudio -oac mp3lame -lameopts cbr:br=192 -ovc copy
+</code></pre>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

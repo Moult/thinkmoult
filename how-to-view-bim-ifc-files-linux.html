@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="BIM IFC (Industry Foundation Classes) files can be viewed and parsed on Linux in a few ways. I describe how to open IFC files with FreeCAD, IfcPlusPlus, and IfcOpenShell.">
+    <title>How to view BIM IFC files on Linux</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to view BIM IFC files on Linux</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-01-12</p>
+    </header>
+    <article>
+
+<p>Architectural, engineering, and construction BIM models should be written into
+the international ISO standard IFC format. This allows the BIM models to have a
+consistent dataset that can be queried and integrated with other BIM tools and
+databases, regardless of the technology vendor. One example is where you can
+<a href="https://www.nist.gov/services-resources/software/ifc-file-analyzer">open an IFC file in Microsoft
+Excel</a> and
+use this Excel spreadsheet to perform BIM queries.</p>
+<p><img alt="An IFC file integrated into Excel, viewed with open-source LibreOffice
+Calc. Here it shows IfcMaterial layers." src="ifc-viewer-excel-libreoffice.png"></p>
+<p>Other than Windows, it is important to consider platforms that are less widely
+used in the architecture industry, such as Linux. Linux is especially conducive
+towards open-source development, rapid protoyping, and is the gold standard for
+data processing. If somebody is using a IFC viewer that is not open-source and
+not cross-platform, that IFC viewer cannot be considered to be an authoritative
+implementation of IFC, as it does not allow inspection of the code, and doesn't
+prove cross-platform compatibility which is the purpose of IFC. For instance,
+the popular <a href="https://www.solibri.com/solibri-model-viewer">Solibri Model Viewer</a>
+<em>cannot</em> be considered an authoritative model viewer.</p>
+<p>The tools I will introduce below are all open-source and cross-platform, and so
+despite the misleading title of this article, you can use these tools to view
+IFC files freely and with a battle-tested implementation on Windows, or even
+Mac. However, like most open-source things, things are simply easier to tinker
+with on Linux.</p>
+<p>If you aren't already aware, it is easy to open an IFC file directly in a text
+editor such as <code>Vim</code>, and read the IFC source manually. So theoretically you can
+parse IFC data on your toaster. However I am assuming that you are looking for a
+graphical output, as most BIM models include 3D geometry. To get these following
+tools running, you may be required to compile software, and / or write
+some scripts. These tools are expected to mature in the future.</p>
+<p>You may download some simple test IFC "units" from the <a href="https://svn.code.sf.net/p/ifcopenshell/svn/trunk/test/input/">IfcOpenShell test
+directory</a>, or
+download the programmatically generated
+<a href="http://blog.ifcopenshell.org/2012/11/say-hi-to-ifcopenhouse.html">IfcOpenHouse</a>
+for a more complex model, or if you want something a bit more detailed (although
+it does contain Revit exported property sets), you can look at the <a href="https://www.nibs.org/page/bsa_commonbimfiles#project1">Duplex
+house</a>.</p>
+<h2>Author IFC files natively with BlenderBIM</h2>
+<p>The simplest approach is to use <a href="https://blenderbim.org/">BlenderBIM</a>. This
+Blender add-on extends Blender to allow import and export of IFC files, and
+turns Blender into an extremely powerful BIM program. Other features into
+writing point clouds into IFC, modifying aggregate objects, different
+materials, support for multiple shape representations, property sets, quantity
+take-off, structural analysis, 2D construction documentation, and so on. In
+terms of supporting OpenBIM, Blender supports nearly twice as many BIM concepts
+<a href="https://blenderbim.org/blenderbim-vs-revit.html">compared to Revit</a>, which
+makes it quite a formidable tool in your arsenal. BlenderBIM, like Blender, is
+100% free software.</p>
+<p>BlenderBIM also distributes various utilities, such as:</p>
+<ul>
+<li><strong>BIMTester</strong> - write and run unit tests to validate the content of your IFC data, with much more control than an mvdXML.</li>
+<li><strong>IFC Diff</strong> - this compares two IFC files, describing changes in properties and geometry.</li>
+<li><strong>IFC Clash</strong> - this performs clash detection on IFC files</li>
+<li><strong>IFC COBie</strong> - this converts IFC SPF data into spreadsheet format based on the COBie template.</li>
+</ul>
+<p><img alt="Blender IFC import showing basic IFC properties" src="blender-ifc-import.png"></p>
+<p>This method is also great if your purpose is visualisation and rapid
+prototyping. Blender works very well with VR, 3D printing, and also supports
+tools for sun path simulation and CFD. For instance here is a derived
+<code>IfcSpace</code> that has been used to help create a wind simulation. In the example
+below, I was testing wind funnelling into the entrance of a shopping centre.</p>
+<p><img alt="CFD analysis in Blender using IFC as a base, here shown in OpenFOAM" src="blender-ifc-cfd.png"></p>
+<p>When you are testing these massing models in Blender, you can always round-trip
+it back into IFC using FreeCAD.</p>
+<h2>View and edit IFCs with FreeCAD</h2>
+<p><a href="https://www.freecadweb.org/">FreeCAD</a> is also a great and simple method to
+viewing IFC files on Linux.  FreeCAD is an open source general purpose
+parametric CAD modeler. Originally designed for mechanical engineering, it
+supports many engineering tools such as finite element analysis (FEA),
+computational fluid dynamics (CFD), and reads and writes STEP and IGES, the
+grandfathers of IFC. Now, FreeCAD supports BIM modeling and can be largely
+considered to be the only open-source equivalent of the current proprietary
+industry tools like Revit or ArchiCAD.</p>
+<p>Unlike Revit or ArchiCAD, IFCs are treated as first-class citizens in FreeCAD,
+and so where <a href="https://thinkmoult.com/why-revit-is-shit.html">Revit fundamentally doesn't know what a Building
+is</a>, FreeCAD has much better
+support of IFC, and has demonstrated round-trip parametric IFC modeling. This
+feat is something that some Revit aficionados may claim is impossible, but they
+are wrong.</p>
+<p>As such, opening and editing an IFC in FreeCAD literally as simple as going
+"File-&gt;Open".</p>
+<p><img alt="FreeCAD opening and editing an IFC file natively" src="freecad-ifc-viewer.png"></p>
+<p>At the time of writing, IFC support is largely a bleeding edge thing, and so I
+would recommend getting the latest <a href="https://github.com/FreeCAD/FreeCAD/releases">unstable AppImage
+release</a> with support for Python 3,
+or <a href="https://www.freecadweb.org/wiki/CompileOnUnix">compiling FreeCAD</a> yourself.</p>
+<p>FreeCAD IFC support depends on <a href="http://www.ifcopenshell.org/">IfcOpenShell</a>.
+IfcOpenShell, among other things, provides a Python module which can parse and
+interrogate IFC files. I recommend building it for Python 3, and match the
+Python version used in FreeCAD.</p>
+<p>If you are experimenting with your IfcOpenShell-python module, you can ensure
+FreeCAD gets the right module by changing the Python path in the FreeCAD Python
+console:</p>
+<pre><code>&gt;&gt;&gt; sys.path.append('/path/to/site-packages/ifcopenshell-python')
+</code></pre>
+<p>However, note that FreeCAD is not a dedicated IFC viewer, and so like all
+generalist programs, it may not have the most compliant IFC implementation. It
+may also not be the fastest import.</p>
+<h2>View IFC geometry and 2D plans with IfcConvert</h2>
+<p>If you are only after geometry, there is a simpler approach. There is
+<a href="http://www.ifcopenshell.org/ifcconvert.html">IfcConvert</a>, again from
+IfcOpenShell. With this you get geometry and <code>IfcName</code> in open formats like
+<code>.obj</code>, <code>.dae</code>, <code>.stp</code>, <code>.igs</code>, <code>.xml</code>, and <code>.svg</code>. For 3D geometry formats like
+<code>.obj</code>, vertex welding is supported. However, you may notice a lack of NURB, or
+surface tesselation (subdivision) support, which is available in IFC4, but not
+yet so easily translatable.</p>
+<p>The final 2 formats are interesting as they offer the ability to see the
+hierarchy of IFC for other tools that might want to parse XML (but not parse
+IfcXML, which is more complex), and to see 2D plans in <code>.svg</code> format, which is
+the world standard vector format (in short, it's like <code>.dxf</code> but better).</p>
+<p>Once you have it in an open format you can view it using a 3D program like
+<a href="https://www.blender.org/">Blender</a> or a 2D program like
+<a href="https://inkscape.org/">Inkscape</a>.</p>
+<h2>View IFC structure and geometry with IfcPlusPlus</h2>
+<p>You may be aware that on Windows, there is a free IFC viewer that is pretty
+decent called <a href="http://ifcquery.com/">IfcQuery</a>. This is a proprietary front-end
+to the open-source <a href="https://github.com/ifcquery/ifcplusplus">IfcPlusPlus</a>
+backend. As the name suggests, this implementation is C++ based, instead of
+Python. I guess that means it has the potential for more optimisation, but we'll
+see.</p>
+<p>Despite the Windows interface being closed, a simple viewer is distributed with
+IfcPlusPlus. It is very easy to compile, but first you need to ensure the
+following packages (or equivalent on your disto) is available:</p>
+<pre><code>dev-games/openscenegraph
+x11-apps/xrandr
+media-libs/tiff
+app-text/poppler
+gnome-base/librsvg
+x11-libs/cairo
+net-misc/curl
+x11-libs/gtkglext
+sci-libs/gdal
+media-libs/libsdl
+media-libs/gstreamer
+media-libs/openjpeg
+</code></pre>
+<p>You will then compile it just as you would any other C++ program:</p>
+<pre><code>$ cmake . &amp;&amp; make &amp;&amp; make install
+$ SimpleViewerExample
+</code></pre>
+<p>Here you can see it running in action:</p>
+<p><img alt="SimpleViewerExample based on IfcPlusPlus running on
+Linux" src="ifcplusplus-ifc-linux-viewer.png"></p>
+<h2>View IFC geometry and attributes with IfcOpenShell Viewer</h2>
+<p>Finally, and with the most customisation, you can run the IfcOpenShell Python
+Viewer. This viewer is seemingly not mentioned anywhere but <a href="http://www.pythonocc.org/category/quick-examples/">only in
+passing</a> and through
+inspection of the IfcOpenShell codebase.</p>
+<p>If you did inspect the IfcOpenShell codebase you might come across this
+<a href="https://github.com/IfcOpenShell/IfcOpenShell/tree/master/src/qtviewer">qtviewer</a>,
+which you can probably get to build but it is meant to work with Qt4. However,
+it is pretty sparse in terms of features. But worry not as it is a red herring
+and there is actually a much more powerful viewer hidden in the code.</p>
+<p>You will need a few dependencies to compile IfcOpenShell's viewer, including:</p>
+<pre><code>sci-libs/oce
+sci-libs/opencascade
+media-libs/opencollada
+</code></pre>
+<p>With these dependencies you can compile <a href="http://www.pythonocc.org/">PythonOCC</a>,
+which provides a Python based interface completely built upon OpenCascade, which
+does all of the geometry and STEP heavy lifting. With PythonOCC, as long as you
+have the IfcOpenShell python module, you can create a quick <code>app.py</code> and run
+this code in it.</p>
+<pre><code>#!/bin/python
+from ifcopenshell.geom.app import application
+application().start()
+</code></pre>
+<p>This'll launch a viewer from <a href="https://github.com/IfcOpenShell/IfcOpenShell/blob/master/src/ifcopenshell-python/ifcopenshell/geom/app.py#L179">this IfcOpenShell
+code</a>
+which will have a tree viewer, attributes, and all the rest of it. As you can
+see in the screenshot below it also parses property sets very well.</p>
+<p><img alt="IfcOpenShell Python application running on
+Linux" src="ifcopenshell-ifc-linux-viewer.png"></p>
+<p>IfcOpenShell's Python module also has some pretty powerful ways to slice and
+dice IFCs, some of which is mentioned in the <a href="http://blog.ifcopenshell.org/">IfcOpenShell
+blog</a> and some in the <a href="http://academy.ifcopenshell.org/">IfcOpenShell
+Academy</a>. From these examples you can write
+code snippets that run in real time to perform operations on the IFC file, like
+generating new geometry, cutting cross sections, and calculating statistics.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

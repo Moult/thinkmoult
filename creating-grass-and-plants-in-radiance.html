@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Radiance is seldom used for rendering detailed vegetation such as grass and plants. I introduce how to use common CG techniques to still achieve photorealistic grass in Radiance.">
+    <title>Creating grass and plants in Radiance</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Creating grass and plants in Radiance</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-05-01</p>
+    </header>
+    <article>
+
+<p>Radiance is not often used to simulate fields of grass and heavily vegetated
+scenes like those often created by CG artists with other rendering engines. This
+is because exactly simulating the average luminance or illuminance on natural
+environments is not often required. This article will demonstrate how to render
+these types of scenes in Radiance.</p>
+<p>The usual technique for rendering grass is to model some strands, and then place
+instances of those strands using an automatic system, such as a "hair",
+"particle", "duplivert", or "instancing" system that is provided with many
+modeling software such as Blender. Sometimes, the vegetation is purely a series
+of alpha-mapped plane. In other cases, such as for trees, the plant is generated
+and leaves appear at locations defined by an L-system or similar. All of these
+techniques can be used with Radiance.</p>
+<p>As Radiance does not take shortcuts in its calculations, I would advise to
+minmise the polygons where necessary when rendering vegetation. With grass,
+don't model anything detailed. With groundcover and trees, use alpha mapped
+planes as much as possible.</p>
+<h2>Bake all the vegetation into a single mesh</h2>
+<p>The simplest approach is to "bake" the generated vegetation into a static mesh
+and export it as an OBJ, regardless of what generated it in the first place. The
+mesh can then be included in a typical manner as described by my <a href="../basic-rendering-tutorial-radiance/article.md">basic Radiance
+beginners tutorial</a>. Despite
+its simplicity, there are a few disadvantages of this approach: firstly, the
+created OBJ can become extremely large, it also does not conserve memory on
+repeated elements when rendering, and it is an all or nothing approach, it is
+hard to turn on and off elements. That said, it is very, very easy, and so I use
+this approach to create a planter bed in my <a href="../photorealistic-rendering-with-radiance/article.md">living room Radiance render</a>.</p>
+<p><img alt="A baked planter bed mesh with many polygons rendered in Radiance" src="planter-bed.jpg"></p>
+<p>With Blender, there is a trick to export complex particle creations into a
+single mesh without needing to bake it first, by linking the particle object
+into a fresh file and then exporting an OBJ.</p>
+<h2>Create many instances</h2>
+<p>Another approach is to ask Radiance to copy and paste and object many times.
+Radiance has an <code>instance</code> object, which places a precompiled octree into a
+scene. This conserves memory when rendering. Although it is tempting to create a
+single strand of grass and then instance it 10,000 times, I have found Radiance
+is not capable of dealing with this. I have found more than 500 instances of a
+single type of octree to cause Radiance to take a long time to prepare for
+rendering, as well as octrees of incredibly thin aspect ratio (i.e. a grass
+strand) to be very difficult for Radiance to handle.</p>
+<p>That said, as long as you limit the instance to have a balanced aspect ratio,
+such as a patch of vegetation, and do not go overboard in the number of
+instances, then this is a valid technique. Here is an example of an instance you
+might create which is not too long or thin.</p>
+<p><img alt="An instance of a plant stem, which could be repeated many
+times" src="stem-instance.png"></p>
+<p>The instance is then placed multiple times with different locations and
+rotations to build up complexity.</p>
+<p><img alt="An example of many tufts of ferns instanced to create a scene" src="instance-example.png"></p>
+<p>In Blender, there is a very easy way to do this, using a technique known as
+<em>dupliverts</em>. With this technique, a mesh is created where each vertex
+represents the origin of placing an instance. This Blender script automatically
+converts these vertices into Radiance instances:</p>
+<pre><code>import bpy
+import math
+
+# Path to the octree
+octree = 'obj/bahia-grass.oct'
+n = 0
+with open('/tmp/particles.rad', 'w') as output:
+    for vertex in bpy.context.active_object.data.vertices:
+        output.write('void instance particle_{}\n5 {} -t {} {} {} \n0\n0\n\n'.format(
+            n,
+            octree,
+            vertex.co[0],
+            vertex.co[1],
+            vertex.co[2],
+        ))
+        n = n + 1
+</code></pre>
+<p>This technique is especially useful when applied to groundcovers. A patch of
+groundcover is created, and then simply repeated a few times until it becomes
+convincing. I have released many types of plants in the <a href="https://radiance.thinkmoult.com/">free Radiance model
+repository</a> where you can download and quickly
+create vegetation yourself.</p>
+<p><img alt="A patch of Bahia grass available in the free Radiance model
+repository" src="bahia-grass.png"></p>
+<h2>Using alpha mapped planes for textures</h2>
+<p>Alpha mapped planes are a standard technique in the CG industry. Here is how to
+define it in Radiance. First, we define <code>diffuse-map</code>, this is the diffuse
+texture that we will use for our object. Then, we will apply to this a plastic
+shader. Our plastic shader multiplies the RGB values of the <code>diffuse-map</code> by 1.
+For more information about how to set a diffuse map, you can read <a href="../use-macbethcal-to-calibrate-textures/article.md">how to use
+macbethcal to calibrate
+textures</a>.</p>
+<p>Then, <code>my-material</code> is defined, which is what will be assigned to our actual
+object, using UV coordinates. An <code>alpha-mask.hdr</code> is provided where white is
+visible and black is invisible. The <code>mixpict</code> will mix between the <code>diffuse</code>
+material and a <code>void</code> (i.e. invisible) material, depending on the <code>grey</code>
+function, which reads greyscale data from <code>alpha-mask.hdr</code>.</p>
+<pre><code>void colorpict diffuse-map
+7 red green blue diffuse-map.hdr . frac(Lu) frac(Lv)
+0
+0
+
+diffuse-map plastic diffuse
+0
+0
+5 1 1 1 0 0
+
+void mixpict my-material
+7 diffuse void grey alpha-mask.hdr . frac(Lu) frac(Lv)
+0
+0
+</code></pre>
+<h2>Front and back face materials</h2>
+<p>Plants are interesting from a material point of view because they often have a
+different material from the front face of leaves and the backface of leaves. For
+instance, the front face may be more specular or have a different colour.</p>
+<p>This can be achieved in Radiance using a <code>mixfunc</code> as follows, which mixes
+between the <code>frontface</code> and <code>backface</code> material, which is defined elsewhere.</p>
+<pre><code>void mixfunc my-material
+4 frontface backface if(Rdot,1,0) .
+0
+0
+</code></pre>
+<h2>Creating variations in colour</h2>
+<p>With autogenerated particle or hair systems, often colour can be varied. This
+can also somewhat be achieved in Radiance. One approach is to modify the
+instance script above to select from several preset octrees, each compiled with
+a different material. </p>
+<p>Another approach is to use a calculation. Here is a crude example, saved as
+<code>random.cal</code>, which pumps out a gradient of RGB along an objects local UV
+coordinates.</p>
+<pre><code>{ A1 = 0-1, where 0 has no variation and 1 varies the colour to 0}
+{
+red = (((Lu + Lv) / 2) * A1) + (1 - A1);
+green = (((Lu + Lv) / 2) * A1) + (1 - A1);
+blue = (((Lu + Lv) / 2) * A1) + (1 - A1);
+}
+red = (((Lu + Lv) / 2) * A1) + (1. - A1);
+blue = (((Lu + Lv) / 2) * A1) + (1. - A1);
+green = (((Lu + Lv) / 2) * A1) + (1. - A1);
+</code></pre>
+<p>It is then applied as follows:</p>
+<pre><code>void colorfunc random-color
+4 red green blue random.cal
+0
+1 .25
+</code></pre>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

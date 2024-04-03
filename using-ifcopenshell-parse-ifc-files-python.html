@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="IFC is the ISO standard format for storing BIM data. IfcOpenShell allows you to use Python to query and parse IFC files to extract and analyse data. As there is no API documentation as of writing, these code examples give an introduction demo to how to read IFC files.">
+    <title>Using IfcOpenShell to parse IFC files with Python</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Using IfcOpenShell to parse IFC files with Python</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-02-12</p>
+    </header>
+    <article>
+
+<p>IFC is the ISO standard format for storing BIM data. IfcOpenShell is a project that has a Python library that allows you to parse IFC files. To start off with, you will need to <a href="http://www.ifcopenshell.org/python.html">download and install IfcOpenShell python</a>. There is currently no API documentation for IfcOpenShell, but it isn't hard to work out given that it derives mostly from the IFC specification.</p>
+<p>While parsing IFC files, if you would like to view IFC files using open-source viewers that are available on Linux, Windows, and Macs, I would recommend reading <a href="../how-to-view-bim-ifc-files-linux/article.md">how to view BIM IFC files on Linux</a>. These viewers are open-source and are relatively strict, as opposed to commercial viewers like Revit which do a very poor job of parsing IFCs correctly, or viewers like Solibri which are very lenient with their parsing and promote badly structured IFCs.</p>
+<p>The examples below use 2X3, as right now is it assumed that most IFC files floating out there are 2X3, but the principles still apply to IFC4. As of writing, IfcOpenShell determines IFC2X3 or IFC4 parsing based on a compile-time flag, which by default is set to IFC2X3. If you wish to use IFC4, you will need to compile IfcOpenShell with <code>USE_IFC4=Y</code>.</p>
+<p>Let's start with loading an IFC file:</p>
+<pre><code>import ifcopenshell
+ifc_file = ifcopenshell.open('/path/to/your/file.ifc')
+</code></pre>
+<p>Getting all types of an IFC class, and listing what they are:</p>
+<pre><code>products = ifc_file.by_type('IfcProduct')
+for product in products:
+    print(product.is_a())
+</code></pre>
+<p>Merely printing a keyword by itself spits out the IFC string that defines it:</p>
+<pre><code>print(product) # Prints #38=IfcWall('3OFfnkBQ0HwPPAt4e_Z09T',#5,'Wall','',$,#35,#37,$)
+</code></pre>
+<p>The <code>is_a()</code> function also works as a boolean.</p>
+<pre><code>ifc_file.by_type('IfcWall')[0].is_a('IfcWall') # True
+ifc_file.by_type('IfcWall')[0].is_a('IfcSlab') # False
+</code></pre>
+<p>This convention of pythonic lowercase underscore naming ends with <code>by_type()</code> and <code>is_a()</code>. All the rest of the parameters are generated from the IFC schema, which uses CapsCase. The rest of the naming also doesn't follow common programming convention (e.g. predicate prefixes such as <code>is</code> should only return boolean). You will commonly find confusingly named parameters that suggest booleans or otherwise, but may instead return a set or some other value. Oh well.</p>
+<p>Getting attributes of any IFC data is through simple dot notation. The parameter name matches exactly what is shown in the IFC schema, including the CapsCase convention.</p>
+<pre><code>wall = ifc_file.by_type('IfcWall')[0]
+print(wall.GlobalId)
+print(wall.Name)
+</code></pre>
+<p>The parameter also returns sets and relationships, such as in the following example where we want to list the property sets associated with a wall. According to the <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifcsharedbldgelements/lexical/ifcwall.htm">IfcWall specification</a>:</p>
+<blockquote>
+<p>The property sets relating to the IfcWall are defined by the IfcPropertySet and attached by the IfcRelDefinesByProperties relationship. It is accessible by the inverse IsDefinedBy relationship.</p>
+</blockquote>
+<p>Therefore we can use the <code>IsDefinedBy</code> relationship, which returns a <code>SET OF IfcRelDefines FOR RelatedObjects;</code>. The <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcreldefines.htm"><code>IfcRelDefines</code> is an abstract supertype</a>, and so in this particular situation (a property set relationship), we expect an <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcreldefinesbyproperties.htm"><code>IfcRelDefinesByProperties</code></a> which has a <code>RelatingPropertyDefinition</code> to store the property set itself. This property set is an <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcpropertysetdefinition.htm"><code>IfcPropertySetDefinition</code></a>. Which, again, is an abstract supertype, but at least it nominates a <code>Name</code> parameter at this level. This is the name of the property set.</p>
+<pre><code>wall = ifc_file.by_type('IfcWall')[0]
+for definition in wall.IsDefinedBy:
+    # To support IFC2X3, we need to filter our results.
+    if definition.is_a('IfcRelDefinesByProperties'):
+        property_set = definition.RelatingPropertyDefinition
+        print(property_set.Name) # Might return Pset_WallCommon
+</code></pre>
+<p>In this scenario, the abstract supertype <code>IfcPropertySetDefinition</code> is only subtyped by <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifckernel/lexical/ifcpropertyset.htm"><code>IfcPropertySet</code></a>, which has a confusingly named <code>HasProperties</code> parameter which holds a set of <code>IfcProperty</code>. The type of IfcProperty varies, which we can check using <code>is_a()</code>.</p>
+<pre><code>for property in property_set.HasProperties:
+    if property.is_a('IfcPropertySingleValue'):
+        print(property.Name)
+        print(property.NominalValue.wrappedValue)
+</code></pre>
+<p>Other data, such as quantity use, also uses the <code>isDefinedBy</code> relationship, but we can distinguish it using <code>is_a()</code>.</p>
+<pre><code>wall = ifc_file.by_type('IfcWall')[0]
+for definition in wall.IsDefinedBy:
+    related_data = definition.RelatingPropertyDefinition
+    if related_data.is_a('IfcPropertySet'):
+        pass
+    elif related_data.is_a('IfcElementQuantity'):
+        print_element_quantities(related_data)
+</code></pre>
+<p>There are <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifcquantityresource/ifcquantityresource.htm">many types of IFC quantities</a>, so we'll have to handle them carefully. But this example just handles <code>IfcQuantityLength</code>:</p>
+<pre><code>def print_element_quantities(element_quantity):
+    for quantity in element_quantity.Quantities:
+        print(quantity.Name)
+        if quantity.is_a('IfcQuantityLength'):
+            print(quantity.lengthValue)
+</code></pre>
+<p>You can also get geometry data, starting with the placement of any IFC element. <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifcgeometricconstraintresource/lexical/ifcobjectplacement.htm">IFC object placements are complex</a>, and so you should take care to see how coordinates derive from the various spatial containers in IFC.</p>
+<pre><code>if wall.ObjectPlacement.PlacementRelTo:
+    # Inherit the coordinates of its parents
+    pass
+local_coordinates = wall.ObjectPlacement.RelativePlacement.Location[0]
+</code></pre>
+<p>Finally, you can also get the actual geometric representation of an IFC element. Just like placements, <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifcrepresentationresource/lexical/ifcrepresentation.htm">IFC representations are complex</a>. There are many types, and an IFC element may have multiple representations in different contexts. This is beyond the scope of the quick demonstration. In this example, we will not go into detail, but simply deal with a typical extruded object from an axis, which is a very common type of object as shown below.</p>
+<p><img alt="A profile which is extruded along an axis" src="IfcExtrudedAreaSolid-Layout1.gif"></p>
+<p>We will also see how to access the underlying profile which is used in the extrusion, as shown below.</p>
+<p><img alt="In this scenario, we deal with an OuterCurve, which is a closed, filled curve" src="IfcArbitraryProfileDef-Layout1.gif"></p>
+<p>This code will access the relevant geometry data:</p>
+<pre><code>geometry = wall.Representation.Representations[0].Items[0] # An IfcExtrudedAreaSolid in this example
+print(geometry.Position.Location[0]) # The centroid of the wall, so if the wall axis goes from (0, 0, 0) to (4, 0, 0) it will be (2, 0, 0)
+print(geometry.ExtrudeDirection) # A vector pointing up (0, 0, 1)
+print(geometry.Depth) # The height of the wall, say 3000
+print(geometry.SweptArea) # A closed and filled area curve that can be extruded into a manifold, solid object
+print(geometry.SweptArea.OuterCurve.Points) # the list of points that are in the polyline
+</code></pre>
+<p>The points (i.e. <code>geometry.SweptArea.OuterCurve.Points</code>) give coordinates relative to <code>geometry.Position.Location[0]</code>.</p>
+<p><img alt="Points are given relative to the profile location" src="IfcProfileDef-Layout1.gif"></p>
+<p>Geometry is quite delicate, and I would discourage attempting to be bold and edit it by hand unless you want a headache. There are plenty of tools out there that can help you do this, or to visualise the geometry.</p>
+<p>For more examples, you can see an example of <a href="https://github.com/IfcOpenShell/IfcOpenShell/blob/master/src/ifcopenshell-python/ifcopenshell/geom/app.py">IfcOpenShell in use to build a simple viewer here</a>.</p>
+<p>And so ends this short introduction. If you are interested in helping push IFC, I recommend downloading <a href="https://www.freecadweb.org/">FreeCAD</a> and help writing code to make it the best open-source BIM authoring tool out there!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

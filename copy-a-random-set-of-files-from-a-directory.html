@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Learn how to copy a random set of files from a directory recursively to another directory in a bash one-liner.">
+    <title>Copy a random set of files from a directory</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Copy a random set of files from a directory</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2010-01-12</p>
+    </header>
+    <article>
+
+<p>More for archival purposes than anything, today I wanted to copy some
+songs out of my serious mess of a music "collection" onto my microSD
+card. I didn't want to have to choose and I haven't rated my songs so
+that wouldn't help. Instead I wanted a random selection of songs. I'm
+not an expert at <code>bash</code> but this is what I ended up using - after symlinking
+all of the various directories I had my files under together:</p>
+<pre><code>$ find -L /home/drive/music -type f -name &quot;\*.mp3&quot; | sort -R | tail -n100 | while read file; do cp &quot;$file&quot; /media/disk/music/; done
+</code></pre>
+<p><code>-n100</code> represents how many files are going to be copied.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

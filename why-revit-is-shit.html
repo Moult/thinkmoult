@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Revit is a proprietary software package developed by Autodesk, an industry monopoly that consistently underdelivers when architects, engineers, and builders attempt to execute a BIM project. With OpenBIM still yet to mature, here is a list of criticisms of the software&#x27;s limitations.">
+    <title>Why Revit is shit</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Why Revit is shit</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-12-11</p>
+    </header>
+    <article>
+
+<p>Revit is shit. I would play down the title to something more politically
+correct, but that would risk understating Revit's limitations that I have to
+deal with on an almost daily basis.</p>
+<p><strong>Update: The popularity of this article has shown the industry needs to break out of the <a href="../ethical-implicataions-of-openbim/article.md">unethical</a> behaviour by proprietary vendors, which result in <a href="https://www.gnu.org/proprietary/proprietary-incompatibility.html">proprietary incompatibility</a>, <a href="https://www.gnu.org/proprietary/proprietary-obsolescence.html">proprietary obsolescence</a>, and <a href="https://www.gnu.org/proprietary/proprietary-subscriptions.html">proprietary subscription</a>. Data about our built environment is a human right and should be transparent and not governed by a vendor. Black-box BIM data is no longer acceptable by companies with a large real-estate portfolio. We are now developing a 100% free and open-source native OpenBIM authoring tool called <a href="https://blenderbim.org/">BlenderBIM</a>. It is under heavy development, but all early adopters are welcome. Join the <a href="https://community.osarch.org/">OSArch community</a> today and help drive community-driven AEC tools.</strong></p>
+<p>Revit is a proprietary software developed by the monopoly Autodesk for the AEC
+industry. Its function is to build a 3D "BIM" model of a building and lay out
+2D documentation in the traditional form of drawing sheets. I speak from the
+perspective of an architect working on large commercial projects across
+different building typologies, and therefore do not use the MEP aspects, which
+may be better than I have experienced here. However, I have certainly used it to
+document projects, and have used Revit's API.</p>
+<p>I have a background in <a href="https://sevenstrokes.net/">software development</a>,
+previously working as a software architect. Software architects deal with many
+of the same issues as BIM data management. There are ever-changing client
+requirements, lots of small pieces that interact, and domino effects of changing
+the design in one area. Therefore, the concepts of decoupling, interfaces,
+modularity, Robert Martin's famous code smells of fragility, rigidity, and so
+on, and technical debt, are all applicable in this field. I have also used a
+great deal of software on many platforms, including 3D modeling as practiced by
+the CG industry, point clouds, programmatic typesetting with Lilypond and LaTeX,
+and am also closely following OpenBIM initiatives. With this background, I hope
+to present a fair but critical list of issues I have faced with Revit.</p>
+<p><img alt="An example of Revit failing to consistently deal with openings in an
+irregularly shaped wall" src="broken-revit.png"></p>
+<p>Let's go.</p>
+<h2>Revit does not know what a building is</h2>
+<p>Revit has failed to implement even the most basic of BIM concepts: a building.
+You can categorise walls, floors, roofs ... but a building? Nope. If you have
+two buildings next to each other, Revit has no way of saying that some walls
+belong to building A, and some belong to building B.  No way of categorising a
+shape to represent a building or that some levels are part of building A and
+some are part of building B. Have a shared site with mix-use buildings where two
+buildings merge? Now you've got a maintenance nightmare.</p>
+<p>In contrast, the first thing that you do when you launch FreeCAD to create a BIM
+project is to define a building with storeys in that building that belong to a
+site.</p>
+<h2>Revit deals with IFCs very poorly</h2>
+<p>Exporting to an IFC? Will your roofs become IfcRoof, or will <a href="https://forums.autodesk.com/t5/revit-architecture-forum/ifc-export-roofs-problem/td-p/6843152">Revit decide your
+roof is a slab
+instead</a>?
+Will your windows become IfcWindow? Who knows. Revit does what it wants. Will
+your building element turn up at all? Will it even export? Will it import? Ah,
+the mysteries of the universe.</p>
+<p>The simplest IFC of a few kB will take 15 seconds to import and in the process
+Revit will multiply the filesize by at least 10. Revit will develop a mapping
+and create a special Revit file just to read and perform the most rudimentary
+filtering on the IFC file. Regardless of the IFC MVD, it will never allow
+modification of the IFC. Forget IFC4, Revit can't even do IFC2x3 properly, even
+though IFC4 has been an ISO spec since 2013. At the point of writing this, it's
+been 5 years. Seriously.</p>
+<p>This creates issues with round-tripping, consultants using our files, and even
+ourselves trying to use our own files. It also forces us to expose company
+intellectual property if we send out Revit files.</p>
+<p>I am aware of being able to patch the IFC export type during the export
+process, and the IFC mapping configuration within Revit itself, as well as the
+special Ifc override properties, but I should not need to hook into the export 
+process and the mapping process is not reliable. In most cases, such as in system families, you simply cannot change the mapping.</p>
+<p>Why don't you read some <a href="https://www.augi.com/articles/detail/myth-buster-revit-ifc">Revit IFC
+complaints</a>, more
+<a href="https://sourceforge.net/p/ifcexporter/discussion/general/thread/309bcb4f/">Revit IFC
+problems</a>,
+even more <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Revit-Defining-IFC-class-on-export-of-structural-framing-elements.html">IFC and Revit
+issues</a>,
+because <a href="https://forums.autodesk.com/t5/revit-structure-forum/ifcexportas-parameter-doesn-t-work/td-p/8219179">Revit doesn't support
+IFC</a>.
+Oh, and that's just about IFC classification, forget the rest of IFC goodness.</p>
+<h2>There are 35 or so reasons why a building element will not show on your view</h2>
+<p>The predicate determining whether or not a building element will be visible in
+your current view depends on <a href="https://www.revitforum.org/tutorials-tips-tricks/441-cant-see-view-heres-33-reasons-maybe-why.html">at least 35 different
+settings</a>.
+These settings may be set by you, set by Revit, set by a consultant, set by a
+third-party content creator, set by inheritance, set by edge-case override, set
+by your pet rabbit's dietary behaviour, or set by a series of Revit
+version-specific display bugs. In fact, it is so complicated that you require a
+plugin (Ideate Explorer) to first select invisible items, and another plugin
+(Ideate X-Ray) which will automatically try to determine which of these 35+
+reasons are the cause (<em>Update: Ideate claims they have found 50 unique reasons and counting, but I haven't yet seen a list to prove it</em>), and failing that, will point you at a series of things
+that it cannot automatically check, and then even failing that, will point you
+to Revit specific bugs and their workarounds. In fact, in their help file they
+identify certain extremely nefarious ways that can hide things and condone the
+firing of any co-worker who commits such a sin. They have also started a <a href="https://ideatesoftware.com/support/help/ideate-apps/ideate-xray/unresolved#Hall-of-Fame">Revit object invisibility
+hall of
+fame</a>.</p>
+<h2>You cannot set a datum level on a sloped roof</h2>
+<p>Create a roof by footprint. Set it at a certain level. Now, if you tag a spot
+elevation on the edge of a roof you will tag the roof level + roof thickness.
+Now if you add a slope to the roof, what RL will the roof edge be at?</p>
+<p>The answer is nobody knows. Revit will decide to pivot the roof wherever it
+wants and your edge will be a shitty RL that the builder will ignore.</p>
+<h2>The datum level of where a ceiling slopes is arbitrarily defined</h2>
+<p>If you create a rectangular ceiling sketch at a particular level, define a slope
+going from one edge to another. Which edge will stay at the original level, and
+which edge will slope up or down?</p>
+<p>It turns out it's determined by the first line you draw in your sketch, which if
+you draw using the rectangle tool, could be any line. So in practice, you have
+no idea where your ceiling is going to slope, and you need to move it around by
+trial and error.</p>
+<p>This is still broken even if you explicitly draw a slope arrow and say that the
+head or tail is at a specific level. Revit will totally ignore whatever value
+you put there and do whatever it wants. Revit knows best.</p>
+<p>The only solution is to redraw your ceiling or rotate the entire ceiling.</p>
+<h2>Wall types and joining walls is a nightmare</h2>
+<p>Before I complain about this one, I would state that walls and joints are a
+<em>very hard</em> problem. Walls are layered, and has many rules on what takes
+precedence in a joint, both in a plan and in a section, and Autodesk has made
+an attempt to cater for this.</p>
+<p>Unfortunately in practice, we have walls which are too eager to intelligently
+snap, walls in groups who must be unjoined to prevent Revit errors, the
+inability to dimension to the core of a wall (which is how people build walls,
+go figure), curved walls and sharp angles in funky facades that encounter
+strange junctions, and so on. Indeed, the best practice is to give up drawing
+"intelligent" compound walls and literally draw each wall layer individually in
+large civic buildings.</p>
+<p>I would excuse this behaviour if it weren't for the fact that it is
+semantically incorrect. According to the IFC definition (and to common sense),
+a lining on a furring channel, and a block wall should be 1 wall, not 2. The
+fundamental problem is that Revit has only implemented three types of walls:
+the system family wall (a <code>IfcWallStandardCase</code>), which is an extruded axis
+with material layers, a curtain wall (which is misused), and an in-place wall
+(corresponding to a catchall <code>IfcWall</code>). Notably missing is the
+<code>IfcElementedCaseWall</code>, for scenarios where walls are made up of different
+elements like studs, channels, insulation, and lining but are assembled
+together into a single wall. If Revit allowed you to define walls as a sum of
+parts, it would be more flexible and still semantically correct.</p>
+<p>Revit also does not implement things that are purely cladding (i.e.
+<code>IfcCovering</code>). This means that people draw bump rails, skirting, and moulding
+as railings or walls, draw slab insulation as floors, and of course, draw
+cladding as walls. This is wrong. They have different joining rules, and things
+like fire, acoustics, and thermal apply differently. They are a different cost
+item. Yet they are all lumped in the same basket.</p>
+<h2>No OOTB align and distribute functions for any type of annotation (or anything, really)</h2>
+<p>Are you tagging an elevation? Will any of your tags line up horizontally or
+vertically? Will any of your tags be equally spaced between grids or building
+elements?</p>
+<p>No, of course not. Revit hates you and wants you to eyeball all your annotation
+positions. It'll give you some hope by highlighting certain lines sometimes when
+using the align tool, and then will totally ignore any attempt to align
+anything. Except, strangely, when you use a leader in your tags. Then it'll
+align.</p>
+<p>But not to fear! There is a free addon which will allow you to align objects
+(called BIM42-Align). Except it doesn't behave consistently. Unlike other
+software, you cannot choose the "reference object" to which you should align to,
+and it inconsistently decides to move pinned elements in some cases and not in
+others.</p>
+<h2>Revit unreliably handles CAD links</h2>
+<p>Revit can link in a CAD DWG or DXF file. This is good. In practice, however,
+CAD links do not work reliably. From the inability to share coordinates,
+having missing geometry, lagging of the Revit file, hatch patterns going
+haywire, and geometry out of extents errors. These problems do not exhibit
+themselves in simple vanilla CAD files, but are very common in complex
+projects. This means CAD files have to undergo a cleanup process where we
+purge, delete, explode, and sometimes copy and paste into a blank file to start
+again. We shouldn't need to do this cleanup process, especially not when DWG is
+a native Autodesk format.</p>
+<h2>You cannot put in an arbitrary schedule on your sheet</h2>
+<p>Ever wanted to put a schedule on a sheet that doesn't derive information from
+the model's data? Turns out Revit doesn't make it easy for you. Instead, you can
+draw lines manually. That is, unless you <a href="https://knowledge.autodesk.com/support/revit-products/learn-explore/caas/simplecontent/content/generic-text-tables-revit.html">create a fake table and put data in
+the
+header</a>.</p>
+<p>From a reader comment, I should note that it is possible to overcome this with various Revit plugins that allow you to link data from spreadsheets.</p>
+<h2>In-place doors are not room bounding, whereas family doors are</h2>
+<p>A family-created, wall-hosted door does not change the room bounding property of
+its host wall. An in-place door, will not. This is in contrast to the IFC
+specification which explicitly explains about the scenario of doors in walls:</p>
+<blockquote>
+<p>The wall represents a vertical construction that bounds or subdivides spaces.
+A wall may have openings, such as wall openings, openings used for windows or
+doors, or niches and recesses. They are defined by an IfcOpeningElement
+attached to the wall using the inverse relationship HasOpenings pointing to
+IfcRelVoidsElement.</p>
+</blockquote>
+<h2>You cannot draw a slanted wall</h2>
+<p>In Revit world, all walls are completely vertical. Modeling anything more
+complex than that requires proxy construction objects.</p>
+<h2>Revit does not apply true north / project north via view template if a scope box is in effect, and then turned off</h2>
+<p>Usually view templates should override the view setting if the include checkbox
+is checked. However, if a view used to have a scope box (which disabled true
+north / project north), then the view template will have no effect. This is even
+if you disable the scope box. It only starts working as expected if you uncheck
+    the include checkbox, manually fix the north orientation setting, then
+    re-check the checkbox. Go figure.</p>
+<h2>Revit has incorrect or incomplete classification systems</h2>
+<p>Did you ever want to specify an Omniclass specification for an object? You may
+think you are, but in reality <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/CloudHelp/cloudhelp/2017/ENU/Revit-Troubleshooting/files/GUID-BA0B2713-ADA0-4E51-A7CD-85D85511F3ED-htm.html">Revit's shipped Omniclass file is out of date by
+7
+years</a>.
+And that's if you can classify in the first place, as Revit only includes some
+tables in the Omniclass system, not all, and <a href="https://www.revitforum.org/architecture-general-revit-questions/8611-use-omni-classification-revit.html">doesn't allow system families to
+have any classification
+whatsoever</a>.</p>
+<p>Revit is especially harsh towards IFC classifications, and in fact makes it
+completely invisible in the interface, but has a <a href="https://www.descor.com/allegati/ifc-manual-2018-enu.pdf">separately
+documented</a>
+feature where certain shared parameters have magic effects on IFC
+classifications. So without knowing exactly what you type, your IFC
+classifications could well be nonsense. This is a problem, as Revit's list of
+families is so limited, and people are unwittingly encouraged to avoid in-place
+families like the plague, and so it is all too easy to put things as a generic
+model, or give up altogether.</p>
+<h2>No backwards compatibility without a good reason for doing so</h2>
+<p>Yeah. Autodesk wants you to buy the latest version. All the time. If you
+accidentally open a file with a newer version, it will upgrade, and if you
+forget to do a save-as, you have now irreversibly broken the compatibility with
+an older version, and so assets shared within the company now cannot be used on
+older projects.</p>
+<h2>A single border style in a schedule is uneditable when a view template is applied</h2>
+<p>Are you feeling creative? Have you changed the line style of a single border in
+a schedule? Once you apply a view template, you will have no way of editing that
+single border anywhere, unless you disable your view template. Turns out view
+templates don't consistently affect border styles, but they do consistently stop
+you from editing it.</p>
+<h2>Revit does not know what a block wall is</h2>
+<p>The number one waste in the construction industry as measured by weight (which
+is the preferred metric for the waste industry) is masonry. This is
+unsurprising as Revit does not know what a block wall is. It cannot restrict to
+block / brick dimensions, cannot handle half blocks, cannot count blocks,
+cannot calculate cut blocks, and cannot fix setout points. Your best bet is to
+create a hatch pattern (using the archaic pattern syntax, of which people have
+built generators for it online because it is so unintuitive) and align it on
+the surface. And then once that's done it's all for nothing because Revit
+cannot export it to IFC anyway.</p>
+<h2>Revit does not lock to eye level, or any level, during first-person perspective camera views</h2>
+<p>Revit does have support for a first-person view and movement using the camera
+view, despite the Revit 3D viewport renderer being extremely inefficient (this
+means while moving you will experience lag, flickering, and incorrect
+rendering). Unfortunately, it has no way to lock to a certain level. This means
+you cannot consistently guarantee an experience of your design at eye-level, and
+will be always floating around randomly.</p>
+<h2>Hatch patterns distort</h2>
+<p>Can't seem to replicate now, but I've seen hatch patterns on floors with
+non-parallel edges to distort to provide non-90 degree patterns.</p>
+<h2>Falls break the alignment of hatch patterns</h2>
+<p>This is not the same issue as the hatch distortion above, but it is similar. If
+you add a fall to any slab with a hatch pattern (which is very often, since
+most wet areas are tiled and require a fall), the hatch pattern will randomly
+change its orientation seemingly to the UV direction of the fall. This
+transformation is constant, which breaks the ability for you to align the tiles
+with adjacent segments of the floor. The solution is to eyeball it.</p>
+<h2>Revit doesn't consistently define the front and back faces of a wall</h2>
+<p>Not only does Revit only support a small subset of geometric representations for
+walls, for those that it does "support", it doesn't know where the wall starts
+and stops. Try draw a wall with an arbitrary form, such as a tapered wall, a
+thick irregular, intersecting wall, or multiple small thin regular walls
+everywhere as one wall. Now try inserting host objects. It will not know where
+to start and stop them. Sometimes it will work as intuitively expected,
+sometimes it uses a bounding box interpretation, and sometimes, well, who knows.</p>
+<h2>Revit's constraints are invisible</h2>
+<p>Ever opened up a complex Revit family and given up on life? Revit's constraints
+system is the bizzare brainchild of somebody who has good intentions, but is
+very shy. After creating a constraint, if the element is not selected, the
+constraint is also invisible. This breaks the number one rule of UI design: if
+I can't see it, it's not there. There is the "show constraints" button, but
+that does not show nested constraints, nor does it show system constraints
+(such as hosting, joining, and attaching).</p>
+<p>Constraints are usually the most important thing of a family, as it defines the
+geometric relationships, yet it is only discoverable if you know where to look.
+Sometimes, Revit will happily delete a constraint for you, but not tell you
+where or what or exactly why.  You cannot name constraints, you cannot get a
+list of constraints, and you cannot calculate the degree of constraint without
+doing random trial and error "flexing". Instead you have to play peek-a-boo
+with constraints (that may have been forcefully deleted by Revit when you try
+to do some unrelated transformation) and try to reverse engineer how a family
+works.</p>
+<h2>Revit's feature to increment list values doesn't work when you have multiple lists in a text box</h2>
+<p>Create text box. Make it an ordered list. Increment the list. Press enter twice.
+Create a new list. Tada! Now you can no longer increment lists! You broke Revit!</p>
+<h2>Revit cannot dimension to the midpoint of a line</h2>
+<p>Since 2015, <a href="http://forums.augi.com/showthread.php?164293-dimension-to-midpoint-of-detail-line">Revit users have wanted to dimension to the midpoint of a
+line</a>.
+You can't.</p>
+<h2>Magic infill panels are created whenever you demolish an element with an opening</h2>
+<p>In real life, if you demolish a door, you are left with a structural opening
+where the door used to exist. In Revit land, since 2008, if you demolish a
+door, that <a href="https://forums.autodesk.com/t5/revit-architecture-forum/demolition-wall-infill-not-wanted/td-p/2164041">opening is magically filled up with an infill
+wall</a>.
+This infill wall has no phasing settings, cannot have an opening placed in it,
+inherits all of the properties of its surrounding existing wall, yet shows in a
+new construction plan as a new wall.</p>
+<p>I get why programmatically it's easier to not have to single out the opening
+element when performing the demolition function, but this is at the expense of
+correct construction. What should happen is the opening should remain, and you
+should explicitly have to create a new infill object, so that you can quantify
+it as part of the building works.</p>
+<h2>Revit does not properly represent geometric dependencies</h2>
+<p>Any BIM modeling program has the concept of relationships between elements. For
+instance, in IFC, a building storey must belong in a building. If you demolish
+the building, by extension, the building storey is also demolished. In Revit,
+this is the same: walls must belong to a level (unless you come across that
+issue with curtain walls where they can disassociate themselves with deleted
+levels and just float in space). This means that if you delete a level, all
+elements on that level are also deleted. This is good. This is known as a tree,
+graph, or hierarchical structure, where elements depend on one another.</p>
+<p>What is not good is that Revit does not acknowledge that elements have
+relationships. It will scold you in a warning and happily delete or ungroup
+objects to fix a broken graph, but it will never actually allow you to view
+this relationship. For instance, you cannot select all elements that are part
+of a level. You cannot select all "hosted" elements on a floor or wall. You
+cannot select all elements that have a constraint or working plane that derives
+from another object. If you select a tag, you cannot select the element that is
+being tagged.</p>
+<p>The result is that people become scared to perform graph-breaking operations
+like ungrouping objects because they cannot be fixed in Revit. People are
+hesitant to delete levels, or just sigh when dimensions drop off.</p>
+<h2>Revit cannot handle section boxes in perspective views when trying to do perspective cut-away sections</h2>
+<p>The section box is really hard to control when in perspective views since it
+generally goes out to infinity. The workaround is the adjust it in parallel
+view, and then switch to perspective view. But if you do that approach, Revit
+tends to forget "home positions", "saved views", and the "rewind" feature
+truncates history. The crop box also loses its scale and position, so you end up
+getting lost in space. Woo!</p>
+<h2>Revit's viewport renderer is really, really slow</h2>
+<p>2D CAD programs can handle detailed and complex DXFs really well and generally
+pan and zoom without any noticeable lag. 3D polygonal modeling programs can also
+handle really detailed and complex 3D objects really well - just see the
+workflow of any average 3D CG artist! Revit manages to be spectacularly bad at
+both 2D and 3D. You will experience slow panning on complicated 2D backgrounds,
+and slow orbit / pan / zoom on 3D objects.</p>
+<p>Part of this is the renderer's fault (in particular, it is the edge / line
+rendering which is an issue, not so much the flat shaders), part is due to the
+geometric representation which uses constructive solid geometry (CSG), and part
+of this is due to the ridiculously complex visibility predicate that I mentioned
+previously. That's why Revit considers determining whether an element is in a
+view an "expensive" operation, which is why most users give up and hit cancel
+when Revit asks if it should attempt to show you where a broken element is.</p>
+<p>The end result? We tend to not see our buildings in 3D, tend to not fix broken
+elements, tend to avoid modeling more real BIM objects and instead use generic
+simplifications, and then we wonder why our building data is lacking or our
+archviz needs to be totally redone by the CG artists and can't roundtrip the viz
+workflow. Gee.</p>
+<h2>Revit cannot support LOD 400 and above</h2>
+<p>Revit will barely support LOD 300 in a large project, but the added geometry and
+the inability to manage external documents as mentioned before will cause Revit
+to be unable to scale to LOD 400. It might go on a small project, but not
+further than that.</p>
+<p>This is in contrast to FreeCAD, where the BIM model is used for fabrication and
+construction directly, and deliver LOD 500.</p>
+<h2>No polymorphism and complex inheritence, despite an object oriented architecture</h2>
+<p>Revit's API under the hood clearly points to it's OO architecture.
+Unfortunately, its object types and object instances which so clearly mirror the
+software concept of classes and objects, do not use the full potential of OO.
+This is unlike IFC, which <a href="http://www.buildingsmart-tech.org/ifc/IFC4/final/html/index.htm">specifies object
+typing</a>.</p>
+<h2>No way of controlling some surface normals on masses</h2>
+<p>Surface normals on masses are very important because they determine the wall
+orientation when you do wall-by-face to create complex geometries. If you want
+to do a wall with finishes and substructure that align to a datum, you need to
+make sure your normals are all facing the same way. Turns out Revit doesn't
+allow you to control this, even though the imported geometry format supports
+normal data. This means you often need to create two versions of walls - one
+front-face, and one back-face, and use trial and error to work out which one
+goes where.</p>
+<h2>Planar surfaces cannot be guaranteed on masses</h2>
+<p>If you are doing a custom shape, Revit does not offer any tools to check
+planarity. This usually means that fabricators cannot set out, nor actually
+construct the funky shape you have drawn. Revit will happily distort hatches and
+other 3D elements to fit.</p>
+<h2>Revit cannot link families, settings, or any non-project-specific data</h2>
+<p>Complex data and asset management usually follows the "DRY" principle of Don't
+Repeat Yourself. This means that project-specific data is inlined into the
+project files, and non-project specific data is referenced from an external,
+linked library, so it can be reused and seen as a source of truth for many
+projects.</p>
+<p>Revit supports this basic concept in terms of "Linked CAD" (which you can only
+do in certain contexts, apparently), and also "Linked Revit", but does not offer
+any more granularity beyond that. So you are unable to link in families or
+project settings. This means that every single project essentially
+duplicates every single company asset that it needs. Not only is this
+inefficient, it means it is difficult to propagate changes across the
+company. If we improve an asset, we cannot easily roll it out to every
+project. It also encourages project members to make changes locally and not
+share their improvements to the rest of the company. This means inconsistent
+documentation, increased filesizes (which Revit can't handle), a lack of
+shared resources, and time wasted in propagation, if done at all.</p>
+<h2>Revit handles project settings in bulk</h2>
+<p>If you change settings in one file and want to propagate that setting to other
+files in the same project, you can't cherry-pick that one change. Instead, Revit
+only allows you to transfer settings in bulk and overwrite other things you
+wouldn't want to overwrite. This means that people either don't bother to
+propagate, or propagate manually.</p>
+<h2>Revit can't dimension to the centre of an arc in a profile</h2>
+<p>Elements such as slabs which may have profiles which are curved don't allow you
+to dimension to the centerpoint of the arc. Why would you ever do such a thing?</p>
+<h2>The "Manage Images" system doesn't allow you to add images</h2>
+<p>Add an image into a Revit project. Now delete it. Is it gone? Nope, it's still
+stored in the Revit file. If it's still stored, can you readd it from the store
+(i.e. Manage Images dialog) back into your file? Nope. Can you tell where it's
+used? Nope. Even though it stores a path to show the source, can it detect
+duplicate sources? Nope.</p>
+<h2>Revit cannot link external assets to BIM elements</h2>
+<p>Unlike IFC, where you can happily connect external resources to elements, such
+as supporting product documentation and brochures, or external databases and
+schedules, Revit does not support any such thing. Instead, people rely on using
+third-party plugins, such as dRofus. This is odd, because dRofus supports IFC.</p>
+<h2>View templates can only specify a colourscheme for one type of plan</h2>
+<p>If you want a view template to apply to multiple types of plans, such as floor
+plans and area plans, the colourschemes will only work for one or the other.
+This means you need to do a manual setting, or create two view templates.</p>
+<h2>The error colour for profiles in orange, which is very hard to see</h2>
+<p>Profiles are pink. Specifically, they are <code>#FF00FF</code>. Errors are orange, or
+<code>#FF8000</code>. This provides a <a href="https://www.w3.org/TR/UNDERSTANDING-WCAG20/visual-audio-contrast-contrast.html">WCAG contrast
+ratio</a>
+of 1.25:1, and fails even the WCAG AA standard. In practice, this means that it
+is really hard to spot where the mistakes are when you draw an incorrect
+profile. In fact, even the selection blue colour (<code>#003BBD</code>) doesn't comply with
+WCAG AA (2.84:1 - it seems like errors are less important than what you have
+selected), and this is keeping in mind that WCAG AA is meant for regular font,
+not single 1px lines. This makes it really hard to even see what you have
+selected.</p>
+<h2>Revit does not consistently obey the architectural convention of how to draw a plan</h2>
+<p>Architectural convention states that a plan is essentially a horizontal section
+- a boolean operation that displays what is in front of the cutting plane, and
+whatever is behind it is not shown, or when relevant, shown in a different
+visual representation (e.g. a dotted line). Lines further than a certain
+threshold in the distance may be shown in a lighter or faded representation to
+show that it is far into the background.</p>
+<p>Revit apparently doesn't follow the architectural convention and instead shows
+whatever it wants to show depending on a complex decision tree that people
+figure out through trial and error. For starters, <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Some-Revit-component-families-display-above-the-view-cut-plane.html">if your model is casework,
+generic, a structural column, or a window, it'll show up in a floor plan even
+though it is above the cutting
+plane</a>.
+Another example, if the view is an MEP view, it'll <a href="https://bimchapters.blogspot.com/2018/07/revit-basics-view-range-plus-dicispline.html">show all MEP things on a
+floor plan even though it is in the
+ceiling</a>.
+If your model in-place intersects the cut plane at even just one point, it'll
+show the entire model, regardless of whether or not the other parts should be
+seen. An even more bizarre example is where a <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Floor-or-slab-visible-regardless-of-view-depth.html">Revit floor will disregard your
+view depth and show
+anyway</a>,
+as long as it is within an arbitrarily picked range of 4 feet of your bottom
+clip. <a href="https://forums.autodesk.com/t5/revit-structure-forum/stairs-relationship-with-view-range/td-p/7761043">Stairs also have their own cutting plane and view range rules</a>, which become especially confusing when you create your own in-place stair model, or even convert that in-place model into a stair family. Furniture families also ignore the cutting plane. As for objects which are above your cutting plane that you'd like shown, <a href="https://forums.autodesk.com/t5/revit-architecture-forum/view-range-and-linked-ifc-structural-model/td-p/6907194">Revit won't display certain family types above the cutting plane</a>.</p>
+<p>There are also no ways to change the rules for cutting, which results in people
+doing hacks <a href="https://www.caddmicrosystems.com/blog/2017/08/revit-lightfixtures/">like invisible geometry to be
+cut</a>, or
+placing objects with certain offsets.</p>
+<p>Don't ask me how to define the logic for cutting planes and RCPs because of how
+unintuitive it is.</p>
+<h2>Non-hosted doors need a workaround</h2>
+<p>In Revit, by default, all doors need a wall to be hosted in. In real life, we
+have gates, toilet cubicle doors, fences, bar doors, and a whole bunch of doors
+that don't actually live inside a wall. In order to do this in Revit you need to
+trick it by creating a generic model, and then changing the category to door. It
+may or may not show up in your door schedule, though.</p>
+<p>Some people don't know this, and end up creating perfectly sized walls that are
+then made invisible (and thus very hard to select) by doors that cut perfectly
+through them.</p>
+<h2>You cannot assign a phase to a wall opening</h2>
+<p>It's quite common in building works to patch up existing holes in walls or
+create new openings in existing walls. Unfortunately, Revit does not allow you
+to assign a construction phase in a wall opening. An unsemantic workaround is to
+<a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Changing-the-phase-of-wall-openings.html">create a void
+family</a>.</p>
+<h2>Tags cannot use related element data</h2>
+<p>The IFC spec supports element relationships, where elements can be related to
+one another. A common usecase for this is doors, where a door goes to a space,
+and from another space. In Revit, a symptom of this issue is where you want to
+annotate a door and label it based on its to / from room - you cannot do this in
+any straightforward way. You can work around it, using custom parameters, API
+calls, and Dynamo scripts, but fundamentally Revit does not make it easy to
+expose element relationships.</p>
+<h2>No custom roof, stair, or whatever, families</h2>
+<p>Certain families are considered to be special for whatever Autodesk reason, and
+cannot be created in the traditional family way. They can only be created as an
+in-place model. Some Revit users have been taught that in-place models are
+always bad, and therefore will resort to misclassification of BIM elements
+instead of actually building the object properly. Even if an in-place model is
+used, it is difficult to propagate, and if it uses openings, it is very
+difficult to copy around the project, and you cannot create instances of it.</p>
+<h2>Voids cannot cut nested families</h2>
+<p>One family inside another? Revit's boolean operation is limited by one
+generation, sorry.</p>
+<h2>For a roof, above is interior, and below is exterior</h2>
+<p>Revit's walls distinctly define an exterior side and an interior side. A little
+known fact is that roofs also do this. An even lesser known fact is that a roof
+things that above is interior, and below is exterior. For roofs with complex
+layered families, or by face, or curtain walls, this symptom will show and you
+will then have to basically draw an upside down roof.</p>
+<h2>Revit does not understand profiled metal sheet roofing</h2>
+<p>Given that metal profiled sheet roofs are absolutely everywhere in construction,
+it is surprising how hard it is to draw in Revit. It turns out the "easiest" way
+to accomplish this is to use a curtain wall by face (and remember to use the
+bottom face of a mass instead of the top to draw an upside down roof, because
+roofs in Revit think above is interior), and then use more invisible cutting
+objects to get the right shape of your roof since you can't just cut through a
+profiled curtain panel.</p>
+<h2>Revit is very slow in viewing CAD files on a sheet, but faster when in an individual view</h2>
+<p>This suggests that the renderer used for views and sheets are different, and may
+account for inconsistent visuals between the two.</p>
+<h2>Sometimes, Revit views "corrupt" and need to be re-created</h2>
+<p>This is not an easily replicated one but does occur, especially in 3D views
+where you are constantly changing section boxes and orbiting.  Sometimes they
+can "corrupt", leading to strange 3D rendering and inconsistent behaviour. Just
+deleting the view and starting again seems to do the trick, just like the
+Window's mentality of "Doesn't work? Try restarting".</p>
+<h2>Geographically large Revit links do not show in sections and elevations</h2>
+<p>A strange occurance might be where a large link does not show up in a section or
+elevation. It turns out Revit's ability to solve the <a href="https://en.wikipedia.org/wiki/Visibility_(geometry)">Visibility
+computation</a> (one of the
+most basic problems in computer geometry) is flawed, and cannot draw the linked
+geometry unless the far clipping is disabled, in which case you see absolutely
+everything, which may not be what you want either.</p>
+<h2>Nested structural families that are shared lose their geometry constraints</h2>
+<p>Ever tried nesting a structural family? It's not really uncommon. What if you
+need a repeatable structural bay? It turns out parametric family constraints
+don't really nest that well. There is a really nasty working to <a href="https://revitrants.blogspot.com/2011/05/revit-2012-nested-structural-columns.html">push up the
+scope of a constraint's
+value</a>
+through a nested family, and I've applied it successfully, but it's seriously
+nasty.</p>
+<h2>You can't use openings or void families to cut through custom curtain panels</h2>
+<p>Sort of. Turns out you can do it, but there is an <a href="https://phil-osophyinbim.blogspot.com/2013/08/curtain-wall-and-engraving.html">obscure
+workaround</a>
+to trick Revit where you create a solid in-place generic model, then cut the
+curtain panel using that, then hide the generic model either using view element
+overrides, a visibility boolean parameter in the generic model, or by hiding it
+in another workset. Autodesk has disabled the boolean parameter trick in more
+recent versions of Autodesk in an attempt to stop us from doing this for some
+reason, but the workset trick still works.</p>
+<h2>Topography can't have a void cut into it that isn't vertical and from the top</h2>
+<p>If you are designing a bunker, tunnel, den, or other structure that is cut into
+the Earth, you're out of luck. <a href="https://forums.autodesk.com/t5/revit-architecture-forum/how-cut-toposurface/td-p/5797103">Revit doesn't allow you to do cut out
+tunnels</a>,
+horizontal burrows, or anything really into it's topography. Sure enough, the
+way a toposurface works is by defining a 2D +Z boundary surface, and then
+whenever a boolean operation is applied on the toposurface, everything -Z is
+considered to be cut. This means that cutting it in any other way than from the
++Z is impossible.</p>
+<h2>Room shape handles do not snap to anything</h2>
+<p>Rooms in sections display shape handles allowing you to drag and drop them to
+define their vertical extends. In my opinion, Revit allows a bit too much
+flexibility with carefree dragging and dropping, and this is a frequent source
+of inaccuracy when people try to eyeball things. When dragging a room, the
+extents do not snap to anything, meaning that you have rooms that are just
+floating willy-nilly. This is one symptom of Revit's inconsistent
+implementation where <a href="https://revitelemental.blogspot.com/2010/06/shape-handles-dragging-grips-and.html">sometimes shape handles appear and sometimes they do
+not</a>.</p>
+<h2>Sometimes, you cannot select and replace text</h2>
+<p>In most text editors since people became too lazy to learn a <a href="https://www.vim.org/">modal text
+editor</a>, if you select text and then start typing, it
+will replace the selected text and enter in new text. In fact, this behaviour
+comes out of the box in most GUI toolkits. Autodesk, of course, is special, and
+requires you to explicitly press backspace or delete before you can type.</p>
+<p>I've also had issues where label fields show phantom text and I am prevented
+from editing it unless I undock and redock the properties dock.</p>
+<p>If you're interested, here's <a href="https://www.revitforum.org/architecture-general-revit-questions/29613-2017-text-editor.html">3 pages of user complaints about Revit's text
+boxes</a>.</p>
+<h2>You cannot change the size of points in a point cloud</h2>
+<p>I will award Revit points (get it?) for implementing other point colourings (RGB, normal,
+elevation, etc) but I will call them out because you <a href="https://forums.autodesk.com/t5/revit-architecture-forum/point-cloud-display-in-revit-views-pixel-size-dot-size/td-p/6813302">cannot change the size of
+a point cloud in
+Revit</a>.
+Maybe it'll come in the future.</p>
+<h2>You cannot put a door in a curtain wall</h2>
+<p>You cannot tag it as a door, because it isn't actually a door. It's a curtain
+panel that masquerades as a door, so maybe you might consider it in your door
+schedule, and maybe you won't. You can change the curtain panel family to a
+door, and that will work in terms of classification as a workaround. However,
+you cannot place that door into a regular wall, and you also cannot place
+regular doors into a curtain wall. As an even greater twist of logic, you <em>can</em>
+place regular walls into a curtain panel, but once you have this regular wall,
+you can't place a door into it. Also after the door category workaround it may
+or may not export to IFC.</p>
+<p>In fact, this highlights a deeper issue with the misuse of curtain walls. A
+curtain wall is defined both in IFC and in the English language as an exterior
+facade that is differentiated from regular walls by its nature of being hung.
+In Revit, a curtain wall is whatever you want it to be, including internal
+glazed partitions, chainwire fences, windows for those too lazy to make a
+window, and even a roof, because why not.</p>
+<h2>Revit cannot print a portion of a drawing</h2>
+<p>AutoCAD has this great feature where you can print a portion of a drawing based
+on a selection. This isn't possible with Revit.</p>
+<p>Update: it is somewhat possible by using a scope box as a workaround. Still
+annoying and you can't scopebox a sheet so I'm keeping this entry.</p>
+<h2>Revit does not output quantities correctly for costing</h2>
+<p>If you draw a wall in Revit, that wall has a length associated with it. If you place a full height door in that wall, what do you think happens to the wall length? Will it decrease and minus the width of the door, or will it remain the same?</p>
+<p>Turns out it will stay the same and ignore your door. This means if a quantity surveyor costs your model, they will count extra wall and cost incorrectly. But of course, most QS don't check your Revit model - most QS software works with IFC files instead. So what happens if you export your model to IFC?</p>
+<p>By default, Revit will not export <em>anything</em> at all quantity related to the
+IFC, and so if you give such an IFC to your QS, it's useless. If you do happen
+to check the boxes to export quantities and Revit properties, then things
+improve a little, but not much better. In this scenario, Revit will export <em>two</em>
+length properties - one as a custom Revit property set which is the double
+counted wall which is a wrong number anyway, and another in the IFC quantities
+properties, which is actually the net length: the correct value. However, of
+course, even though Revit calculates it properly for this field, it has named
+the field incorrectly (Length vs NominalLength in IFC2X3) so it you went
+searching for the ISO standard location for length, you wouldn't come across
+it.</p>
+<p>This misnaming of quantities is common in Revit. For instance, areas and volumes in IFC are either Gross or Net. Revit only calculates Net, but places it in the Gross field. Go figure. Given that Revit has no ability to audit quantities so architects blindly give QSes garbage model data means that QSes either resort to 2D drawings, or counting things manually, which gets a little bit prohibitive on large, complex projects.</p>
+<h2>Wireframe mode doesn't work on slabs which have sub elements</h2>
+<p>Wireframe mode lets you see through objects to spot things that are obscured. This is great when you have complex geometry. However if your slab have sub elements (e.g. falls in slabs, which most slabs have), then wireframe mode will simply not work. Boo.</p>
+<h2>You cannot apply a colourscheme to an RCP in Revit</h2>
+<p>Colourschemes are useful to colour in rooms or areas by their properties. On occasion, you might want to produce one for a reflected ceiling plan. It turns out you can't do this. <a href="https://forums.autodesk.com/t5/revit-mep-forum/zone-color-schemes-in-ceiling-view/td-p/5280169">Revit does not allow you to apply a colourscheme to an RCP</a>.</p>
+<p>There is a <a href="https://www.revit.news/2016/02/color-fill-your-rcp/">filter-based work around</a> if you want to colour by height, but otherwise you need to resort to <a href="http://www.hokbimsolutions.com/2012/12/color-schemes-in-reflected-ceiling-plans.html">overlaying two plans</a>. Neither of which are nice solutions.</p>
+<h2>You cannot print a PDF by default</h2>
+<p>Like above, <a href="https://blogs.rand.com/support/2016/07/cant-print-from-revit.html">Revit doesn't ship with a PDF driver</a>, which means that unless you download some third party PDF driver, you cannot save your drawings to a PDF. This is OK if Revit offered some other non-CAD vector format like SVG, but it doesn't.</p>
+<p>This side effect is that everybody downloads some random third party PDF printing driver all of which have their subtle problems and rendering issues. When things fail to print, people try and solve it by using another driver and trying their luck. This causes drawings to be inconsistent graphically and exhibit random rendering errors.</p>
+<h2>Insulation lines cannot be warped</h2>
+<p>Insulation is a fuzzy thing that moves here and there and in commercial construction can weave between studs or sag between safety meshes. You can't draw this in Revit because insulation is a dumb line and so you need to use masking regions to achieve the effect.</p>
+<h2>You can't tag a gutter</h2>
+<p>Autodesk seemingly forgot that gutters are building items too and <a href="https://forums.autodesk.com/t5/revit-architecture-forum/tag-gutters/td-p/5517328">you can't tag a Revit gutter since 2015</a>. You can use a multi-category tag instead, but why should you need to? What's with all the arbitrary tag types anyway?</p>
+<h2>You can't dimension to a sweep</h2>
+<p>If you use a "sweep" to extrude a profile along a path, you cannot dimension to that sweep line.</p>
+<h2>Shared parameter paths cannot be saved to a project</h2>
+<p>You can add custom parameters to your project by adding "project parameters". If you want to add custom parameters that are shared across multiple projects (along with some additional behaviour like scheduling, which is strange why you can't do it for any type of parameter), you have to add it to a "shared parameter" file. This file stores your parameters in a text file on the filesystem independent from your project. Storing it independently isn't a problem, except when you open another project that needs to use another shared parameter file, because it won't remember which project needs which shared parameter file.</p>
+<p>This is a problem in a large company where different design sectors or different design groups have different shared parameter files. Even worse, when Revit can't find what its looking for in the shared parameter file, it won't complain, it'll simply continue working and use that parameter which won't be tied back to its origin. If you then load another parameter file which has parameters with the same name, you can end up with multiple parameters all with the same name, but they're actually all different. You can't tell them apart in the UI, but under the hood ...</p>
+<p>This ends up creating a data management mess.</p>
+<h2>Plan regions have erratic behaviour around MEP, stairs, and in random circumstances</h2>
+<p>Plan regions are simply completely messed up in Revit. The idea is simple: create a zone in your floor plan or RCP with a different cutting plane, foreground clip and background clip. However, if you have any MEP objects, <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Revit-Plan-region-does-not-cut-MEP-systems-at-the-edge-of-the-plan-region.html">Revit plan regions won't work on MEP objects</a>. If you have a stair, the <a href="https://www.revitcity.com/forums.php?action=viewthread&amp;thread_id=24243">Revit plan region won't cut stairs properly</a>. If you have site topography, <a href="http://forums.augi.com/showthread.php?69039-Plan-regions-have-no-effect-on-Topography">Revit plan regions will not affect topography</a>. Sometimes, the plan region may or may not work depending on whether it is some arbitrary distance away from your object. You may need to <a href="https://forums.autodesk.com/t5/revit-mep-forum/plan-region-not-working-as-expected/td-p/6606637?nobounce">move the plan region to create a buffer zone away from your object to work</a>, or even just <a href="https://phil-osophyinbim.blogspot.com/2013/09/plan-region-and-view-range-bug-in-floor.html">randomly move the plan region away from the object</a>. Why this is the case, oh, who knows. It's 2019, and I have experienced all of these issues on the latest Revit version. You also <a href="https://www.revitforum.org/architecture-general-revit-questions/1073-plan-region-curved-footprint.html">can't create a plan region with a curved footprint</a>, so sorry if you have a curved design.</p>
+<h2>You can't find the RL or elevation of a sloping floor</h2>
+<p>Most floors in real life are sloped. They slope so that water can drain, they slope to get from one level to another, and they slope because the Earth itself slopes. In Revit, slabs can have slopes and "subelements" added to them (a funny name that basically means vertex modeling, which will triangulate your slab into planar tris and n-gons). To build things, we need to mark elevations and levels. This is especially important when the RLs change.</p>
+<p>Unfortunately, <a href="https://knowledge.autodesk.com/support/revit-products/troubleshooting/caas/sfdcarticles/sfdcarticles/Revit-Spot-Elevations-don-t-find-the-floor.html">Revit doesn't allow you to create spot elevations on sloping floors</a>. This is literally the scenario when it is most vital to know the level. You will have to manually interpolate and put fake text level annotations on your plans.</p>
+<h2>If you mirror a hatch in a group, the hatch alignment breaks</h2>
+<p>Grouping and mirroring is a key strategy to efficient modeling in BIM. Unfortunately, if you have any hatched objects, such as a tiled floor, the <a href="https://forums.autodesk.com/t5/revit-architecture-forum/help-mirrored-group-elements-do-not-retain-surface-pattern/td-p/4320480">Revit hatch alignment will no longer be maintained when you mirror the group</a>. This causes tile setouts to break. This is literally the main reason people mirror groups: for residential units or modules. There is no fix. You just have to take your floors out of the group. This has been broken for a decade.</p>
+<h2>Tagging in-place models in plan may not work due to distant origins</h2>
+<p>Ever had a bespoke door in a project? Turns out <a href="http://forums.augi.com/showthread.php?49920-In-place-door-family-won-t-tag">you can't tag in-place Revit doors in a plan view</a> (broken since 2006). It works in elevation, though. This is because the tag is being created very far away as the origin of the in-place model could be very far away. You can fix this with making the tag leader freeform, but it is an unnecessary workaround.</p>
+<h2>There are arbitrary minimum dimensions on objects</h2>
+<p><a href="https://forums.autodesk.com/t5/revit-architecture-forum/stacked-wall-minimum-height/td-p/6588575">Stacked walls in Revit have a minimum height</a> for some reason. Too bad. You also <a href="https://forums.autodesk.com/t5/revit-architecture-forum/element-is-too-small-on-screen/td-p/2201041">cannot draw any line in Revit smaller than 1/32" or the element will be too small on screen</a> (the inch harking back to the fact that Revit has a preference for imperial units instead of logical units). This is yet another issue broken for more than a decade.</p>
+<h2>Duct linings and duct insulation are unselectable by normal means</h2>
+<p>The only way to select a duct lining or insulation in Revit is to first click the duct, and then press a menu button to select the lining or insulation. This is rather strange behaviour and it isn't clear why it is specific to this element. It also doesn't help that the insulation or lining doesn't inherit visibility properties from its parent duct. This means that <a href="http://forums.augi.com/showthread.php?138858-Duct-Insulation-not-Hiding-with-Duct">if you hide the duct, the insulation and lining will still show</a>, and now you have no way of selecting the insulation or lining, so you will be stuck with a visible, unselectable object.</p>
+<h2>You cannot specify a Coordinate Reference System (CRS) in Revit</h2>
+<p>Buildings and sites should ideally be located to a coordinate system that can be used by GIS systems to geolocate the building. This is really quite a fundamental feature of any program used to design geographically significant structures. Unfortunately, Revit has no features that allow you to properly record the Helmert transformation required to convert between project local coordinates and GIS coordinate reference systems. This means that projects often use local origin points that are placed in real world coordinates that will fail to import in other programs ... or even fail to import back into Revit. This also leads to plenty of coordinate problems when there are multiple sub-sites in a large project site where Revit doesn't distinguish between different sites.</p>
+<h2>Worksets are unavailable for non-workshared projects</h2>
+<p>Among its various purposes, worksets are a great way to group project objects into things you want loaded and unloaded. This is an absolute must in a large project with lots of detail. Unfortunately, this only works if your project is a worksharing project. Regular projects have this feature disabled. I suspect this is due to Autodesk's push to make BIM working more centralised and cloud-based, where they can then own all of your data, take it hostage, and charge you periodical fees to maintain access over your work. Why any customer of Autodesk is willing to put up with this ridiculous proposition escapes me.</p>
+<h2>You can only create in-place walls in Revit LT</h2>
+<p>Good BIM starts with proper categorisation of your geometry into semantic types. Revit LT, apart from providing a stepping stone for people to give more money to Autodesk, also allows you to do BIM, without the flexibility of BIM. The only custom shaped in-place object you can create in Revit LT is the "Wall" category. This leads to people all around the world misclassifying their BIM models simply because Autodesk has artifically limited this basic function.</p>
+<h2>Material tags drop off when you change an in-place model's BIM category</h2>
+<p>You would think that telling BIM that this cube geometry is now an electrical equipment instead of a mechanical equipment would not affect anything other than a simple bit of metadata which classifies the objects. It turns out that Revit will happily nuke your tags along with it. It won't tell you though, you'll just be unpleasantly surprised later on.</p>
+<h2>You cannot change a hosted element's phase within a group</h2>
+<p>Groups allow you to instance elements again and again in a project. If you change the geometry of an element while editing a group, all other groups will mirror the change in geometry.</p>
+<p>Except for phases. Phases do not propagate to other groups. I guess this is useful sometimes, but also harmful at other times. It also leads to very bizarre error messages. For example: create a group which has a wall and a door which are both existing. Now edit the group, and make the door demolished in the "New construction" phase. You'll get an error "<a href="https://www.revitforum.org/architecture-general-revit-questions/18674-curtain-grid-based-elements-cannot-grouped.html">Curtain grid based elements cannot be grouped</a>", even though there is nothing related to curtain grids.</p>
+<p>However, you can change the phase outside of group edit mode. Interestingly, once you do this, you can then edit the group and change the phase. So much for consistency.</p>
+<h2>Sometimes, material tags lose association with their object</h2>
+<p>When the stars align, material tags will randomly lose association with their object, leading to a printout of a drawing with a lot of question marks all over it. Nudging the tags restores them to their rightful behaviour. Or you can try becoming vegan with an equal likelihood of fixing the problem.</p>
+<h2>Colour schemes aren't visible over floors with a surface pattern</h2>
+<p>Colour schemes are a great way to colour code spaces in a plan. Except <a href="https://forums.augi.com/showthread.php?151155-Color-Scheme-Not-Visible-Over-Floor-with-Surface-Pattern">colour schemes won't work if your floor object has a surface pattern specifically set to the "Solid fill" type</a>. It works on all other material hatching types. I'm not entirely sure why Autodesk likes creating inconsistent behaviour.</p>
+<h2>Problems that have been fixed since this article was published</h2>
+<p>I am exceptionally proud to announce that as of Revit 2020, one (1) of the
+items on this list have been fixed by Autodesk! Woo! I've listed them below for historic record.</p>
+<h3>You cannot import a PDF into Revit (Fixed in: Revit 2020)</h3>
+<p>The guys at Autodesk don't like PDFs because it is a common format and they
+prefer proprietary limited formats. This is evident because you cannot import
+or link a PDF into Revit. This is a pity, as literally 100% of all of
+architectural drawings are a PDF.</p>
+<h2>More Revit woes?</h2>
+<p>I'm sure there's much more, and the above list have surfaced through a meager
+few weeks of day-to-day Revit usage. Feel free to send me if you have your own
+woes, and I'd be happy to add it if I agree that it is a sensible criticism, and
+I will of course credit you too.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

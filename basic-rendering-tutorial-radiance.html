@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Learn how to render basic shapes using with Radiance. Radiance is a validated lighting simulation software that allows you to create physically correct images. This tutorial guides you on doing your first render directly with Radiance, instead of using other third-party interfaces.">
+    <title>Basic rendering tutorial with Radiance</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Basic rendering tutorial with Radiance</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-01-14</p>
+    </header>
+    <article>
+
+<p><a href="https://www.radiance-online.org/">Radiance</a> is <em>the</em> authoritative
+validated rendering engine out there. Unlike other rendering engines,
+which focus more on artistic license, Radiance focuses on scientific
+validation -- that is, the results are not just <em>physically based</em>, they
+will produce the exact same output as measured by a physical optical
+sensor. This is great if you'd like to produce an image that not only
+looks photo-realistic, but actually matches what a similar setup in real
+life would look like. As you'd expect, this appeals to scientists, and
+designers who work with light and materials.</p>
+<p>In addition, Radiance is open-source, completely free, and is
+<a href="https://en.wikipedia.org/wiki/Unix_philosophy">Unix-like</a>. If you've
+used other tools that claim to do all of the above, it probably uses
+Radiance under the hood anyway and rebrands itself with a more friendly
+interface. However, working with Radiance directly will give you a finer
+grain of control over the image you produce, and as I will likely write
+about in the future, scale up to do highly complex renders. Today, we're
+going to dive into the guts of the tool itself and render a simple
+object. This can be a bit scary to those who are not particularly
+technical, and there's not a lot of friendly material out there that
+doesn't look like it's from a 1000-page technical manual. Hopefully this
+walkthrough will focus on the more practical aspects without getting too
+bogged down in technicalities.</p>
+<p>To begin, I'm also going to assume you have Radiance installed, and know
+how to open up a terminal window in your operating system of choice. If
+you haven't got that far yet, go and install something simple like
+<a href="https://www.ubuntu.com/desktop">Ubuntu Linux</a> and / or <a href="https://www.radiance-online.org/download-install/installation-information">install
+Radiance</a>.
+Radiance is not a program you double click on and see a window with
+buttons and menus that you can click on. Radiance is a collection of
+programs that work by typing in commands.</p>
+<p>Let's create a model first. Start with a simple mesh with a minimum of
+polygons. I am using <a href="http://blender.org/">Blender</a>, which is a another
+open-source, free, and Unix-friendly software. In this case, I have
+started with a default scene, and arbitrarily replaced the default cube
+with a mesh of the Blender monkey mascot. I have also given the mesh a
+material, named <code>white</code>.</p>
+<p><img alt="Default scene with Blender monkey" src="Screenshot_20180107_221555.png"></p>
+<p>Using Blender is optional, of course, and you can use whatever 3D
+program you like. Radiance works with the <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ
+format</a>, which is an
+open format, plain text, and beautifully simple. As such, export the
+mesh to get yourself a resultant OBJ file, of which I have named
+<code>model.obj</code>. The exported accompanying <code>model.mtl</code> file is largely
+unnecessary right now: we will define our own materials with physical
+units, of which the <code>.mtl</code> file is not designed to do. When exporting,
+take care to only export the mesh, and ensure that the proper axes are
+facing up.</p>
+<p>In the same directory that you have your <code>model.obj</code> and your
+<code>model.mtl</code>, let's create a new file which will hold all the materials
+for your model. In this case, there is only one material, called
+<code>white</code>. So let's create a new plain text file, called <code>materials.rad</code>
+and insert the following in it:</p>
+<pre><code>void plastic white
+0
+0
+5 1 1 1 0 0
+</code></pre>
+<p>It's the simplest possible material definition (and rather unrealistic,
+as it defines an RGB reflectance value of 1, 1, 1), but it'll do for
+now. You can read about how "plastic" (i.e. non-metallic) materials as
+defined in the <a href="http://radsite.lbl.gov/radiance/refer/refman.pdf">Radiance reference
+manual</a>. In short, the
+first line says we are defining a plastic material called white, and the
+last line says that there are 5 parameters for this material, and their
+values are 1, 1, 1, 0, 0 respectively. The first three parameters refer
+to the R, G, and B reflectance of the material. This definition is
+provided in the Radiance manual, and so in the future it will serve you
+well to peruse the manual.</p>
+<p>Now, open up a terminal window in the same folder where you have the
+<code>model.obj</code> and <code>materials.rad</code> file. We are going to run a Radiance
+program called <code>obj2mesh</code> which will combine our OBJ with the material
+definitions we have provided in our <code>materials.rad</code>, and spit out a
+Radiance triangulated mesh <code>.rtm</code> file. Execute the following command:</p>
+<pre><code>$ obj2mesh -a materials.rad model.obj model.rtm
+</code></pre>
+<p>If it succeeds, you will see a new file in that same directory called
+<code>model.rtm</code>. You may see a few lines pop up with warnings, but as long
+as they are not fatal, you may safely disregard them. This <code>.rtm</code> file
+is special to Radiance, as it does not work directly with the OBJ
+format.</p>
+<p>Now, we will create a scene in Radiance and place our mesh within it.
+There will be no other objects in the scene. Let's call it <code>scene.rad</code>,
+a simple text file with the following contents:</p>
+<pre><code>void mesh model
+1 model.rtm
+0
+0
+</code></pre>
+<p>The first line simply defines a new mesh in the scene called <code>model</code>.
+The second line tells it that it can find the mesh in the <code>model.rtm</code>
+file. The final line (the zero) says that there are no parameters for
+this mesh.</p>
+<p>Now, we will convert our scene into an <em>octree</em>, which is an efficient
+binary format (as opposed to all the simple text files we've been
+writing) that Radiance uses to do its calculations. We will run another
+Radiance program called <code>oconv</code> to do this. So open up your terminal
+window again and execute:</p>
+<pre><code>$ oconv scene.rad &gt; scene.oct
+</code></pre>
+<p>You should now find a <code>scene.oct</code> file appear in the same folder as the
+rest of your files. This is the final file we send off to render. But
+before we do this final step, we will need to decide where our camera
+is. A camera in Radiance is defined by three parameters. The first
+parameter, <code>vp</code>, or <em>view position</em>, is the XYZ coordinate of the
+camera. The second parameter, <code>vd</code>, or <em>view direction</em>, is the XYZ
+vector that the camera is facing. The third parameter, <code>vu</code>, or <em>view
+up</em>, is the XYZ vector of where "up" is, so it knows if the camera is
+rotated or not. When specifying a parameter to Radiance, you will prefix
+the parameter name with a hyphen, followed by the parameter value. So,
+for a camera at the origin facing east (where +X is east and +Z is up),
+I can tell Radiance this by typing <code>-vp 0 0 0 -vd 1 0 0 -vu 0 0 1</code>.</p>
+<p><img alt="Radiance camera definition" src="Screenshot_20180107_230637.png"></p>
+<p>Calculating these vectors is a real pain unless your camera is in a
+really simple location and is orthogonal to the world axes like in my
+previous example. However, here's a fancy script you can run in Blender
+which will calculate the values for the camera named <code>Camera</code>.</p>
+<pre><code>import bpy
+from mathutils import Vector
+
+cam = bpy.data.objects['Camera']
+location = cam.location
+up = cam.matrix_world.to_quaternion() @ Vector((0.0, 1.0, 0.0))
+direction = cam.matrix_world.to_quaternion() @ Vector((0.0, 0.0, -1.0))
+
+print(
+    '-vp ' + str(location.x) + ' ' + str(location.y) + ' ' +  str(location.z) + ' ' +
+    '-vd ' + str(direction.x) + ' ' + str(direction.y) + ' ' + str(direction.z) + ' ' +
+    '-vu ' + str(up.x) + ' ' + str(up.y) + ' ' + str(up.z)
+)
+</code></pre>
+<p>The output will be in the Blender console window. For those on other
+programs, you've got homework to do. Note that this script is for Blender 2.80.
+For Blender 2.79 and earlier, use the <code>*</code> multiply symbol instead of the <code>@</code>
+PEP 465 binary operator for multiplying matrices.</p>
+<p>Once you know your coordinates and vectors for <code>vp</code>, <code>vd</code>, and <code>vu</code>,
+let's use the <code>rpict</code> Radiance program to render from that angle. Please
+replace my numbers given to the three camera parameters with your own in
+the command below. We will also specify <code>-av 1 1 1</code>, which tells
+Radiance to render with an ambient RGB light value of 1, 1, 1. Of
+course, in real life we don't have this magical ambient light value, but
+as we haven't specified any other lights in our scene, it'll have to do.
+We will also specify <code>-ab 2</code>, which allows for 2 ambient bounces of
+light, just so that we have a bit of shading (if we didn't have any
+light bounces, we would have a flat silhouette of our monkey).</p>
+<pre><code>$ rpict -vp 7.481131553649902 -6.5076398849487305 5.34366512298584 -vd -0.6515582203865051 0.6141704320907593 -0.44527149200439453 -vu -0.32401347160339355 0.3054208755493164 0.8953956365585327 -av 1 1 1 -ab 2 scene.oct &gt; render.pic
+</code></pre>
+<p>Great, after the render completes, you should see a new file called
+<code>render.pic</code> in your folder. Let's look at this image using the Radiance
+<code>ximage</code> program.</p>
+<pre><code>$ ximage render.pic
+</code></pre>
+<p>You should see something like the following:</p>
+<p><img alt="Final Radiance render" src="Screenshot_20180107_232750.png"></p>
+<p>One final step. It's quite irksome and technical to run all of the
+commands for <code>rpict</code>, <code>oconv</code> and such, and so it's much better to use
+the <em>executive control</em> program <code>rad</code>. <code>rad</code> allows you to write the
+intention of your render in simple terms, and it'll work out most of the
+technical details for you. Of course, everything can be overridden. The
+<code>rad</code> program parses a <code>.rif</code> configuration file. I've included a sample
+one below, saved as <code>scene.rif</code>:</p>
+<pre><code># Specify where the compiled octree should be generated
+OCTREE=scene.oct
+# Specify an (I)nterior or (E)xterior scene, along with the bounding box of the scene, obtainable via `getbbox scene.rad`
+ZONE=E  -2.25546   4.06512  -3.15161   3.16896  -2.94847    3.3721
+# A list of of the rad files which make up our scene
+scene=scene.rad
+# Camera view options
+view=-vp 7.481131553649902 -6.5076398849487305 5.34366512298584 -vd -0.6515582203865051 0.6141704320907593 -0.44527149200439453 -vu -0.32401347160339355 0.3054208755493164 0.8953956365585327
+# Option overrides to specify when rendering
+render=-av 1 1 1
+# Choose how indirect the lighting is
+INDIRECT=2
+# Choose the quality of the image, from LOW, MEDIUM, or HIGH
+QUALITY=HIGH
+# Choose the resolution of mesh detail, from LOW, MEDIUM, or HIGH
+DETAIL=HIGH
+# Choose the light value variance variability, from LOW, MEDIUM, or HIGH
+VARIABILITY=MEDIUM
+# Where to output the raw render
+RAWFILE=output_raw.pic
+# Where to output a filtered version of the render (scaled down for antialiasing, exposure correction, etc)
+PICTURE=output.pic
+# The time duration in minutes before reporting a status update of the render progress
+REPORT=0.1
+</code></pre>
+<p>Execute <code>rad scene.rif</code> to get the results. If you'd like to
+interactively render it, on an X server you can run
+<code>rad -o x11 scene.rif</code>. I used the above <code>.rif</code> file and ran it against
+a higher resolution mesh, and I've included the results below.</p>
+<p><img alt="Rad rendered image" src="2018-02-01-204222_512x512_scrot.png"></p>
+<p>All done! We've learned about bringing in an OBJ mesh with Radiance
+materials, placing them in a scene, and rendering it from a camera. Hope
+it's been useful. Of course, our final image doesn't look exactly great
+- this is because the material and lighting we have set are basically
+physically impossible. Similarly, the simulation we've run has been
+quite rudimentary. In the future, we'll look at specifying a much more
+realistic environment.</p>
+<p>You can see a git repository which shows all of this set up
+<a href="http://git.sevenstrokes.net/?p=radiance-blender-obj-demo.git;a=summary">here</a>,
+which you can download for your convenience.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

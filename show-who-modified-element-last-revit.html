@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Find out who created or last modified an element in Revit. Use macros to instantly query any element or even find the editing history of view templates or sheets. No plugins or paid applications required.">
+    <title>Show who modified an element last in Revit</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Show who modified an element last in Revit</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-02-19</p>
+    </header>
+    <article>
+
+<p>In Revit, don't you ever wish you could find out who was guilty of
+screwing over your completely pristine BIM model? In software, we run
+special tracking software so that we can monitor the history of every
+single line of code, and blame whoever messed it up (literally, the
+program is called <code>git blame</code>). Although in the architecture industry we
+don't quite have this same fidelity of tracking (well, sort of, more on
+that later), it's still possible to find out who touched any Revit
+element last so we can interrogate them.</p>
+<p>Finding out who last modified an element or created an element is
+actually a native Revit feature, but it is not very exposed on the user
+interface. First, I'll show you how to check it via the interface, and
+then I'll show you how to create a macro to check it from any view. I'll
+then also show you how to check the history of less obvious Revit
+elements, like who last modified the view template.</p>
+<p>To do this, we are assuming there is a central Revit file and people are
+checking out local copies of it. We are also assuming that everybody has
+different Revit usernames. You can check your Revit username by going to
+Menu-&gt;Options-&gt;General-&gt;Username.</p>
+<p><img alt="Revit username option" src="revit-username-option.png"></p>
+<p>Then, turn on a worksharing mode. Any of the four available modes have
+this feature, so pick any that you'd like.</p>
+<p><img alt="Revit worksharing display mode
+options" src="revit-worksharing-display-option.png"></p>
+<p>Once the mode is enabled, just hover over any element in your view, and
+a Revit tooltip will appear showing various information about who
+created it, who owns it, and who touched it last. I've censored it so
+you can't see who's guilty.</p>
+<p><img alt="Revit last updated tooltip" src="revit-last-updated-tooltip.png"></p>
+<p>This is great and really easy. However to make things even easier I've
+written a macro that will allow you to click on any element without
+haven't to first switch display modes, and then it'll tell you who
+touched it last.</p>
+<p>Go into the <code>Manage</code> tab and click on <code>Macro Manager</code>. Create a new
+<code>Module</code> in Python, and dump the following code:</p>
+<pre><code>def Blame(self):
+    select = self.Application.ActiveUIDocument.Selection
+    el = self.Application.ActiveUIDocument.Document.GetElement(select.PickObject(ObjectType.Element, 'Get element'))
+    info = WorksharingUtils.GetWorksharingTooltipInfo(self.Application.ActiveUIDocument.Document, el.Id)
+    TaskDialog.Show('Blame', 'Created by: ' + str(info.Creator) + '\nLast changed by: ' + str(info.LastChangedBy))
+</code></pre>
+<p>Press <code>F8</code> to compile the macro, then run it in the macro manager. After
+clicking any element, you'll see a dialog box pop up. I like to assign a
+keyboard shortcut to the macro manager to make this very quick to do.</p>
+<p>If you feel the need to see the history of another less obvious /
+clickable element (say, a view template), you will need to first get its
+element ID. This is an integer that all elements in Revit have (note: it
+is not the GUID, which is a related but different thing). Using tools
+that allow you to query or browse the BIM database such as plugins
+provided by <a href="https://ideatesoftware.com/">Ideate</a> allow you to find out
+these element IDs.</p>
+<p>Once you have the element ID, you can substitute the element acquisition
+line in the code above with the below snippet, where <code>XXXXXXXX</code> is your
+element ID:</p>
+<pre><code>el = self.Application.ActiveUIDocument.Document.GetElement(ElementId(XXXXXXXX))
+</code></pre>
+<p>There you have it - it's all fun and games until you realise that half
+the screw-ups are your own fault :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

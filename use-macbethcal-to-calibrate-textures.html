@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Use macbethcal to calibrate image textures that are used in a Radiance render with a colour chart. This helps to make sure that they represent the true colours of the real-life object.">
+    <title>Use macbethcal to calibrate textures</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Use macbethcal to calibrate textures</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-12-30</p>
+    </header>
+    <article>
+
+<p>Radiance is a rendering engine used to perform accurate lighting simulations.
+Sometimes, Radiance renders are only concerned with average luminance
+and illuminance values, which means that details like variations in the surface
+and even what colour an object is isn't that important (as long as the average
+reflectance is correct!). The result is a scientifically accurate simulation,
+that unfortunately looks like a rather dull and unrealistic render. The good
+news is that with some properly calibrated image textures (or patterns, in
+Radiance speak), the render can look a lot more sexy!</p>
+<p>The example below is the <a href="http://radsite.lbl.gov/mgf/scenes.html">NRC office MGC example
+scene</a>.</p>
+<p><img alt="A scientifically accurate, but fake looking office scene" src="nrcoff.gif"></p>
+<p>One of the most powerful tools a CG artist has to bring life to a render is to
+use different types of image textures. The most basic of these is known as a
+"diffuse map", an image that holds the RGB values of the different diffuse (i.e.
+non-specular) colours of the object. However, these images are rarely calibrated
+to make sure that their pixel values correlate with the actual spectral
+reflectance of red, green, and blue wavelengths of the visible spectrum. For
+instance, often these image maps will include absolute black (an RGB of 0, 0, 0)
+or absolute white (an RGB of 255, 255, 255). This is inccorrect, as most objects
+do not ever absolutely absorb all light, and absolutely reflect all light.</p>
+<h2>Taking a photo with the Macbeth colour checker</h2>
+<p>Before calibrating an existing image texture, you will need to find out the true
+colour of a real life sample. Get a sample of that material and take it outside
+on a bright and sunny day along with your Macbeth colour checker chart. I have
+purchased the <a href="https://xritephoto.com/colorchecker-classic">X-Rite ColorChecker
+Classic</a>. It's best to do this with
+sunlight as it is a high quality light source that emits light across the full
+visible spectrum, unlike indoor artificial lights which are relatively spikey.</p>
+<p><img alt="An example photo next to a brick to be
+measured" src="macbeth-colour-checker-photo.png"></p>
+<p>Take a RAW photo with the colour chart next to the object with the same even
+lighting across both the chart and the object. Make sure that you do not shadow
+the sample or the chart, and try to minimise self shadowing, or specular
+highlights for shinier materials. If you will take multiple photos, set your
+camera setting to manual to prevent any unwanted "autocorrection" by the camera.</p>
+<p>You can then convert the raw file (in my case, a <code>.CR2</code> file by Canon) to the
+<code>.hdr</code> format as so:</p>
+<pre><code>$ dcraw -4 *.CR2
+$ ra_ppm -r -g 1 IMG_6054.ppm macbeth.hdr
+</code></pre>
+<p>The <code>-4</code> argument to <code>dcraw</code> is shorthand for passing <code>-6 -W -g 1 1</code> as an
+argument. <code>-6</code> writes 16 bits per sample instead of eight, <code>-W</code> uses a fixed
+white balance, and <code>-g 1 1</code> sets a straight gamma curve. This tip is provided by
+Greg Ward, as per his advice to <a href="https://discourse.radiance-online.org/t/questions-about-how-to-use-macbethcal-properly/4621/7">avoid any non-linear quantization
+step</a>.</p>
+<h2>Run Macbethcal</h2>
+<p>Macbethcal requires the pixel coordinates of the 4 corners of the colour checker
+chart. The chart has a crosshair on each corner, so open up the image with
+<code>ximage</code>, and then press <code>p</code> when your cursor is over a corner to print the
+coordinates. You can use <code>Ctrl+LMB</code> to pan around the image if the image is
+larger than your screen (don't resize the image!).</p>
+<p><img alt="Using ximage to show pixel coordinates by pressing 'P'" src="ximage-coordinates.png"></p>
+<p>Then run <code>macbethcal</code> with the following syntax, replacing things like <code>TLX</code>
+with the top left X coordinate and <code>TLY</code> with the top left Y coordinate, and so
+on. The order is top left, top right, bottom left, and bottom right.</p>
+<p>Assuming that this succeeds (depending on lighting conditions and camera
+abilities), you can view the results in the <code>debug.hdr</code> file. This'll show you
+how many colours it was able to match and you can visually see how close the
+colours are. This is useful to know how close the calibration was, and whether
+there are certain colours that are unreliable. Any colours with a diagonal
+hatching across it were not able to be calibrated.</p>
+<p>Finally, use <code>pcomb</code> to calibrate the <code>macbeth.hdr</code> image based off the
+generated <code>macbeth.cal</code> in the previous step. This will generate a new
+calibrated file called <code>fixed.hdr</code>. You can use this file directly in your image
+textures.</p>
+<p>The full sequence of commands for this process is shown below:</p>
+<pre><code>$ ximage macbeth.hdr
+$ macbethcal -d debug.hdr -p TLX TLY TRX TRY BLX BLY BRX BRY macbeth.hdr macbeth.cal
+$ ximage debug.hdr
+$ pcomb -f macbeth.cal macbeth.hdr &gt; fixed.hdr
+</code></pre>
+<h2>Calibrate other custom image textures</h2>
+<p>The easiest way to use a texture is to use the calibrated .hdr directly after
+running <code>pcomb</code> on it. In this case, we can apply the <code>colorpict</code> to a, say,
+<code>plastic</code> material with an RGB reflectance of <code>1 1 1</code>. This RGB value is
+multiplied by the <code>colorpict</code>, so the <code>fixed.hdr</code> values remain unchanged and
+truly represent the object's RGB. For instance:</p>
+<pre><code>void colorpict diffuse-map
+7 red green blue fixed.hdr . frac(Lu) frac(Lv)
+0
+0
+
+diffuse-map plastic material
+0
+0
+5 1 1 1 0 0
+</code></pre>
+<p>However, it may be such that you have a custom painted texture, or an image
+texture downloaded from a third party. To deal with this, first take a photo
+with the colour checker and calibrate it as described above. Then, view it with
+<code>ximage</code> and sample the average colour RGB value at an area of the object that
+you can easily identify. For instance, if you have a calibrated <code>.hdr</code> of a
+wood panel with wood grain running through it, use the mouse to select a marquee
+of it in <code>ximage</code>, then press <code>c</code> to see the average RGB. Let's say it's <code>.1 .2
+.3</code>.</p>
+<p>Now open up your custom image texture of a wooden panel you have digitally
+painted with <code>ximage</code>. Again, sample the corresponding surface that is meant to
+have the same RGB as your physical sample using a marquee and by pressing <code>c</code>.
+Let's say it's <code>.3 .1 .6</code>.</p>
+<p>This with these two sets of values, we will need to apply it to our example
+<code>plastic</code> material as follows. These multipliers are determined in order to
+convert <code>.3 .1 .6</code> to <code>.1 .2 .3</code>.</p>
+<pre><code>diffuse-map plastic material
+0
+0
+5 .33 2 .5 0 0
+</code></pre>
+<h2>Issues with specular materials</h2>
+<p>An issue with this method is that it does not deal very well with specular
+materials. More specular materials will be measured to be darker than their true
+diffuse RGB reflectance. At the time of writing, I do not have a good general
+solution for this, and recommend heuristic measurements to test under known conditions.</p>
+<p>However, I have rendered out various benchmark <a href="../radiance-specularity-and-roughness-value-examples/article.md">examples of specular and
+roughness
+values</a> that
+you might find useful.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

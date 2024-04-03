@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="vtemplate is a PHP-based boilerplate setup for starting new web projects which combines various industry standards. Includes frontend tools, BDD, and CI.">
+    <title>vtemplate 1.0.0 released</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>vtemplate 1.0.0 released</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2013-11-28</p>
+    </header>
+    <article>
+
+<p>Today I'd like to release <a href="https://github.com/Moult/vtemplate/tree/1.0.0">vtemplate
+1.0.0</a>. I've <a href="http://thinkmoult.com/vtemplate-a-web-project-boilerplate-which-combines-various-industry-standards/">blogged
+about vtemplate
+before</a>,
+but now I am relatively confident about its maturity to make an official
+release. Jeff Atwood has spoken about <a href="http://www.codinghorror.com/blog/2013/07/rule-of-three.html">The Rule of Three in Reusable
+Software</a>,
+and I'm happy to say that I've used vtemplate in far more than three
+sites since then. Oh, and if you are not a web developer, this post is
+probably not for you.</p>
+<h2>What is vtemplate?</h2>
+<p>The <a href="https://github.com/Moult/vtemplate">Git repository</a> says it well
+enough: vtemplate is a boilerplate setup for starting new [web]
+projects which combines various industry standards. There are a few
+tweaks here and there, but otherwise it's loyal to upstream. You'll
+recognise many favourite technologies used in vtemplate, ranging from
+Stylus to Kohana to Behat. But before I run through these technologies,
+I'd like to highlight the ideals behind vtemplate:</p>
+<ol>
+<li>Favour industry standards over proprietary and personal hacks</li>
+<li>Promote standards that emphasise readable, maintainable, and simple
+    code</li>
+<li>Don't restrict or govern your desired code architecture</li>
+</ol>
+<p>Let's take a brief tour over the awesome stuff we get with vtemplate.</p>
+<h3>HTML5Boilerplate</h3>
+<p>You really can't go wrong with HTML5Boilerplate. It's a great piece of
+collaboration by very experienced frontend web coders and very well
+documented. This is a great first step to writing responsive,
+cross-browser, HTML5-valid code. This also brings in so many other
+frontend joys like HumansTXT, Modernizer, JQuery and so on.</p>
+<h3>Stylus</h3>
+<p>If If you're using another CSS preprocessor, this'll show you just how
+clean your CSS can really be. If you're not yet using a preprocessor ...
+well, you'll soon find out why it's so awesome. Admittedly Stylus isn't
+as popular as the big boys like LESS, but it has a very lenient syntax
+and is easy to swap out.</p>
+<h3>Mustache</h3>
+<p>Learn why writing logic in your templates is evil! Stop writing
+Model-View-Controller and start writing Model-View-Template-Controller.
+Don't let the backend team hold up the frontend or vice versa.</p>
+<h3>WYMEditor CMS</h3>
+<p>Why are your clients modifying their site with bloated CMSes and
+complex, unsemantic rich text WYSIWYGs? Keep things simple, and let your
+code govern the CMS, not the other way around. WYMEditor reads and
+writes directly to clean segments of frontend files and understands your
+CSS. Best of all, it makes it easy to review changes with version
+control. Read more about the simple CMS approach
+<a href="http://thinkmoult.com/php-cmses-done-right-how-to-enable-clients-to-edit-content-appropriately/">here</a>.</p>
+<h3>Kohana</h3>
+<p>Modular (quite literally split into many Git submodules), PSR-0
+compatible, forward thinking and high coding standards PHP web delivery
+mechanism with extremely flexible routing and HMVC architecture.</p>
+<h3>Composer</h3>
+<p>Composer is everything you wished PEAR could've been, and more.</p>
+<h3>Swiftmailer</h3>
+<p>Most webapps need a mailer library. Swiftmailer is a great one.</p>
+<h3>PHPSpec2</h3>
+<p>We all love TDD, right? BDD is even better because it's semantic TDD!
+PHPSpec2 provides a really simple (but powerful) BDD tool complete with
+clean mocking and stubbing.</p>
+<h3>Behat and Mink</h3>
+<p>Another great tool from the same guys who brought PHPSpec2. Whereas
+PHPSpec covers all your unit testing, Behat is excellent for full stack
+and UI testing, with the beauty of a semantic Gherkin syntax. Mink is
+just icing on the cake, giving an easy to use abstraction to emulate
+browsers.</p>
+<h3>Phing</h3>
+<p>Test. Configure. Build. Deploy. Do it again!</p>
+<p>So if you're developing a web application with PHP, check out vtemplate
+:)</p>
+<h2>What's new in vtemplate 1.0.0?</h2>
+<p>Well, apart from being the first release, where by definition everything
+is new, there have been a few more tweaks since my last post on it.</p>
+<ul>
+<li>Phing building, deploying and quality control with all sorts of
+    goodies</li>
+<li>UTF8 and URL replacement bugs fixed in CMS</li>
+<li>Sahi comes to Behat</li>
+<li>New "Photoshopper" driver for image manipulation needs</li>
+<li>More Behat feature definitions as defined in <a href="http://thinkmoult.com/in-order-to-discuss-bdd-as-a-blogger-i-need-to-talk-about-behat/">my post about
+    behat</a></li>
+<li>Improved humanstxt</li>
+<li>Default encourages variable page titles and metas</li>
+<li>moult/contact form bundled</li>
+<li>Kohana bumped to develop version</li>
+<li>Simplified installation / configuration</li>
+</ul>
+<p>Feel free to fork :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

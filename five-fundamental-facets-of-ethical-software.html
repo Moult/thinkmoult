@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Technology is increasingly trending towards proprietary forms, which have negative impacts on society. I describe the 5 fundamental ingredients to keep software honest, and prioritise people over profit.">
+    <title>The five fundamental facets of ethical software</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>The five fundamental facets of ethical software</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-03-15</p>
+    </header>
+    <article>
+
+<p>The computing world has changed significantly since the web matured. We now have
+centralised services monopolising most of the internet traffic, several
+industries still running completely proprietary software, and the internet of
+things which is slowly permeating through people homes.</p>
+<p>What does this mean? For most of us who aren't familiar with the work done by
+the Free Software Foundation, we are unaware of the implications of how our
+digital lives have changed. We have entrusted more and more of our personal
+lives into digital services, but have these digital services grown to support
+us the best way they could have?</p>
+<p>Allow me to use an analogy. Imagine you are buying a house. In this parallel
+world, you only have the choice of 3 house designs. As usual, a company will
+build the house for you. However, they will not tell you what is in your house,
+there will be some locked doors that you can't open, and when something is
+broken, you have to ask them to fix it. You're also not entirely sure if the
+house complies with the government fire resistance requirements, because the
+government hasn't certified it. They also own the spare key, and will randomly
+decide to enter your house without asking to "upgrade" unspecified aspects of
+it. Every so often, you're prohibited from placing certain furniture in the
+house, and occasionally they will throw away some of your furniture without
+asking. In a few years, you will be asked to leave your house, and buy a new
+house from the same company, otherwise all your furniture will be thrown out.
+Also, there's a microphone by your bedside, and a CCTV camera in your bathroom.</p>
+<p>If this scenario sounds absolutely ridiculous to you, that's because it is.  If
+you replace "house" with any other personal electronic device you own, such as
+computer or phone, this is exactly what is happening with society right now.
+Maybe you shouldn't bring your phone with you to the bathroom.</p>
+<p>Software wasn't always like this. Richard M. Stallman, the foremost advocator
+for software freedom, first observed that with software, either you control the
+software, or the software controls you. If we lose control of software, vendors
+become increasingly opaque on their processes. Their priorities shift from
+developing software to benefit users, to developing software to maximise
+profits. When profits become the driving factor, companies no longer hesitate to
+make decisions that harm society. They promote the ignorance of users, create
+profiles that can be used for authoritarian means, control communication, hinder
+innovation and self expression, and monopolise markets. In fewer words, Richard
+remarks:</p>
+<blockquote>
+<p>"Companies tend to lose their scruples when that is profitable"</p>
+<ul>
+<li>Richard Stallman</li>
+</ul>
+</blockquote>
+<p>We see this trend blatantly happening around us. For instance, the majority of
+web traffic filters through Google who profiles your behaviour in order to
+create psychological profiles to maximise advertising profits. Google realised
+that providing search results that were correct were less profitable than
+showing you results for things you were inclined to believe, regardless of
+their factual validity. This resulted in YouTube's and Google's results
+agorithm creating a positive feedback loop encourage extremist behaviour,
+pushing people towards violence and binarism.</p>
+<p>To mitigate the issue of software being developed against the interests of the
+public, I will describe 5 fundamental facets the allow a software to remain <em>in
+control</em> by the users, keep the software <em>honest</em>, and by extension, prioritise
+<em>people over profit</em>.</p>
+<h2>The data should be open data</h2>
+<p>All software needs to store and communicate data to one another. If the data
+format is closed and proprietary, it cannot evolve to meet the needs of the
+public, or be inspected by the public that it is truly correct. It also means
+that you can only inspect it using a limited set of tools which are not under
+your control. It is likely to be inefficient, store unwanted data, and the user
+has to trust that their data is recorded correctly, with no way to validate it.</p>
+<p>Open data should have formats that have publicly available specifications that
+describe their syntax, grammar, tokens, parsing, and so on. This allows anyone
+to additionally adapt the data to their own needs, since the rules are so
+clearly spelled out in the specification.</p>
+<p>Open data should also ideally have some form of plain text interpretation. Even
+better so if that plain text is human understandable to the extent that humans
+can author data themselves with a text editor without the need for software.
+This allows humans to inspect the data easily, and allows a human to be critical
+of the quality of data produced by software.</p>
+<p>The good news is that there open data standards for almost any industry. Where
+one does not exist, it is also easy to store things in plain text, and to follow
+the Unix philosophy to think about universal text streams being piped from one
+to another.</p>
+<h2>The software should be open-source</h2>
+<p>Proprietary software where the only developers are part of a secret club is not
+conducive to public inspection of whether or not the software is being true to
+its purpose. As a result, it quickly succumbs to the profit motive and develops
+features that attempt to monetise its users, often with the side effect of
+privacy violations, limiting their exposure to opportunities that could improve
+the world, or creating anti-social situations.</p>
+<p>As a result, software should be created by the community. That is, not only
+open-source, but the core developers should be welcoming to all contributors and
+unafraid of forks.</p>
+<p>These days, there are plenty of quasi-open-source projects where the source is
+available, but it is held on a tight leash. The phrase "open-source" is simply
+used as a marketing tool but does not represent the actual scenario. It is even
+worse when proprietary tools promote a so-called "open-source" ecosystem of
+modules and plugins. These projects are <em>liars</em>.</p>
+<p>The good news is that it is easy nowadays to open-source a project. Being a good
+maintainer is another story, but open-sourcing things is a good start.</p>
+<h2>The deployment process should be independently verifiable</h2>
+<p>Once software is developed in an open-source manner and uses open-data formats,
+it has to be deployed onto a machine. This can be simple as compiling it on a
+computer, downloading a binary, or running it as a network-accessed service.
+This deployment process represents an opportunity for a malicious actor to
+modify the software to their own ends.</p>
+<p>Therefore, we need to check that the software we are running is true to the
+open-source code that we have inspected. In some cases, you can simply compile
+it yourself, and then you are sure to use the version of the software that the
+codebase describes. You will first need to obtain the source code using methods
+that cannot be compromised - this can be through open source and open data
+protocols such as <code>git</code>, or by verifying that a package matches a precomputed
+hash, or are signed by developers. Many Linux distributions offer this feature.</p>
+<p>If you are downloading a binary, things become harder. A level of verification
+can still be determined using hashing and signing, but it is less trustworthy
+than the ability to compile the source yourself. Software projects that have
+lengthy, complex, build procedures that discourage the public to build from
+source are doing a disservice to user rights.</p>
+<p>Some software is not deployed on your machine at all. This describes most
+services we access on the internet. Unless you run your own email server, it is
+unlikely that you have verified that your email provider only runs the necessary
+software for email processing, and doesn't run other proprietary tools or store
+secret non-open data for other purposes that you are unaware of.</p>
+<p>It is technically possible to solve this problem, using crowd-distributed
+deployment processes where multiple parties verify the validity of the
+deployment, similar to how blockchain works. However, although technically
+possible, it is a waste of resources.</p>
+<p>Other strategies we can muse upon are run-time hashes which expose build-time
+procedures and dependencies, or third-party deployment inspections, but again,
+these are complex.</p>
+<p>Any service which forces a non-local deployment is a form of abstracting the
+control of data away from users. They should be discouraged, as the long-term
+trend represents a full abstraction of data processing services and the complete
+ignorance of the user to comprehend the full stack of software required to
+process the data. This is already happening now, where some web developers are
+unaware of the full stack of web-related software required to serve even simple
+static files over the internet.</p>
+<h2>The software hosting should be decentralised</h2>
+<p>Once the software is deployed, the software host represents another opportunity
+to modify the program, replace it with a lookalike, or observe the environment
+and infer information for its own purposes.</p>
+<p>This is a not a problem for purely local software - a user can run and deploy an
+open-source operating system and environment for it to run on. If they want to
+run it on another computer, they can do the same, assuming that the software
+supports that platform. For this reason, having cross-platform support is a
+feature of decentralised local software.</p>
+<p>However, there are software which are networked in some way. To mitigate this, a
+common protocol should be established for the software to communicate, and the
+network should be decentralised. Like email, or the more recent ActivityPub
+extension, this allows anybody to run it themselves, and not be cut off from a
+wider network.</p>
+<p>Any centralised network represents a single opportunity for malicious activity,
+and discourages the independence and freedom of individual users to grow the
+network organically.</p>
+<h2>End-to-end encryption should be possible</h2>
+<p>The final facet to consider is when the software is in use. Users should have
+the right to protect their behaviour with the software, especially as users
+record more and more of their lives digitally.</p>
+<p>For local software, the software data does not necessarily leave the system that
+it is deployed and hosted on. In this case, users should be aware of similarly
+free and open-source standards for encrypting their data. These already exist,
+such as using PGP encryption.</p>
+<p>Again, software that is networked creates a problem. Network communications are
+often poorly designed for user privacy. The networked software should be
+designed in a way that any inputs can be encrypted on the client-side that
+accesses the networked service, before being decrypted on the other end, and
+ensure that the message cannot be modified in the process. Software such as
+XMPP's OMEMO encryption extension demonstrate how this can be done.</p>
+<h2>It's not just ethical software</h2>
+<p>It's important to note that although this article has focused on software, these
+trends of increased abstraction and opaque processes apply to many industries.
+If you think it is hard to build software that achieves these ideals, you are
+witnessing a much more systemic problem with society. We are too keen on wanting
+more - and we want more faster and easier. We do not stop and think about
+whether more is necessarily better.</p>
+<p>Take a deep breath.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

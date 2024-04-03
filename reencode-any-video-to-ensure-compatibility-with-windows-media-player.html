@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to reencode videos with ffmpeg so that they are compatible with Windows Media Player. Windows Media Player has a limited set of codecs and this command will make sure it works.">
+    <title>Reencode any video to ensure compatibility with Windows Media Player</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Reencode any video to ensure compatibility with Windows Media Player</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2010-04-12</p>
+    </header>
+    <article>
+
+<p>Other very useful tip I picked up when doing video manipulation the
+other day that deserves its own post is reencoding any video so that it
+will work on a vanilla Windows Media Player (without any other codecs
+added). Windows Media Player is usually distributed with a very limited set of
+codecs, and unfortunately if you produce a video for the general public to
+view, you need to make sure WMP is happy to play it.</p>
+<p>The tool for such a job is obviously <code>ffmpeg</code>, but the suggested
+commands on the <a href="http://ffmpeg.org/compat.html">compatibility page</a> of
+their site seem to compress the videos to a horrendous state at the same
+time, so after asking on their IRC channel on freenode this is the
+command that turned up:</p>
+<pre><code>$ ffmpeg -i input -acodec libmp3lame -ab 128k -vcodec msmpeg4v2 -qscale 3 output.avi
+</code></pre>
+<p>Wonderful. Now I can render to whatever I please and worry about
+compatibility later.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

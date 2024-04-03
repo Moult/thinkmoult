@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to change a HP Printer&#x27;s default LCD display message by using the HP Printer Job Language. This script uses Perl and does not require any special access rights to run.">
+    <title>How to change the printer LCD display message</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to change the printer LCD display message</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2010-05-08</p>
+    </header>
+    <article>
+
+<p>Most office printers have an LCD display stating some sort of "ready" message.
+It's possible to change this text to a custom message. I stole this technique
+from <a href="https://web.archive.org/web/20100327104413/http://miscellany.kovaya.com/2007/10/insert-coin.html">another
+blog</a>
+that is now closed, so I have largely rewritten this to preserve the method.</p>
+<p><img alt="A printer that is out of cheese" src="cheese.jpg"></p>
+<p>There's a command in the HP Printer Job Language (HPPJL) that allows you to
+change this message, and here's a script written in Perl that does just that
+(not written by me):</p>
+<pre><code>#!/usr/bin/perl
+
+  # $Id: hpsetdisp.pl 2 2008-07-10 00:05:58Z yaakov $
+
+  # hpsetdisp.pl  
+  # Connects to a JetDirect equipped HP printer and uses 
+  # HP's control language to set the ready message on the
+  # LCD display.  Takes an IP address and message on the
+  # command line. My favorite message is &quot;INSERT COIN&quot;.
+  # Keep in mind the limitations of the display when composing 
+  # your clever verbiage.
+  # 
+  # THIS PROGRAM IS PROVIDED WITH NO WARRANTY OF ANY KIND EXPRESSED OR IMPLIED
+  # THE AUTHOR CANNOT BE RESPONSIBLE FOR THE EFFECTS OF THIS PROGRAM
+  # IF YOU ARE UNCERTAIN ABOUT THE ADVISABILITY OF USING IT, DO NOT!
+  #
+  # Yaakov (http://kovaya.com/)
+
+use strict;
+use warnings;
+
+unless (@ARGV) { print &quot;usage: $0 &lt;ip address&gt; \&quot;&lt;RDYMSG&gt;\&quot;\n&quot; ; exit }
+if ($ARGV[3]) { print &quot;Did you forget the quotes around your clever message?\n&quot; ; exit }
+
+my $peeraddr = $ARGV[0];
+my $rdymsg = $ARGV[1];
+chomp $peeraddr;
+
+use IO::Socket;
+my $socket = IO::Socket::INET-&gt;new(
+    PeerAddr  =&gt; $peeraddr,
+    PeerPort  =&gt; &quot;9100&quot;,
+    Proto     =&gt; &quot;tcp&quot;,
+    Type      =&gt; SOCK_STREAM
+    ) or die &quot;Could not create socket: $!&quot;;
+
+my $data = &lt;&lt;EOJ
+\e%-12345X\@PJL JOB
+\@PJL RDYMSG DISPLAY=&quot;$rdymsg&quot;
+\@PJL EOJ
+\e%-12345X
+EOJ
+;
+
+print $socket $data;
+</code></pre>
+<p>I may have run this script on most computer labs at the school just before our
+exam leave. Some may be on loop reciting various lyrics. If you're reading
+this, just power-cycle your printer and it'll reset back to normal.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

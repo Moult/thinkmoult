@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="The Radiance free 3D model repository is the world&#x27;s first photometrically accurate model repository, with a focus on both correctness and aesthetics. It is completely open-source and free to mirror and redistribute. You can download models as an OBJ, along with material and light definitions.">
+    <title>Why Radiance needs a free 3D model repository</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Why Radiance needs a free 3D model repository</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-03-17</p>
+    </header>
+    <article>
+
+<p>Radiance, unlike other rendering engines, does not currently have a large
+repository of free 3D models so that lighting simulationists can reuse assets in
+their renders. For this reason, I have created the <a href="https://radiance.thinkmoult.com/">Radiance free 3D model
+repository</a>, which will host model geometry
+and model material definitions that are photometrically accurate and are
+measured from real-life products. As far as I am aware, nothing like this
+is available.</p>
+<p>You can read more about how the repository is organised and what it offers in
+terms of file formats, photometric accuracy, and download methods in the
+repository itself. However, in this article, I'd like to describe the underlying
+reason why this repository is so important.</p>
+<p>Currently, architects who design our built environment do not have any
+established workflows for accurately creating virtual prototypes of their
+designs. If an architect wants to visualise their design, they commonly do so
+through 2D sketches / collages, or use 3D rendering, as real-life physical
+mockups are slow and expensive. However, both of these digital visualisations
+are artistic impressions of the design, and often, the sketcher or the CG artist
+would take quite a bit of artistic liberty. It is also unfortunately common
+practice for the architect to blatantly lie in the render about what the space
+will look like. In other scenarios, the visualisation would be purposely vague
+or abstract, in order to not over-promise to clients about what the space will
+look like, and leave it to the imagination.</p>
+<p>There is room for creative exploration and imaginative interpretation of spaces,
+but I would equally argue that there is also room for an honest, scientifically
+accurate simulation to see what a space would <em>really</em> look like. Even if this
+is never shown to clients, it is an invaluable tool for architects who want to
+remove the rose-tinted glasses and verify that the space is actually beautiful.</p>
+<p>If this type of validated render is exposed to the client, and by extension, to
+the public, then it serves as an honest representation of the aesthetic impact
+the design has on the public domain. Currently, this doesn't exist. Instead, we
+see buildings that glow from impossible bird-like angles or unlikely viewpoints,
+treated as a spectacular blessed work of art upon the ground. In reality,
+buildings are frankly a little bit drab to most people. Especially for projects
+which heavily impact the public domain, it is ethically responsible to give them
+a true representation of how designs will impact the environment.</p>
+<p>The tool that is capable of this scientifically validated visualisation, of
+course, is Radiance. Architects may come across Radiance through daylight and
+sunlight studies, sustainability analysis, or through the light engineering of
+the space. However, it is less often used in the form of qualitative analysis,
+as it is slow, and due to the over-simplified models and material definitions,
+often produces renders that look even more fake (despite being correct) than an
+artists impression of a photoreal scene.</p>
+<p>The reason for this is because lighting engineers, in their quest for accuracy,
+have not had the same urgency to develop the same workflows, asset libraries,
+and attention to geometric and textural detail that the artists have. These
+types of things are simply not required when analysing average illuminance
+levels, for instance.  However, accuracy and art are not mutually exclusive. For
+instance, more detailed geometric models actually increase the accuracy of a
+light simulation.  For sure, this increases the simulation time significantly,
+and probably does not impact the average overall luminance and illuminance
+values, but certainly does greatly impact the qualitative empathy a viewer has
+with the rendered visualisation.</p>
+<p>It is also important to stress that this type of render certainly takes a lot of
+time compared to a regular artistic render, and almost always will look less
+"spectacular", and time is the most important factor in creating renders. The
+key to making validated renders economical is similar to how CG artists make
+their renders economical: they build an asset library. The difference is that a
+Radiance asset library is something quite special: the materials are true. There
+will be no need to tweak objects for a particular light or shot: the asset will
+simply be a digital twin of the real life object.  But unfortunately, a
+repository does not yet exist, which is why this one is being launched. It is
+also key to keep the repository open-source, so that the resulting assets can
+then be validated by the community, and recipients can ensure they are not being
+lied to about the quality of the asset.</p>
+<p>The good news is that <a href="../history-rendering-engines-modern-trends/article.md">rendering engines are already trending towards
+photorealism</a>. They
+aren't quite there yet, and will take a long time to get there, but slowly they
+are pulled towards reality. I envision a time in the future where clients will
+choose between hiring two architectural firms: one of them can tell them
+truthfully what the design will be like, and the other cannot. That will be the
+stepping stone to the time where government and planning approval organisations
+<em>expect</em> a truthful representation in all development applications. After all,
+it's the <em>right</em> thing to do.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to set up Klipper, the KDE clipboard manager, to automatically post clipboard contents to a pastebin online. This is useful for sending other people debugging information.">
+    <title>Use Klipper to automatically post to a Pastebin</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Use Klipper to automatically post to a Pastebin</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2011-11-26</p>
+    </header>
+    <article>
+
+<p><a href="http://en.wikipedia.org/wiki/Pastebin">Pastebins</a> are a really useful
+way to share snippets of text. However it's sometimes a bit cumbersome
+to have to open a browser window, type in the URL, paste it in, click
+submit, then copy the URL to share with your friend. That's why things
+like <a href="http://wgetpaste.zlin.dk/">wgetpaste</a> exist - small command-line
+utilities to automate this process and return the URL. wgetpaste isn't
+the only one, of course, but they're all rather similar. Klipper is
+KDE's Clipboard manager - whenever you copy something it gets added to your
+clipboard. Klipper allows you to navigate through it - so that you can paste
+something you copied a while back, or set up custom things to paste, or even -
+which is what I'll talk about today - set it to automatically perform an action
+on the paste. The most common use is to automatically open a link in a browser
+if you copy a link from somewhere. What we'll tackle is to get Klipper to
+autopaste our clipboard item into a pastebin, and return the URL to us. So just
+set it up as shown below:</p>
+<p><img alt="Klipper configuration screen" src="klipper.png"></p>
+<p>And you're done! Copy something, press <code>Ctrl-Alt-R</code> to invoke the actions menu,
+click "Pastebin", and now the URL of the pasted item will be in your clipboard
+for you to <code>Ctrl-V</code> to your friend. Neat, eh?</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

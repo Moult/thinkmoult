@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Ratpoison is an efficient, minimalist, tiling window manager based off the principles of GNU screen, still under active development. I demonstrate how to change some keybindings to use Vi-keys and the caps lock as a modifier to prevent RSI.">
+    <title>Ratpoison: an efficient and minimalist WM</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Ratpoison: an efficient and minimalist WM</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2009-05-13</p>
+    </header>
+    <article>
+
+<p><a href="http://www.nongnu.org/ratpoison/">Ratpoison</a> is a tiling window manager, with
+a focus on removing the need to use your mouse under any circumstances
+whatsoever. It's extremely efficient and minimalist.  For those new to tiling
+window managers, this is in contrast to most window management systems where
+windows "float" and overlap one another, and you have the options to maximise,
+restore, and minimise windows to control their sizes. In contrast, windows do
+not overlap in a tiling window manager. Instead, they tile. An easy way to
+visualise this it by thinking of a table. A table can have rows and columns
+split up into as weird a configuration you can think of, but there is only one
+value per cell, and that value cannot overlap another cell. You can resize your
+cells, switch values from one cell to another, split, remove and merge cells.
+Not only that, but you can do this using naught but your keyboard. It's time to
+push that rodent away from your computer and appreciate the keys you already
+have to input information to your computer.  But why, you say, would I enjoy
+having to design a complex table layout for a simple task? For a number of
+reasons. Firstly, it's damned fast.  It's so fast you can split em, switch em,
+merge em, and focus on what matters most: your work ... not moving around
+windows so that you get a good look at them. Secondly, it uses up all your
+screen space. No wasting space on window borders, taskbars, panels, etc. Every
+single bit of your screen is showing useful information, and nothing more. This
+is often referred to as "efficient use of screen real estate". Thirdly, it's a
+minimal WM. This means it starts up quick, doesn't have many dependencies, and
+is lightweight on your system space and resources. Take a quick peek at this
+screenshot to show ratpoison in use:</p>
+<p><img alt="A screenshot of ratpoison in use in 2009 showing KDE graphical apps and command line apps" src="2009-02-09-005748_1280x800_scrot.png"></p>
+<p>As you can see, ratpoison is basically shortcut driven. You use the keyboard to
+do everything: open new applications, close applications, resize windows, move
+windows ... well, pretty much everything. The problem with this is that the
+default ratpoison bindings, whilst it may be familiar to those who use GNU
+screen, may not be the most ergonomic.  The solution to achieving a wonderful
+system is to use a combination of .ratpoisonrc settings and xmodmap settings.
+Here is a nifty guide that should get you started with some usable keybindings.</p>
+<h2>My Ratpoison setup.</h2>
+<p>I've customised by Ratpoison setup somewhat, and here's how it works. Feel free
+to view these images directly for the full resolution.</p>
+<p><img alt="A blank ratpoison setup with polybar" src="34d112c93d51ad5c.png"></p>
+<p>Ratpoison uses a "command key" to prefix any commands that are sent to it. By
+default, this is set to <code>Ctrl-T</code>. This hand-stretching combination isn't the
+most comfortable sequence and can get tiring after a while. So the first thing
+I do is remove my <code>Caps Lock</code> key (nobody ever uses it anyway) and change it to
+an imaginary key called <code>F13</code>. This way all I have to do is shift my left pinky
+slightly to the left when I want to do something. This makes using Ratpoison
+really fast! So create a file called <code>.xmodmaprc</code> in your home directory, and
+put this in it:</p>
+<pre><code>remove lock = Caps_Lock
+keycode 66 = F13
+</code></pre>
+<p>Next thing you want to do is make sure these key changes take effect before you
+start the X server. So in your <code>.xinitrc</code> file in the ~ directory, before the
+<code>exec ratpoison</code> line, add <code>xmodmap .xmodmaprc</code>.</p>
+<p>Now that Caps Lock has been redefined to be <code>F13</code>, you will want to configure
+Ratpoison to use it as the command key. Create a <code>.ratpoisonrc</code> file in your
+home dir (yes, all these files are hidden with a .  prefix). Put this code:
+<code>escape F13</code>. That's it!</p>
+<p>I have extended my Ratpoison setup to also use Vi-keys for navigation. The idea
+is that <code>hjkl</code> will navigate between window tiles, and <code>HJKL</code> will move window
+tiles. I find this quite intuitive. I also use the page up and page down keys
+to control the volume. I also use <code>polybar</code>, which is a popular status bar, and
+bind the spacebar to open up a new <code>xterm</code>, which is by far the most common
+program that I launch. Here's the setup:</p>
+<pre><code>escape F13
+bind Next exec amixer -q set PCM 2- unmute
+bind Prior exec amixer -q set PCM 2+ unmute
+unbind k
+bind j focusdown
+bind h focusleft
+bind k focusup
+bind l focusright
+bind J exchangedown
+bind H exchangeleft
+bind K exchangeup
+bind L exchangeright
+bind C-k delete
+exec /usr/bin/rpws init 4 -k
+exec /usr/bin/fbsetbg /home/dion/Images/Wallpaper.jpg
+exec polybar moult
+set winname class
+set border 0
+set padding 0 25 0 0
+set bgcolor #333333
+set fgcolor #CCCCCC
+set barborder 0
+bind space exec xterm
+</code></pre>
+<p>You might notice that <code>rpws</code> and <code>fbsetbg</code> is called. <code>rpws</code> sets up virtual
+desktops. So <code>Alt-{F1,F2,F3,F4}</code> will switch between the 4 virtual desktops.
+<code>fbsetbg</code> sets the desktop wallpaper to an image I have created. <code>set winname
+class</code> makes the window names something intelligent than the default. The
+border and paddings simply reduce the space between applications so I get 100%
+screen real estate used. There are lots of documentation available on what else
+to put in your .ratpoisonrc to configure it more.</p>
+<p>Another trick is to turn my Windows Key (<code>Hyper_L</code>) into a special key, so that
+when combined with another key, it launches one of my favourite programs, or
+even controls my music player! Here's an example:</p>
+<pre><code>definekey top Hyper_L thisIsNotAWindowsKey
+definekey top H-f exec firefox-bin
+definekey top H-o exec ooffice
+definekey top H-b exec blender
+definekey top H-p exec mpc toggle
+definekey top H-bracketleft exec mpc next
+definekey top H-bracketright exec mpc prev
+</code></pre>
+<p><img alt="Ratpoison running more console applications" src="db79be3deb684b12.png"></p>
+<p>Don't forget if you want to try out the commands real time, use <code>F13</code>
+(or whatever modifier) + <code>:</code> then type your command that you would use in your
+<code>.ratpoisonrc</code>. If you want to run a shell command or app, just do <code>F13</code> + <code>!</code>
+then type it in. </p>
+<p>A final trick is to use the <code>tmpwm</code> command inside Ratpoison to temporarily
+switch to another window manager in the few cases where a tiling window manager
+isn't quite the best thing to use. Alternatively, you can also use Xephyr.</p>
+<p><img alt="Running Xephyr to run an X server inside your X server. In this case running Fluxbox inside Ratpoison" src="99bae9a991ea138c.png"></p>
+<p>Well. Good luck with Ratpoison, and I hope you enjoy using it. I know I have!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

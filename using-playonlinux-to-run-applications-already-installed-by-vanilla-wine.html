@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Some Windows applications will run better using PlayOnLinux rather than WINE to start it up. Here&#x27;s an example of how to run an application installed with WINE, using PlayOnLinux.">
+    <title>Using PlayOnLinux to run applications already installed by vanilla WINE</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Using PlayOnLinux to run applications already installed by vanilla WINE</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2010-08-26</p>
+    </header>
+    <article>
+
+<p>Using PlayOnLinux to install WINE 0.9.14 to run some games, such as StarCraft,
+can fix issues such as lag. If you have already installed a Windows application
+using WINE, you can use PlayOnLinux to run it instead of WINE directly, and may
+experience better results. This example demonstrates how to do it for
+StarCraft, but you may need to modify it for your program.</p>
+<p>First, install PlayOnLinux, Tools -&gt; Manage wine versions -&gt; Install v0.9.14.
+Should be straightforward. Then use these commands:</p>
+<pre><code>$ mkdir /home/username/.PlayOnLinux/wineprefix/starcraft &amp;&amp; env WINEPREFIX=/home/username/.PlayOnLinux/wineprefix/starcraft wineboot
+$ cp -r /home/username/.wine/drive\_c/Program\\ Files/StarCraft /home/username/.PlayOnLinux/wineprefix/starcraft/drive\_c/Program\\ Files/
+$ touch /home/username/.PlayOnLinux/configurations/installed/StarCraft
+</code></pre>
+<p>Now place the following in the StarCraft file:</p>
+<pre><code>#!/bin/bash  
+export WINEPREFIX=&quot;/home/username/.PlayOnLinux/wineprefix/starcraft&quot;  
+export WINEDEBUG=&quot;-all&quot;  
+cd &quot;/home/username/.PlayOnLinux/wineprefix/starcraft/drive\_c/Program
+Files/StarCraft&quot;  
+wine &quot;StarCraft.exe&quot; $@
+</code></pre>
+<p>And that's it! Run PlayOnLinux and you'll be able to run the program
+from there. This guide should be able to work for other scenarios as
+well so feel free to adapt it.</p>
+<p>Oh, and as for the lag? Yep - oddly enough it <em>did</em> get completely
+fixed. Regression time.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

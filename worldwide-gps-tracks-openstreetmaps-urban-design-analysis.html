@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="OpenStreetMaps GPS data can be used to generate heat maps of GPS activity in cities around the world for free. This allows architects, urban planners, and city enthusiasts to analyse how the city works and make more informed decisions for the built environment.">
+    <title>Worldwide GPS tracks with OpenStreetMaps for urban design analysis</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Worldwide GPS tracks with OpenStreetMaps for urban design analysis</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-07-03</p>
+    </header>
+    <article>
+
+<p>I work as an architect, and one of the data available to us when
+masterplanning and early phases of an urban design project is GPS track
+activity. Knowing where people drive, where people walk, and cycle and
+recreate allows us to make decisions such as where to define
+architectural axes, where to place retail, and how to extend public
+transport and pedestrian walkways.</p>
+<p>One of the resources available is from a company known as Strava, who
+runs a proprietary fitness social network, where fitness buffs can track
+their movements via GPS devices (which can be as simple as your phone)
+and compare cycling routes, distances run, and so on. Primarily used by
+runners and cyclists, these GPS logs are voluntarily uploaded to Strava,
+who then aggregates all the data and resells it to urban design parties,
+known as their "Strava Metro" initiative.</p>
+<p>Publicly without purchasing any data, Strava also hosts a <a href="https://www.strava.com/heatmap">global GPS
+heatmap</a> where you can visually see the
+fire of activity by runners and cyclists. Zooming in shows you right
+down to where people run down various streets. As a high-level overview,
+this is a great graphic and can immediately pinpoint activity. It also
+is <a href="https://medium.com/strava-engineering/the-global-heatmap-now-6x-hotter-23fc01d301de">a fantastic feat of
+engineering</a>,
+processing 5 terabytes of raw input data. That's big data!</p>
+<p><img alt="Strava heatmap example" src="strava-example.jpg"></p>
+<p>Of course, just recently Strava decided to stop showing this public
+heatmap at high zoom levels and locked it behind a paywall. Thankfully,
+there are alternatives.</p>
+<p>In <a href="../openstreetmaps-open-source-maps-application/article.md">a previous
+post</a>,
+I introduced an open-data initiative known as
+<a href="https://openstreetmaps.org/">OpenStreetMaps</a>. Strava is largely based
+on OpenStreetMaps and uses it as a base layer embedded into MapBox, and
+also has a fork of the OSM iD editor called "Strava Slide", to allow
+people to edit routes based off strava GPS data tracks. However, OSM
+itself has many active GPS track contributors (used for various
+purposes, such as mapping new routes and calibrating the map), and we
+can use this open data in lieu of the proprietary product offered by
+Strava. Below, we see the world's GPS tracks from the perspective of OSM
+<a href="http://neis-one.org/">visualised by Pascal Neis</a>.</p>
+<p><img alt="OSM GPX tracks" src="2018-07-03-214004_948x500_scrot.png"></p>
+<p>Before I get into the specifics of getting GPS data, I'd like to show
+you what data is in a GPS track. Here's some GPS tracks visualised with
+<a href="https://josm.openstreetmap.de/">JOSM</a>. We can see things like speed,
+direction, and sometimes, elevation, if it is recorded. See those red
+segments of the line? Those are traffic lights!</p>
+<p><img alt="GPS track velocity visualised with
+JOSM" src="2018-07-03-214640_553x705_scrot.png"></p>
+<p>OSM has an <a href="https://wiki.openstreetmap.org/wiki/API_v0.6">API</a> and
+<a href="https://wiki.openstreetmap.org/wiki/Planet.gpx">Planet GPS extract</a>
+available to download GPS data. The Planet GPX is rather unwieldy, and
+is also very outdated (from 2013). The API is not the best either, in
+that it only returns 5,000 GPS points per query, and doesn't quantify
+the total pages of results, so that you can't really tell with one query
+how many points you need to fetch in advance. However, if you query the
+API and put a page number higher than what is available, it won't return
+any points. So using a binary search you can find out how many pages to
+extract.</p>
+<p>For the area of Sydney, there are roughly 750 pages of results, so that
+means just under 4 million GPS points. Here's a heat map visualisation
+of it I made using QGIS (but JOSM also has a heat map visualisation
+feature). You won't need huge supercomputers processing the data,
+either.</p>
+<p><img alt="Sydney, Australia GPS activity heat map" src="sydney-gps-heat-map.png"></p>
+<p>Here's another of Manhattan, New York.</p>
+<p><img alt="Manhattan, New York, GPS activity heat
+map" src="manhattan-new-york-heat-map.png"></p>
+<p>We can couple this visualisation with other OSM data such as all public
+transport nodes. In this case, railway tracks, bus routes, ferry routes,
+cycling routes, train stations, and bus stops are shown. This is also
+created with QGIS.</p>
+<p><img alt="Sydney public transport GPS
+analysis" src="sydney-public-transport-gps-analysis.png"></p>
+<p>There are a few pros and cons to using this GPS data. The pro is that
+it's more general purpose: it's not only used by runners and cyclists,
+it's used by regular people (well, GIS geeks) doing everyday things like
+shopping. Unfortunately, OSM isn't that widely used, and so the data is
+relatively sparse. In remote areas perhaps no-one has walked that route,
+or only a few people have. So you don't get a sense of what they're
+doing. The GPS data is also not processed, so you'll have to do your own
+cleaning: especially in the city where GPS data goes a bit haywire with
+all the tall buildings.</p>
+<p>Have fun and happy mapping!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

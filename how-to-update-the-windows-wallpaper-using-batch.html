@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Based on a fun idea to send messages to my parents, here&#x27;s a little MS DOS batch script to update the Windows wallpaper.">
+    <title>How to update the Windows wallpaper using batch</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to update the Windows wallpaper using batch</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2011-01-22</p>
+    </header>
+    <article>
+
+<p>Over Christmas one of my more humourous gifts to my parents was to allow
+them to remotely nag each other electronically. Since my dad is often
+overseas, this actually has some practical use.</p>
+<p>The idea was to create a remotely synchronised dynamic wallpaper with
+text that could be set by another person remotely. Person A would type
+in some text, a wallpaper with the text formatted would be generated,
+Person B's computer would detect that there is an update, download the
+wallpaper and set it immediately. (I originally wanted to make a pop up
+message, but realised that having "Go and exercise!" pop up during a
+powerpoint presentation with your boss wasn't the best thing)</p>
+<p>The system would operate as such: I would create a html form on my
+webserver to allow somebody to type in text. PHP would take the text and
+use GD to generate a .jpg file of an image with the text overlayed on
+top. Batch file on Windows computer would download the .jpg file (either
+on startup, or via cronw) via <code>URL2FILE</code>, which you can <a href="http://www.chami.com/free/url2file_wincon.html">download URL2File
+here</a>. Batch file will call
+<code>imagemagick</code> installed on the Windows computer to convert .jpg to .bmp because
+apparently that's what Windows likes for wallpaper formats and converting on
+the server would mean a ultra big file download. Finally, batch file will tweak
+the registry to change the wallpaper and "refresh" it such that it changes
+immediately.</p>
+<p>Here's an example :)</p>
+<p><img alt="An example of a nagging wallpaper" src="wallpaper.jpg"></p>
+<p>PHP code:</p>
+<pre><code>&lt;?php
+if (isset($_POST['submit']) &amp;&amp; isset($_POST['nag']) &amp;&amp; !empty($_POST['nag'])) {
+    $width = 1280;
+    $height = 800;
+    $imgname = &quot;wallpaper_blank.jpg&quot;; # The empty blue background template
+    $im = imagecreatefromjpeg ($imgname);
+    $text = $_POST['nag'];
+    $textcolor = ImageColorAllocate($im, 255, 255, 255);
+    $font = 20;
+    $font_width = ImageFontWidth($font);
+    $font_height = ImageFontHeight($font);
+    $font_width = 10;
+    $text_width = $font_width * strlen($text);
+    $position_center = ceil(($width - $text_width) / 2);
+    $text_height = $font_height;
+    $position_middle = ceil(($height - $text_height) / 2);
+    imagettftext ($im, 15, 0, $position_center, $position_middle, $textcolor,'/path/to/ttf/fontfile/AllOverAgainAllCaps.ttf', $text); # We're offsetting this a little to give space for desktop icons
+    Imagejpeg($im, '/path/to/final/image/wallpaper.jpg', 100);
+    chmod('/path/to/final/wallpaper.jpg', 0644);
+    echo 'Nag done!';
+} else {
+    echo '&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;';
+    echo '&lt;textarea name=&quot;nag&quot; rows=&quot;10&quot; cols=&quot;50&quot;&gt;&lt;/textarea&gt;&lt;br /&gt;';
+    echo '&lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;Nag!&quot;&gt;';
+    echo '&lt;/form&gt;';
+}
+</code></pre>
+<p>Batchfile code:</p>
+<pre><code>C:\path\to\URL2FILE.EXE http://mysite.com/wallpaper.jpg C:\path\to\save\wallpaper.jpg
+C:\path\to\imagemagick\convert.exe C:\path\to\save\wallpaper.jpg C:\path\to\save\wallpaper.bmp
+REG ADD &quot;HKCU\Control Panel\Desktop&quot; /V Wallpaper /T REG_SZ /F /D &quot;C:\path\to\save\wallpaper.bmp&quot;
+REG ADD &quot;HKCU\Control Panel\Desktop&quot; /V WallpaperStyle /T REG_SZ /F /D 2
+REG ADD &quot;HKCU\Control Panel\Desktop&quot; /V TileWallpaper /T REG_SZ /F /D 0%SystemRoot%\System32\RUNDLL32.EXE user32.dll, UpdatePerUserSystemParameters
+</code></pre>
+<p>Have fun!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

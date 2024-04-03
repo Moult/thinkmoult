@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="The Great North Walk is a 250km trail that goes from Sydney to Newcastle. I&#x27;ve created a free online map you can use to guide yourself from start to finish, and download a GeoJSON or GPX file to use in your GPS devices.">
+    <title>Map of the Great North Walk: Sydney to Newcastle</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Map of the Great North Walk: Sydney to Newcastle</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-12-25</p>
+    </header>
+    <article>
+
+<p>The Great North Walk is a 250km trail that goes from Sydney to Newcastle (or
+from Newcastle to Sydney, if you are so inclined). It starts at the Obelisk in
+Macquarie Place, just south of Circular Quay. It can be broken down into about
+20 segments, and you can walk just a segment of it if you'd like, and branch off
+to other trails that link to the Great North Walk.  It's incredibly well
+signposted, with yellow / beige posts with a red trekking stick figure at
+junctions directing you where to go. Given that some of it runs through suburban
+parts of Sydney, you may have already noticed these around!</p>
+<p>The map below is an interactive map that shows the full extent of the Great
+North Walk. You can zoom in and out and access this on your mobile. The data can
+be downloaded as an <code>GPX</code> or <code>geojson</code> format, so you can load it on various
+mobile GPS programs. It's completely for free and open source.</p>
+<ul>
+<li><a href="the-great-north-walk.gpx">Download GPX</a></li>
+<li><a href="the-great-north-walk-routes.geojson">Download GeoJSON routes</a></li>
+<li><a href="the-great-north-walk-checkpoints.geojson">Download GeoJSON checkpoints</a></li>
+</ul>
+<p>The map used is
+<a href="../articles/openstreetmaps-open-source-maps-application/article.md">OpenStreetMap</a>.
+If you are on Android, download OSMAnd, and you can use it as an offline map in
+flight mode, and track your GPS activity as you trek. It's also great because
+unlike other maps, it has details down to the public bathrooms, campsites,
+little trail shortcuts, and drinking water.</p>
+<p>Thanks to the OpenStreetMap community and contributors, this map was very easily
+created, and hopefully this will make it more discoverable to people searching
+online. The OpenStreetMap GPX route file is taken directly from OSM, and is data
+available under the <a href="https://www.openstreetmap.org/copyright">open-source ODbL
+license</a>. You can check out the route
+on this <a href="https://hiking.waymarkedtrails.org/#route?id=1388126&amp;map=9!-33.4789!151.6779">dedicated hiking trail OSM
+website</a>.
+The GeoJSON derivatives and checkpoints are created by me and released as
+CC-BY-SA 4.0.</p>
+<p>This article is a work in progress, as I will update the map as I walk them to
+verify that the paths are actually correct. Paths may differ to due weather or
+construction work.</p>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css" type="text/css"></p>
+<style>
+#map { height: 400px; width: 100%; }
+</style>
+<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+<div id="map"></div>
+<script type="text/javascript">
+      var style = new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 5,
+            fill: new ol.style.Fill({ color: '#990000FF' })
+        }),
+        text: new ol.style.Text({
+            placement: 'point',
+            fill: new ol.style.Fill({ color: 'black' }),
+            stroke: new ol.style.Stroke({ color: 'white', width: 2 }),
+            offsetY: 15
+        })
+      });
+var map = new ol.Map({
+    target: 'map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM({
+                url: 'http://{a-b}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+            })
+        }),
+        new ol.layer.Vector({
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: 'assets/the-great-north-walk-routes.geojson'
+            }),
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#990000FF',
+                    width: '2'
+                })
+            })
+        }),
+        new ol.layer.Vector({
+            source: new ol.source.Vector({
+                format: new ol.format.GeoJSON(),
+                url: 'assets/the-great-north-walk-checkpoints.geojson'
+            }),
+            style: function(feature) {
+                style.getText().setText(feature.get('name'));
+                return style;
+            }
+        })
+    ],
+    view: new ol.View({
+        center: ol.proj.fromLonLat([151.21, -33.86]),
+        zoom: 14
+    })
+});
+</script>
+
+<p>I've also described some of the interesting features I've come across below.</p>
+<h2>Macquarie Place Obelisk to Circular Quay (300m)</h2>
+<p>The Macquarie Place Obelisk was placed as a method of measurement for Sydney's
+roads. Circular Quay is also quite a beautiful place where you might want to
+wander and buy some fish and chips. There's also the Museum of Contemporary Art.</p>
+<h2>Circular Quay to Hunters Hill (4km)</h2>
+<p>Take the ferry (on wharf 5, in 2018) that goes to Woolich (4km does not include
+the ferry ride!). Between Garrick Avenue and Passy Avenue you will discover a
+speakeasy nursery that sells bonsai trees and topiary. The owner's cat is cute.</p>
+<h2>Hunters Hill to Pymble</h2>
+<p>This is when it gets interesting as you enter the Lane Cove National Park and
+walk alongside Lane Cove river. You'll see plenty of fascinating mangroves,
+waterbirds, and a few scenic sights along the way. As you first meet Pittwater
+road, keep a look out for roadside fruit sellers, as it may be absolutely
+delicious and a juicy mango might be just the thing you need after a few hours
+of walking. You will enter a few parks where you can top up on water and have a
+break.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

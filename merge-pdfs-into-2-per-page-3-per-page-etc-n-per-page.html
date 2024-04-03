@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to use Linux and pdfnup to convert Powerpoint presentations into 2 or 3 slides per page. This also works if you want to relayout any generic PDF into an N per page layout.">
+    <title>Merge PDFs into 2 per page, 3 per page, etc (n per page)</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Merge PDFs into 2 per page, 3 per page, etc (n per page)</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2011-12-05</p>
+    </header>
+    <article>
+
+<p>This post is mostly just a reminder to myself, but it may be useful to
+others. I was recently asked to convert a <code>.ppt</code>, or Powerpoint slideshow
+document, into a three slides per page, horizontally centered, one on
+top of another, with frames around each slide. Powerpoint itself offers
+several printing options, including a 2<sup>n</sup> per page (ie. 2, 4,
+8, etc) as well as handouts, which can do 3 per page but are incredibly
+small and have writing lines besides the slides. Luckily, Powerpoint can
+save the <code>.ppt</code> into a <code>.pdf</code>, and there are plenty of PDF manipulation
+tools on Linux, and are generally much more readily available than on
+Windows. Scribus is an option, but after some searching I discovered
+<code>pdfnup</code>, part of the <code>pdfjam</code> package. This is the command I ended
+up using:</p>
+<pre><code>pdfnup --nup 1x3 --no-landscape --frame true --batch foo.pdf bar.pdf etc.pdf
+</code></pre>
+<p>For a full explanation of the commands, you can try looking at its
+<a href="http://linux.die.net/man/1/pdfnup">manpage</a>, or <code>pdfnup --help</code>, which
+is much more useful.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

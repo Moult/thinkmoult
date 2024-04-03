@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Peertube videos can be embedded directly on your website using an iframe with no Javascript required. This short example demonstrates how. Peertube is a distributed peer-to-peer network of video sharing websites.">
+    <title>Embed Peertube videos on your website</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Embed Peertube videos on your website</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-01-19</p>
+    </header>
+    <article>
+
+<p><a href="https://joinpeertube.org/en/">Peertube</a> is a network of websites that allow
+people to upload, share, and comment on videos. It's kind of like YouTube, but
+with a big difference. Whereas YouTube polices its content, has its own
+arbitrary rules about advertising, revenue, and copyright, in Peertube, you can
+run your own website and host your video yourself. Using a growing native web
+technology known as <em>ActivityPub</em>, your website can talk to other Peertube
+websites, so you can use your account to comment on videos on other websites,
+and your video will be shared on other people's websites too, should they choose
+to.</p>
+<p>This way, you can design it yourself, have the peace of mind of content uptime,
+and make your own rules about how you want your video sharing to run (like
+upload sizes, comment moderation, and where it is and isn't shared). This is
+important for content distributors who rely on their videos. For instance,
+<a href="https://torrentfreak.com/youtubes-piracy-filter-blocks-mit-courses-blender-videos-and-more-180618/">YouTube blocked videos from the Blender Foundation and MIT OpenCourseWare
+without
+reason</a>.
+When events like this occur, you may consider other options.</p>
+<p>But, you say, the whole reason I put it on YouTube is because I don't want to
+pay for all the infrastructure to host my own videos! This is where Peertube is
+special: it uses P2P protocols, just like torrenting, to watch videos. So anyone
+who watches a video is also helping host your videos for other people. The more
+popular your video is, the more people are helping host your video! So you won't
+need to type of infrastructure that Google has.</p>
+<h2>Embedding a Peertube video with an <code>iframe</code></h2>
+<p>In the example below, I show how to embed a video from a Peertube instance. This
+shows a video hosted on the website <a href="https://peertube.social">peertube.social</a>.
+You should change the link depending on the instance that you are hosting your
+videos on.</p>
+<p>If you watch your video on its instance, its URL looks a little like this:</p>
+<pre><code>https://peertube.social/videos/watch/ad395c9b-9702-4060-ac05-4c94b64956ab
+</code></pre>
+<p>All you need to do to embed it is change the link so that the word <code>watch</code>
+turns into <code>embed</code>. Then, you can put it in a simple HTML <code>iframe</code>, and it will
+work on any website. Here's an example of the same video embedded on a website,
+with some CSS styling for some flexible video scaling. Pay attention to how the
+URL changes below:</p>
+<pre><code>&lt;iframe src=&quot;https://peertube.social/videos/embed/ad395c9b-9702-4060-ac05-4c94b64956ab&quot; style=&quot;min-height: 400px; width: 100%;&quot; frameborder=&quot;0&quot; sandbox=&quot;allow-same-origin allow-scripts&quot; allowfullscreen=&quot;allowfullscreen&quot;&gt;&lt;/iframe&gt;
+</code></pre>
+<p>That's it! You can see some videos embedded on another article I've written about how to
+run programs like <a href="../how-to-install-blender-gimp-android/article.md">Blender and the GIMP on your Android
+phone</a>.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

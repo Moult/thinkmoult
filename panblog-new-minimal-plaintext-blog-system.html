@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Panblog is a minimalist blog system. You write articles in Markdown with metadata in YAML, and Pandoc converts your articles to HTML. The entire system of Panblog is a 73 line Makefile and 14 line lua filter, excluding HTML and Atom feed templates.">
+    <title>Panblog, a new, minimal, plaintext blog system</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Panblog, a new, minimal, plaintext blog system</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-10-28</p>
+    </header>
+    <article>
+
+<p>I'd like to introduce Panblog, a brand new blog system written for those who
+think the web got a little bit out of hand. Here's the introduction from the
+<code>README.md</code> file:</p>
+<blockquote>
+<p>Panblog is a minimalist blog system. You write articles in Markdown with
+metadata in YAML, and Pandoc converts your articles to HTML. The entire
+system of Panblog is a 72 line Makefile and 14 line lua filter, excluding
+HTML and Atom feed templates.</p>
+</blockquote>
+<p>There is no web interface, no dynamic scripting language being executed on each
+server call. Just your filesystem, your favourite text editor, and a Makefile
+that generates static HTML for you to host. In fact, this blog you're reading
+right now is running on Panblog.</p>
+<p>You can get Panblog from this <a href="http://git.sevenstrokes.net/?p=panblog.git;a=summary">git
+repository</a> or this
+<a href="https://gitlab.com/dionmoult/panblog">Gitlab mirror</a>.</p>
+<h2>Panblog features</h2>
+<p>Here's the comprehensive list of features that Panblog has:</p>
+<ol>
+<li>Open-source and free.</li>
+<li>Extremely lightweight. In fact, it's only 86 lines of code!</li>
+<li>Super-duper fast. Your generated blog is static HTML. No server language required.</li>
+<li>Plaintext post editing in Markdown.</li>
+<li>Supports showing a "Latest 10 posts" or similar on your homepage.</li>
+<li>Supports an archived list of all articles.</li>
+<li>Supports generation of Atom feeds.</li>
+<li>Custom HTML templates for fancy webdesigns.</li>
+<li>Supports post comments using the fediverse.</li>
+<li>Awesome SEO optimisation with semantic HTML, meta tags and description</li>
+</ol>
+<p>Panblog allows you to use your favourite editor like <code>vim</code>. Do you want
+versioned posts, editing from any computer, secure logins, and multiple author
+access? No worries! Use <code>git</code>! Do you want search functionality? Cool,
+Panblog's default template comes with DuckDuckGo search. Hate Markdown? Sure,
+write in LaTeX, textile, rst, docx, or even html directly. Panblog supports 
+whatever <code>pandoc</code> does, which is a lot.</p>
+<h2>Panblog demo</h2>
+<p>Here's a screenshot of me writing this post in Panblog! I'm using <code>vim</code>, if
+that matters.</p>
+<p><img alt="Panblog in action!" src="panblog-screenshot.png"></p>
+<p>Panblog is so small that you can just open up the <code>Makefile</code> and read what it
+does. But for the initiatively challenged, here's a summary.</p>
+<pre><code>$ vim articles/my-article/article.md
+$ vim articles/my-article/metadata.yaml
+$ make all
+</code></pre>
+<p>This'll convert your article to <code>weblog/my-article.html</code>. If you have any links like <code>[another article](../another-article/article.md)</code> it'll automagically make the links work in HTML.</p>
+<p>You can also run some other commands like:</p>
+<pre><code>$ make articles # Regenerate all article HTML
+$ make article name=my-article # Regenerate a single article
+$ make archive # Update your article archive page
+$ make index # Update your home page with 10 latest posts
+$ make feed # Update your Atom feed
+</code></pre>
+<p>Oh, and you can also migrate from Wordpress to Panblog using this <a href="https://gitlab.com/dionmoult/panblog/snippets/1770393">Wordpress to
+Panblog migration
+script</a>. No guarantees
+it'll work with your Wordpress setup, though, but it may help.</p>
+<h2>Does it have bugs?</h2>
+<p>Yes. I'm not a shell guru, and it's heavily underengineered. Pull requests are welcome.</p>
+<h2>Can panblog do XYZ?</h2>
+<p>If you're the type of person who would use Panblog, you're the type of person
+who is able to edit 100 lines of code and make it do what you want.</p>
+<p>For example, the <a href="http://git.sevenstrokes.net/?p=thinkmoult.git;a=summary">thinkMoult blog
+source</a> shows some
+fancy additions, such as a 42 line addition to generate a gopher website.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

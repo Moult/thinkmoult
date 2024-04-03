@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Use Blender and Python scripts to automatically clean up and process meshes for easier modelling. Weld vertices, replace triangles with quad faces, and recalculate surface normals. Script can run headlessly on a server.">
+    <title>Clean meshes automatically in Blender with Python</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Clean meshes automatically in Blender with Python</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-03-06</p>
+    </header>
+    <article>
+
+<p>I wrote a little Python script to clean up imported meshes (OBJs, DXFs,
+etc) in Blender. It's quite useful if you often process meshes from
+other sources, in particular IFCs. Even better is that Blender can be
+run heedlessly and invoke the script automatically so you can clean
+meshes server side even before you open it up on my computer.</p>
+<p>From my initial script, <a href="http://www.peripheralarbor.com/">Paul Spooner</a>
+at the <a href="https://blenderartists.org/">BlenderArtists forums</a> was kind
+enough to <a href="https://blenderartists.org/forum/showthread.php?436979-Mesh-cleaning-script">rewrite it with
+improvements</a>.
+For the record, here it is. Simply copy and paste into the text editor
+and hit the <code>Run Script</code> button. It will only impact selected objects.</p>
+<pre><code>import bpy
+checked = set()
+selected_objects = bpy.context.selected_objects
+for selected_object in selected_objects:
+    if selected_object.type != 'MESH':
+        continue
+    meshdata = selected_object.data
+    if meshdata in checked:
+        continue
+    else:
+        checked.add(meshdata)
+    bpy.context.scene.objects.active = selected_object
+    bpy.ops.object.editmode_toggle()
+    bpy.ops.mesh.select_all(action='SELECT')
+    bpy.ops.mesh.remove_doubles()
+    bpy.ops.mesh.tris_convert_to_quads()
+    bpy.ops.mesh.normals_make_consistent()
+    bpy.ops.object.editmode_toggle()
+</code></pre>
+<p>Although it is pretty self explanatory, what it does is weld vertices,
+convert tris to quads, and recalculate normals.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

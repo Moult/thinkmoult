@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Blender&#x27;s boid simulation and a Beagleboard is used to power a swarm of robots. Robots work together to collect resources from a remote location and deposit them in a central repository. Robots are laser cut and powered by PWM motors.">
+    <title>A Beaglebone, a Blender, a Board, and a Swarm</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>A Beaglebone, a Blender, a Board, and a Swarm</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2013-07-13</p>
+    </header>
+    <article>
+
+<p>Hardware isn't generally my thing. When it comes to software, I like to
+break and create. But in my opinion, hardware should <em>just work</em>. But
+even though that's another story altogether, it did explain my
+apprehension when I greeted the UPS guy one morning delivering a
+<a href="http://beagleboard.org/">BeagleBone Black</a>.</p>
+<p><img alt="A BeagleBone Black" src="beagleboneblack.jpg"></p>
+<p>Let's begin with the BBB. It's a computer the size of a credit card,
+which isn't that impressive if you realise that your phone is a
+computer. I find the best way to explain it is in terms of two other
+products, the <a href="http://www.arduino.cc/">Arduino</a> and the <a href="http://www.raspberrypi.org/">Raspberry
+Pi</a>. The Arduino is a similarly sized
+(comes in multiple sizes though) controller where you can upload
+scripts, plug in a hardware circuit (wires and lightbulb, that sort of
+thing), and have it control the circuit. Despite its power in hardware
+control, it only has a small scripting interface for you to do your
+programming. The Raspberry Pi is the opposite. It's a full Linux
+computer (based off Debian), but does not have proper hardware controls
+out of the box. The BBB provides the best of both worlds: a full Linux
+system (Angstrom Linux, but of course you can flash your own), and a
+ridiculous number of IO pins to control circuits. All this awesome power
+at 45USD.</p>
+<p>The next step upon receiving this wonderboard was obvious. Let's build a
+swarm of robots. Along with two university friends, Lawrence Huang and
+Gloria Nam, we set out planning the system.</p>
+<p><img alt="An overview of the parts of the physical model" src="world.png"></p>
+<p>The base was to be constructed out of a 1200x1200mm wooden plywood board
+and cut it into a circle with a hole in the middle. This would be the
+"world" where the robot swarm would live on. This world would operate
+like a <a href="http://en.wikipedia.org/wiki/Lazy_Susan">Lazy Susan</a>, and would
+have a two depots filled with some sort of resource. One at the center,
+and one at the perimeter. This gave the colony a purpose: it would need
+to collect resources. Above the board was where we would put the
+computer, BBB, power supply, and cables to hook up to all the bots
+below.</p>
+<p>We then had to determine the behavior and movement capabilities of the
+swarm. It had to act as one, but still remain separate entities. It also
+had to disperse to discover where the rotated resource depots were, and
+the swarm as a whole had a set of goals and quota limitations. Five
+movement types (along with the math) were worked out to allow the bots
+smooth and flexible movement across the terrain.</p>
+<p><img alt="Movement rules" src="rules.png"></p>
+<p>The overmind was next. We would use <a href="http://blender.org/">Blender</a>'s
+very flexible boid simulator along with custom Python scripts using
+Blender's Python API to simulate the swarm behavior on the computer and
+set swarm goals. At the same time, a real-time top-down view could be
+generated and displayed. Due to budget reasons, we couldn't build the
+entire swarm of robots, but instead settled on building just one bot in
+the swarm, and having this bot track the motions of a single bot on the
+computer screen, but still behave as part of the full 32-robot swarm on
+the screen. Viewers could then see on the screen the full swarm
+behavior, and physically see a single bots behavior in front of them.</p>
+<p><img alt="Swarm boid simulation in Blender" src="swarmscreenshot.png"></p>
+<p>The car itself was then built. It was relatively small and was barely
+enough to fit the two continuous-rotation servo motors that were
+required to power its left and right treads. It had a little tank on its
+top to hold resources, a depositing mechanism at its front, and dragged
+along a massive conveyor belt to collect resources behind it.</p>
+<p><img alt="A single robotic car" src="car.png"></p>
+<p>Now the fun part - calibrating the simulated swarm with the actual
+physical swarm behavior, and doing all the physical PWM circuits. Many
+sleepless nights later it was a success. Here we see the bot doing a
+weird parking job into the depot and collecting resources, going back to
+the center, and depositing it. Apologies for the lack of video.</p>
+<p><img alt="Robot's collecting resources" src="collect.png"></p>
+<p>And there we have it. A swarm of robots. Did it curb my fear of
+hardware? Not entirely.</p>
+<p><img alt="A front shot" src="frontshot.png"></p>
+<p>For those interested in the actual system, here's a macro overview:</p>
+<p><img alt="Overview of the system" src="system.png"></p>
+<p>A few extra fun things from the project:</p>
+<ul>
+<li>Calibration was not easy. Actually, it was very hard. No, it was
+    stupidly hard. It was ridiculously hard. Real life has so many
+    uncertainties.</li>
+<li>Each bot is tethered to the overmind via 8 wires (3 per tread, 2 for
+    conveyor belt). Could it be made into a wireless swarm? Yes. Did we
+    have the money? No.</li>
+<li>Could it be modified to move in 3D XYZ space like a swarm of
+    helicopters? Yes. Would I do the math for it? No.</li>
+<li>The actual simulation was done on the computer via Blender + custom
+    python scripts. The computer was then connected via a persistent
+    master SSH connection, which was reused to send simple signals to
+    the pin's embedded controller. So all in all the BBB actually didn't
+    do much work. It was just a software to hardware adapter.</li>
+<li>Because the computer was doing all the work, it wasn't hard to add
+    network hooks. This meant we could actually control the system via
+    our phones (which we did).</li>
+<li>Weirdest bug? When (and only when) we connected the computer to the
+    university wifi, flicking a switch 10 meters away in a completely
+    separate circuit (seriously, <em>completely separate</em>) would cause the
+    BBB to die. Still completely confused and will accept any
+    explanation.</li>
+<li>Timeframe for the project? 4 weeks along with other obligations.</li>
+<li>Prior hardware and circuit experience: none. Well. Hooking up a
+    lightbulb to a battery. Or something like that.</li>
+<li>Casualties included at least three bot prototypes, a motor, and at
+    least 50 Styrofoam rabbits</li>
+<li>Why are all these diagrams on weird old paper backgrounds? Why not?</li>
+<li>At the time of the project, the BBB was less than a month old. This
+    meant practically no documentation, and lack of coherent support in
+    their IRC channels. As expected, this was hardly a good thing.</li>
+</ul>
+<p>Project success. I hope you enjoyed it too :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

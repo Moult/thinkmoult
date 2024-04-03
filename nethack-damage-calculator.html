@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="This calculator for the game NetHack helps compare damage outputs from weapons, spells, and wands. It&#x27;s shown in both graph and table form.">
+    <title>NetHack damage calculator</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>NetHack damage calculator</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2023-06-21</p>
+    </header>
+    <article>
+<style>
+html { padding: 10px; }
+body { max-width: 600px; margin-left: auto; margin-right: auto; }
+hr { border: 0px; border-top: 1px solid #eee; }
+fieldset { border: 1px solid #eee; margin: 10px; }
+legend { font-weight: bold; }
+table { border: 1px solid #eee; margin: 10px; border-collapse: collapse; }
+thead tr { border-bottom: 1px solid #eee; }
+th, td { padding: 5px; }
+input[type="number"] { width: 50px; }
+input, select { border: 1px solid #eee; padding: 5px; }
+label { text-transform: capitalize; }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.0.2/chart.min.js"></script>
+
+<p>
+    So, what causes the most amount of whomp in <a href="https://thinkmoult.com/nethack-illustrated-guide-mazes-of-menace.html">NetHack</a>?
+</p>
+<form>
+    <fieldset>
+        <legend>Hero</legend>
+        <label for="role">Role</label>
+        <select id="role">
+            <option value="Archeologist">Archeologist</option>
+            <option value="Barbarian">Barbarian</option>
+            <option value="Caveman">Caveman</option>
+            <option value="Healer">Healer</option>
+            <option value="Knight">Knight</option>
+            <option value="Monk">Monk</option>
+            <option value="Priest">Priest</option>
+            <option value="Ranger">Ranger</option>
+            <option value="Rogue">Rogue</option>
+            <option value="Samurai">Samurai</option>
+            <option value="Tourist">Tourist</option>
+            <option value="Valkyrie">Valkyrie</option>
+            <option value="Wizard">Wizard</option>
+        </select>
+        <label for="race">Race</label>
+        <select id="race">
+            <option value="Human">Human</option>
+            <option value="Elf">Elf</option>
+            <option value="Dwarf">Dwarf</option>
+            <option value="Gnome">Gnome</option>
+            <option value="Orc">Orc</option>
+        </select>
+        <hr />
+        <label for="xl">XL</label>
+        <input id="xl" type="number" value="10" />
+        <label for="strength">Str</label>
+        <select id="strength">
+            <option value="-2,-1">3-5 (-2 hit, -1 dam)</option>
+            <option value="-1,0">6-7 (-1 hit, 0 dam)</option>
+            <option value="0,0">7-15 (0 hit, 0 dam)</option>
+            <option value="0,1">16 (0 hit, +1 dam)</option>
+            <option value="1,1">17 (+1 hit, +1 dam)</option>
+            <option value="1,2" selected>18 (+1 hit, +2 dam)</option>
+            <option value="1,3">18/01-18/50 (+1 hit, +3 dam)</option>
+            <option value="2,3">18/51-18/75 (+2 hit, +3 dam)</option>
+            <option value="2,4">18/76-18/90 (+2 hit, +4 dam)</option>
+            <option value="2,5">18/91-18/99 (+2 hit, +5 dam)</option>
+            <option value="3,6">18/**-25 (+3 hit, +6 dam)</option>
+        </select>
+        <label for="dex">Dex</label>
+        <input id="dex" type="number" value="10" />
+        <label for="int">Int</label>
+        <input id="int" type="number" value="15" />
+        <label for="luck">Luck</label>
+        <select id="luck">
+            <option value="-10">Extremely unlucky (-10)</option>
+            <option value="-7">Very unlucky (-7)</option>
+            <option value="-2">Unlucky (2)</option>
+            <option value="0" selected>Zero</option>
+            <option value="2">Lucky (2)</option>
+            <option value="7">Very lucky (7)</option>
+            <option value="10">Extremely lucky (10)</option>
+        </select>
+        <hr />
+        <label for="strength-ring-enchantment">Strength ring enchantment</label>
+        <input id="strength-ring-enchantment" type="number" value="0" />
+        <label for="accuracy-ring-enchantment">Accuracy ring enchantment</label>
+        <input id="accuracy-ring-enchantment" type="number" value="0" />
+        <hr />
+        <label for="wand-charges">Wand charges</label>
+        <input id="wand-charges" type="number" value="4" />
+        <label for="is-riding">Riding</label>
+        <input id="is-riding" type="checkbox" value="true" />
+        <label for="has-magic-mirror">Magic mirror</label>
+        <input id="has-magic-mirror" type="checkbox" value="true" />
+        <label for="has-body-armor">Body armor</label>
+        <input id="has-body-armor" type="checkbox" value="true" />
+    </fieldset>
+    <fieldset>
+        <legend>Skills</legend>
+        <input type="button" id="reset-skills" value="Set all unskilled" />
+        <input type="button" id="max-skills" value="Max all skills" />
+        <hr />
+        <div id="skills">
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Weapon modifications</legend>
+        <label for="enchantment">Enchantment</label>
+        <input id="enchantment" type="number" value="0" />
+        <label for="is-blessed">Blessed</label>
+        <input id="is-blessed" type="checkbox" value="true" />
+        <label for="is-poisoned">poisoned</label>
+        <input id="is-poisoned" type="checkbox" value="true" />
+        <label for="erosion">Erosion</label>
+        <select id="erosion">
+            <option value="undamaged">undamaged</option>
+            <option value="damaged">damaged</option>
+            <option value="very damaged">very damaged</option>
+            <option value="thoroughly damaged">thoroughly damaged</option>
+        </select>
+    </fieldset>
+    <fieldset>
+        <legend>Versus monster</legend>
+        <label for="size">Size</label>
+        <select id="size">
+            <option value="small">tiny, small, medium (62% - mostly early to mid game)</option>
+            <option value="large">large, huge, gigantic (38% - late game incl. major demons)</option>
+        </select>
+        <label for="type">Type</label>
+        <select id="type">
+            <option value="other">any regular monster</option>
+            <option value="shade">shade</option>
+            <option value="undead">undead / vampire (incl. shapeshifted forms)</option>
+            <option value="demon">demon</option>
+            <option value="dragon">dragon</option>
+            <option value="troll">troll</option>
+            <option value="giant">giant</option>
+            <option value="ogre">ogre</option>
+            <option value="orcish">orcish</option>
+            <option value="werecreature">werecreature</option>
+            <option value="wooden">wooden</option>
+            <option value="cross-aligned">cross-aligned</option>
+        </select>
+        <label for="ac">AC</label>
+        <input id="ac" type="number" value="7" />
+        <hr />
+        <label for="is-silver-hating">Hates silver</label>
+        <input id="is-silver-hating" type="checkbox" value="true" />
+        <label for="is-fire-resistant">Fire resistant</label>
+        <input id="is-fire-resistant" type="checkbox" value="true" />
+        <label for="is-cold-resistant">Cold resistant</label>
+        <input id="is-cold-resistant" type="checkbox" value="true" />
+        <label for="is-magic-resistant">Magic resistant</label>
+        <input id="is-magic-resistant" type="checkbox" value="true" />
+        <hr />
+        <label for="is-fleeing">Is fleeing</label>
+        <input id="is-fleeing" type="checkbox" value="true" />
+    </fieldset>
+    <fieldset>
+        <legend>Filtering</legend>
+        <label for="meelee-weapons">Meelee weapons</label>
+        <input id="meelee-weapons" type="checkbox" value="true" checked />
+        <label for="ranged-weapons">Ranged weapons</label>
+        <input id="ranged-weapons" type="checkbox" value="true" checked />
+        <label for="artifact-weapons">Artifact weapons</label>
+        <input id="artifact-weapons" type="checkbox" value="true" checked />
+        <hr />
+        <label for="two-handed-weapons">Two-handed weapons</label>
+        <input id="two-handed-weapons" type="checkbox" value="true" checked />
+        <label for="twoweapon-combos">Twoweapon combos</label>
+        <input id="twoweapon-combos" type="checkbox" value="true" checked />
+        <hr />
+        <label for="wands">Wands</label>
+        <input id="wands" type="checkbox" value="true" checked />
+        <label for="broken-wands">Broken wands</label>
+        <input id="broken-wands" type="checkbox" value="true" />
+        <label for="spells">Spells</label>
+        <input id="spells" type="checkbox" value="true" checked />
+        <hr />
+        <label for="top-10">Top 10</label>
+        <input id="top-10" type="checkbox" value="true" checked />
+        <label for="to-hit">Consider To-Hit</label>
+        <input id="to-hit" type="checkbox" value="true" checked />
+    </fieldset>
+</form>
+<canvas id="canvas"></canvas>
+<table id="damage-table">
+    <thead>
+        <tr>
+            <th>Name</th><th>Type</th><th>Hit</th><th>Min</th><th>Avg</th><th>Max</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+<p>
+    <small>
+        Instakill opportunities (cockatrice, Vorpal Blade, wand of death, etc) are not considered. Side effects like item destruction, magical effects, instrinsics, are also not considered. Splash damage is not considered (e.g. we only consider the center square of a fireball, or a single monster for Cleaver, etc). Artifacts are set to Basic skill level as a minimum. Monster MR is not considered. You are assumed to be not burdened, engulfed, stunned, confused, or paralysed. Where to-hit is a range, the average is used for simplicity.
+    </small>
+</p>
+<script type="text/javascript">
+let skills = ["dagger", "knife", "axe", "pick-axe", "short sword", "broadsword", "long sword", "two-handed sword", "saber", "club", "mace", "morning star", "flail", "hammer", "quarterstaff", "polearms", "spear", "trident", "lance", "bow", "sling", "crossbow", "dart", "shuriken", "boomerang", "whip", "unicorn horn", "two weapon combat", "attack"]
+let roleSkills = {
+    Archeologist: {"Basic": ["dagger", "knife", "short sword", "dart", "two weapon combat", "attack"], "Skilled": ["club", "quarterstaff", "sling", "unicorn horn"], "Expert": ["pick-axe", "saber", "boomerang", "whip"]},
+    Barbarian: {"Basic": ["dagger", "flail", "quarterstaff", "bow", "two weapon combat", "attack"], "Skilled": ["pick-axe", "broadsword", "long sword", "saber", "club", "mace", "morning star", "spear", "trident"], "Expert": ["axe", "short sword", "two-handed sword", "hammer"]},
+    Caveman: {"Basic": ["dagger", "pick-axe", "morning star", "unicorn horn", "attack"], "Skilled": ["knife", "axe", "flail", "hammer", "polearms", "trident", "bow"], "Expert": ["club", "mace", "quarterstaff", "spear", "sling", "boomerang"]},
+    Healer: {"Basic": ["saber", "mace", "polearms", "spear", "trident"], "Skilled": ["dagger", "short sword", "club", "sling", "shuriken"], "Expert": ["knife", "quarterstaff", "dart", "unicorn horn"]},
+    Knight: {"Basic": ["dagger", "knife", "pick-axe", "club", "flail", "hammer", "trident", "bow"], "Skilled": ["axe", "short sword", "broadsword", "two-handed sword", "saber", "mace", "morning star", "polearms", "spear", "crossbow", "two weapon combat", "attack"], "Expert": ["long sword", "lance"]},
+    Monk: {"Basic": ["quarterstaff", "spear", "crossbow", "shuriken", "attack"], "Skilled": [], "Expert": []},
+    Priest: {"Basic": ["lance", "bow", "sling", "crossbow", "dart", "shuriken", "boomerang"], "Skilled": ["polearms", "spear", "trident", "unicorn horn"], "Expert": ["club", "mace", "morning star", "flail", "hammer", "quarterstaff"]},
+    Ranger: {"Basic": ["pick-axe", "short sword", "morning star", "hammer", "quarterstaff", "trident", "whip"], "Skilled": ["knife", "axe", "flail", "polearms", "shuriken"], "Expert": ["dagger", "spear", "bow", "sling", "crossbow", "dart", "boomerang"]},
+    Rogue: {"Basic": ["two-handed sword", "morning star", "flail", "hammer", "polearms", "spear"], "Skilled": ["broadsword", "long sword", "saber", "club", "mace", "shuriken"], "Expert": ["dagger", "knife", "short sword", "crossbow", "dart", "two weapon combat"]},
+    Samurai: {"Basic": ["dagger", "saber", "quarterstaff", "attack"], "Skilled": ["knife", "broadsword", "flail", "polearms", "spear", "lance"], "Expert": ["short sword", "long sword", "two-handed sword", "bow", "shuriken", "two weapon combat"]},
+    Tourist: {"Basic": ["axe", "pick-axe", "broadsword", "long sword", "two-handed sword", "mace", "morning star", "flail", "hammer", "quarterstaff", "polearms", "spear", "trident", "lance", "bow", "sling", "crossbow", "shuriken", "boomerang", "whip"], "Skilled": ["knife", "saber", "unicorn horn", "two weapon combat"], "Expert": ["dagger", "short sword", "dart"]},
+    Valkyrie: {"Basic": ["saber", "quarterstaff", "trident", "sling", "attack"], "Skilled": ["pick-axe", "short sword", "broadsword", "polearms", "spear", "lance", "two weapon combat"], "Expert": ["dagger", "axe", "long sword", "two-handed sword", "hammer"]},
+    Wizard: {"Basic": ["short sword", "mace", "spear", "trident", "shuriken"], "Skilled": ["knife", "axe", "club", "polearms", "sling"], "Expert": ["dagger", "quarterstaff", "dart", "attack"]},
+};
+
+let weapons = [
+    { name: "orcish dagger", type: "dagger", sdam: "1d3", ldam: "1d3", hit: 2 },
+    { name: "dagger", type: "dagger", sdam: "1d4", ldam: "1d3", hit: 2 },
+    { name: "silver dagger", type: "dagger", sdam: "1d4", ldam: "1d3", isSilver: true, hit: 2 },
+    { name: "athame", type: "dagger", sdam: "1d4", ldam: "1d3", hit: 2 },
+    { name: "elven dagger", type: "dagger", sdam: "1d5", ldam: "1d3", hit: 2 },
+    { name: "worm tooth", type: "knife", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "knife", type: "knife", sdam: "1d3", ldam: "1d2", hit: 0 },
+    { name: "stiletto", type: "knife", sdam: "1d3", ldam: "1d2", hit: 0 },
+    { name: "scalpel", type: "knife", sdam: "1d3", ldam: "1d3", hit: 2 },
+    { name: "crysknife", type: "knife", sdam: "1d10", ldam: "1d10", hit: 3 },
+    { name: "axe", type: "axe", sdam: "1d6", ldam: "1d4", hit: 0 },
+    { name: "battle-axe", type: "axe", sdam: "1d8", sbon: "1d4", ldam: "1d6", lbon: "2d4", isTwoHanded: true, hit: 0 },
+    { name: "pick-axe", type: "pick-axe", sdam: "1d6", ldam: "1d3", hit: 0 },
+    { name: "dwarvish mattock", type: "pick-axe", sdam: "1d12", ldam: "1d8", lbon: "2d6", isTwoHanded: true, hit: -1 },
+    { name: "orcish short sword", type: "short sword", sdam: "1d5", ldam: "1d8", hit: 0 },
+    { name: "short sword", type: "short sword", sdam: "1d6", ldam: "1d8", hit: 0 },
+    { name: "dwarvish short sword", type: "short sword", sdam: "1d7", ldam: "1d8", hit: 0 },
+    { name: "elven short sword", type: "short sword", sdam: "1d8", ldam: "1d8", hit: 0 },
+    { name: "broadsword", type: "broadsword", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", hit: 0 },
+    { name: "runesword", type: "broadsword", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", hit: 0 },
+    { name: "elven broadsword", type: "broadsword", sdam: "1d6", sbon: "1d4", ldam: "1d6", lbon: "1d1", hit: 0 },
+    { name: "long sword", type: "long sword", sdam: "1d8", ldam: "1d12", hit: 0 },
+    { name: "katana", type: "long sword", sdam: "1d10", ldam: "1d12", hit: 1 },
+    { name: "two-handed sword", type: "two-handed sword", sdam: "1d12", ldam: "1d6", lbon: "2d6", isTwoHanded: true, hit: 0 },
+    { name: "tsurugi", type: "two-handed sword", sdam: "1d16", ldam: "1d8", lbon: "2d6", isTwoHanded: true, hit: 2 },
+    { name: "scimitar", type: "saber", sdam: "1d8", ldam: "1d8", hit: 0 },
+    { name: "silver saber", type: "saber", sdam: "1d8", ldam: "1d8", isSilver: true, hit: 0 },
+    { name: "club", type: "club", sdam: "1d6", ldam: "1d3", hit: 0 },
+    { name: "aklys", type: "club", sdam: "1d6", ldam: "1d3", hit: 0 },
+    { name: "mace", type: "mace", sdam: "1d6", sbon: "1d1", ldam: "1d6", hit: 0 },
+    { name: "morning star", type: "morning star", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", hit: 0 },
+    { name: "flail", type: "flail", sdam: "1d6", sbon: "1d1", ldam: "1d4", lbon: "1d4", hit: 0 },
+    { name: "grappling hook", type: "flail", sdam: "1d2", ldam: "1d6", hit: 0 },
+    { name: "war hammer", type: "hammer", sdam: "1d4", sbon: "1d1", ldam: "1d4", hit: 0 },
+    { name: "quarterstaff", type: "quarterstaff", sdam: "1d6", ldam: "1d6", isTwoHanded: true, hit: 0 },
+    { name: "partisan", type: "polearms", sdam: "1d6", ldam: "1d6", lbon: "1d1", isTwoHanded: true, hit: 0 },
+    { name: "fauchard", type: "polearms", sdam: "1d6", ldam: "1d8", isTwoHanded: true, hit: 0 },
+    { name: "glaive", type: "polearms", sdam: "1d6", ldam: "1d10", isTwoHanded: true, hit: 0 },
+    { name: "bec-de-corbin", type: "polearms", sdam: "1d8", ldam: "1d6", isTwoHanded: true, hit: 0 },
+    { name: "spetum", type: "polearms", sdam: "1d6", sbon: "1d1", ldam: "1d6", lbon: "1d6", isTwoHanded: true, hit: 0 },
+    { name: "lucern hammer", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d6", isTwoHanded: true, hit: 0 },
+    { name: "guisarme", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d8", isTwoHanded: true, hit: 0 },
+    { name: "ranseur", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d4", lbon: "1d4", isTwoHanded: true, hit: 0 },
+    { name: "voulge", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d4", lbon: "1d4", isTwoHanded: true, hit: 0 },
+    { name: "bill-guisarme", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d10", isTwoHanded: true, hit: 0 },
+    { name: "bardiche", type: "polearms", sdam: "1d4", sbon: "1d4", ldam: "1d4", lbon: "2d4", isTwoHanded: true, hit: 0 },
+    { name: "halberd", type: "polearms", sdam: "1d10", ldam: "1d6", lbon: "1d6", isTwoHanded: true, hit: 0 },
+    { name: "orcish spear", type: "spear", sdam: "1d5", ldam: "1d8", hit: 0 },
+    { name: "silver spear", type: "spear", sdam: "1d6", ldam: "1d8", isSilver: true, hit: 0 },
+    { name: "elven spear", type: "spear", sdam: "1d7", ldam: "1d8", hit: 0 },
+    { name: "dwarvish spear", type: "spear", sdam: "1d8", ldam: "1d8", hit: 0 },
+    { name: "javelin", type: "spear", sdam: "1d6", ldam: "1d6", hit: 0 },
+    { name: "trident", type: "trident", sdam: "1d6", ldam: "1d4", sbon: "1d1", lbon: "2d4", hit: 0 },
+    { name: "lance", type: "lance", sdam: "1d6", ldam: "1d8", hit: 0 },
+    { name: "orcish bow", type: "bow", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "orcish arrow", type: "bow", sdam: "1d5", ldam: "1d6", isProjectile: true, hit: 0 },
+    { name: "bow", type: "bow", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "arrow", type: "bow", sdam: "1d6", ldam: "1d6", isProjectile: true, hit: 0 },
+    { name: "elven bow", type: "bow", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "elven arrow", type: "bow", sdam: "1d7", ldam: "1d6", isProjectile: true, hit: 0 },
+    { name: "yumi", type: "bow", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "ya", type: "bow", sdam: "1d7", ldam: "1d7", isProjectile: true, hit: 1 },
+    { name: "silver arrow", type: "bow", sdam: "1d6", ldam: "1d6", isProjectile: true, isSilver: true, hit: 0 },
+    { name: "sling", type: "sling", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "flint stone", type: "sling", sdam: "1d6", ldam: "1d6", isProjectile: true, hit: 0 },
+    { name: "crossbow", type: "crossbow", sdam: "1d2", ldam: "1d2", hit: 0 },
+    { name: "crossbow bolt", type: "crossbow", sdam: "1d4", sbon: "1d1", ldam: "1d6", lbon: "1d1", isProjectile: true, hit: 0 },
+    { name: "dart", type: "dart", sdam: "1d3", ldam: "1d2", isProjectile: true, hit: 0 },
+    { name: "shuriken", type: "shuriken", sdam: "1d8", ldam: "1d6", isProjectile: true, hit: 2 },
+    { name: "boomerang", type: "boomerang", sdam: "1d9", ldam: "1d9", isProjectile: true, hit: 0 },
+    { name: "bullwhip", type: "whip", sdam: "1d2", ldam: "1d1", hit: 0 },
+    { name: "rubber hose", type: "whip", sdam: "1d4", ldam: "1d3", hit: 0 },
+    { name: "unicorn horn", type: "unicorn horn", sdam: "1d12", ldam: "1d12", isTwoHanded: true, hit: 1 },
+];
+
+let artifactWeapons = [
+    { name: "Cleaver", type: "axe", sdam: "1d8", sbon: "1d4", ldam: "1d6", lbon: "2d4", abon: "1d6", isTwoHanded: true, hit: 0, ahit: 2 },
+    { name: "Demonbane", type: "mace", sdam: "1d6", sbon: "1d1", ldam: "1d6", amon: "demon", hit: 0, ahit: 3 },
+    { name: "Dragonbane", type: "broadsword", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", amon: "dragon", hit: 0, ahit: 3 },
+    { name: "Excalibur", type: "long sword", sdam: "1d8", ldam: "1d12", abon: "1d10", hit: 0, ahit: 3 },
+    { name: "Fire Brand", type: "long sword", sdam: "1d8", ldam: "1d12", atype: "fire", hit: 0, ahit: 3 },
+    { name: "Frost Brand", type: "long sword", sdam: "1d8", ldam: "1d12", atype: "cold", hit: 0, ahit: 3 },
+    { name: "Giantslayer", type: "long sword", sdam: "1d8", ldam: "1d12", amon: "giant", hit: 0, ahit: 3 },
+    { name: "Grayswandir", type: "saber", sdam: "1d8", ldam: "1d8", isSilver: true, hit: 0, ahit: 3 },
+    { name: "Grimtooth", type: "dagger", sdam: "1d3", ldam: "1d3", abon: "1d6", hit: 2, ahit: 1.5 },
+    { name: "The Longbow of Diana", type: "bow", sdam: "1d6", ldam: "1d6", isProjectile: true, hit: 0, ahit: 3 },
+    { name: "Magicbane", type: "dagger", sdam: "1d4", ldam: "1d3", abon: "1d4", hit: 2, ahit: 4 },
+    { name: "Mjollnir", type: "hammer", sdam: "1d4", sbon: "1d1", ldam: "1d4", abon: "1d24", hit: 2, ahit: 4 },
+    { name: "Ogresmasher", type: "hammer", sdam: "1d4", sbon: "1d1", ldam: "1d4", amon: "ogre", hit: 2, ahit: 3 },
+    { name: "Orcrist", type: "broadsword", sdam: "1d6", sbon: "1d4", ldam: "1d6", lbon: "1d1", amon: "orcish", hit: 2, ahit: 3 },
+    { name: "The Sceptre of Might", type: "mace", sdam: "1d6", sbon: "1d1", ldam: "1d6", amon: "cross-aligned", hit: 2, ahit: 3 },
+    { name: "Snickersnee", type: "long sword", sdam: "1d10", ldam: "1d12", abon: "1d8", hit: 1, ahit: 1 },
+    { name: "The Staff of Aesculapius", type: "quarterstaff", sdam: "1d6", ldam: "1d6", isTwoHanded: true, hit: 0, ahit: 0 },
+    { name: "Sting", type: "dagger", sdam: "1d5", ldam: "1d3", amon: "orcish", hit: 2, ahit: 3 },
+    { name: "Stormbringer", type: "broadsword", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", abon: "1d2", hit: 0, ahit: 3 },
+    { name: "Sunsword", type: "long sword", sdam: "1d8", ldam: "1d12", amon: "undead", hit: 0, ahit: 3 },
+    { name: "Trollsbane", type: "morning star", sdam: "1d4", sbon: "1d4", ldam: "1d6", lbon: "1d1", amon: "troll", hit: 0, ahit: 3 },
+    { name: "The Tsurugi of Muramasa", type: "two-handed sword", sdam: "1d16", ldam: "1d8", lbon: "2d6", abon: "1d8", isTwoHanded: true, hit: 2, ahit: 2 },
+    { name: "Vorpal Blade", type: "long sword", sdam: "1d8", ldam: "1d12", abon: "1d1", hit: 0, ahit: 3 },
+    { name: "Werebane", type: "saber", sdam: "1d8", ldam: "1d8", isSilver: true, amon: "werecreature", hit: 0, ahit: 3 },
+];
+
+let projectiles = ["dagger", "knife", "spear"];
+
+let launchers = ["bow", "crossbow", "sling"]
+
+let wands = [
+    { name: "striking", base: "2d12" },
+    { name: "magic missile", base: "2d6" },
+    { name: "fire", base: "6d6", bonus: "7d1" },
+    { name: "cold", base: "6d6", bonus: "6d3" },
+    { name: "lightning", base: "6d6" },
+];
+
+let brokenWands = [
+    { name: "cancellation", chargeMultiplier: 4, roll: true },
+    { name: "cold", chargeMultiplier: 8 },
+    { name: "create monster", chargeMultiplier: 4, roll:true },
+    { name: "death", chargeMultiplier: 16 },
+    { name: "digging", chargeMultiplier: 4, roll:true },
+    { name: "fire", chargeMultiplier: 8 },
+    { name: "light", chargeMultiplier: 4, roll:true },
+    { name: "lightning", chargeMultiplier: 16 },
+    { name: "magic missile", chargeMultiplier: 4 },
+    { name: "make invisible", chargeMultiplier: 4, roll:true },
+    { name: "polymorph", chargeMultiplier: 4, roll:true },
+    { name: "sleep", chargeMultiplier: 4, roll:true },
+    { name: "slow monster", chargeMultiplier: 4, roll:true },
+    { name: "speed monster", chargeMultiplier: 4, roll:true },
+    { name: "striking", chargeMultiplier: "+1d6", roll:true },
+    { name: "teleportation", chargeMultiplier: 4, roll:true },
+    { name: "undead turning", chargeMultiplier: 4, roll:true },
+];
+
+let spells = [
+    // Note: refer to calculateSpellDamage for actual calculation
+    { name: "force bolt", base: "1d12" },
+    { name: "drain life", base: "1d8" },
+    { name: "magic missile", base: "(xl/2+1)d6" },
+    { name: "cone of cold (basic)", base: "(xl/2+1)d6" },
+    { name: "cone of cold (skilled)", base: "(xl/2+1)d6" },
+    { name: "fireball (basic)", base: "12d6" },
+    { name: "fireball (skilled)", base: "12d6" },
+];
+
+let notes = {
+    spells: {
+        "cone of cold (skilled)": "",
+    }
+}
+
+for (let weapon of weapons) {
+    if ( ! weapon.name.includes("(thrown)") && projectiles.includes(weapon.type)) {
+        let thrownWeapon = JSON.parse(JSON.stringify(weapon));
+        thrownWeapon.name += " (thrown)"
+        thrownWeapon.isProjectile = true;
+        weapons.push(thrownWeapon);
+    }
+}
+
+let monster = {
+    size: "small",
+    isThickSkinned: false,
+    type: "other",
+    ac: 7,
+    isSilverHating: true,
+    isFireResistant: false,
+    isColdResistant: false,
+    isMagicResistant: false,
+    isFleeing: false,
+}
+
+let weaponModifiers = {
+    enchantment: 0,
+    isBlessed: true,
+    erosion: "undamaged",
+    twoWeapon: false,
+}
+
+let hero = {
+    role: "Healer",
+    race: "Elf",
+    xl: 10,
+    strengthRingEnchantment: 0,
+    accuracyRingEnchantment: 0,
+    wandCharges: 4,
+    strength: "18",
+    dex: 10,
+    int: 15,
+    luck: 0,
+    isRiding: false,
+    hasMagicMirror: false,
+}
+
+function minDice(roll) {
+    return parseFloat(roll.split("d")[0]);
+}
+
+function maxDice(roll) {
+    return parseFloat(roll.split("d")[0]) * parseFloat(roll.split("d")[1]);
+}
+
+function avgDice(roll) {
+    return (minDice(roll) + maxDice(roll)) / 2;
+}
+
+function calculateWeaponHit(hero, monster, weapon, weaponModifiers) {
+    let toHit;
+    if (weapon.isProjectile) {
+        toHit = -1;
+        toHit += hero.accuracyRingEnchantment + monster.ac;
+        let dex = hero.dex;
+        if (dex <= 3) {
+            toHit += -3;
+        } else if (dex <= 5) {
+            toHit += -2;
+        } else if (dex <= 7) {
+            toHit += -1;
+        } else if (dex <= 14) {
+            toHit += 0;
+        } else {
+            toHit += dex - 14;
+        }
+        toHit += hero.luck + hero.xl;
+        if (monster.size == "small") {
+            toHit += -1;
+        } else {
+            toHit += 1;
+        }
+        toHit += weaponModifiers.enchantment + weapon.hit;
+        if (weapon.ahit) { toHit += weapon.ahit; }
+        if (weaponModifiers.isBlessed && ["undead", "demon"].includes(monster.type)) { toHit += 2; }
+        if (weapon.type == "spear" && ["dragon", "giant"].includes(monster.type)) { toHit += 2; }
+        if (hero.race == "Elf" && monster.type == "orcish") { toHit += 1; }
+        if ((hero.race == "Elf" || hero.role == "Samurai") && weapon.type == "bow") { toHit += 1; }
+        if (hero.race == "Elf" && weapon.type == "elven arrow") { toHit += 1; }
+        if (hero.role == "Samurai" && weapon.type == "ya") { toHit += 1; }
+        if (weapon.type == "boomerang") { toHit += 4; }
+        if (weapon.isProjectile) { toHit += 2; }
+        toHit += {"Unskilled": -4, "Basic": 0, "Skilled": 2, "Expert": 3}[weapon.skill];
+    } else {
+        toHit = weaponModifiers.enchantment + weapon.hit;
+        if (weapon.ahit) { console.log(toHit, weapon.ahit); toHit += weapon.ahit; console.log(toHit); }
+        toHit += hero.accuracyRingEnchantment;
+        if (hero.role == "Monk" && hero.hasBodyArmor) {
+            toHit -= 20;
+        }
+        if ( ! weapon.isProjectile) {
+            toHit += 1;
+        }
+        toHit += parseInt(hero.strength.split(",")[0]);
+        let dex = hero.dex;
+        if (dex <= 3) {
+            toHit += -3;
+        } else if (dex <= 5) {
+            toHit += -2;
+        } else if (dex <= 7) {
+            toHit += -1;
+        } else if (dex <= 14) {
+            toHit += 0;
+        } else {
+            toHit += dex - 14;
+        }
+
+        toHit += hero.luck;
+        toHit += hero.xl;
+        if (hero.xl <= 2) {
+            toHit += 1;
+        }
+
+        // TODO: riding
+        if (weaponModifiers.twoWeapon) {
+            toHit += {"Unskilled": -9, "Basic": -7, "Skilled": -5, "Expert": -3}[weapon.skill];
+        } else {
+            toHit += {"Unskilled": -4, "Basic": 0, "Skilled": 2, "Expert": 3}[weapon.skill];
+        }
+
+        if (weaponModifiers.twoWeapon && hero.isRiding) { toHit += -2; }
+
+        toHit += monster.ac;
+        if (monster.isFleeing) { toHit += 2; }
+        if (weaponModifiers.isBlessed && ["undead", "demon"].includes(monster.type)) { toHit += 2; }
+        if (weapon.type == "spear" && ["dragon", "giant"].includes(monster.type)) { toHit += 2; }
+        if (hero.race == "Elf" && monster.type == "orcish") { toHit += 1; }
+    }
+
+    if (toHit > 20) {
+        return 1;
+    } else if (toHit <= 1) {
+        return 0;
+    } else {
+        return (toHit - 1) / 20;
+    }
+    return 1;
+}
+
+function calculateWeaponDamage(dice, hero, monster, weapon, weaponModifiers) {
+    let doubleDamageFactor = 1;
+
+    let base = monster.size == "small" ? dice(weapon.sdam) : dice(weapon.ldam);
+
+    base += monster.size == "small" && weapon.sbon ? dice(weapon.sbon) : 0;
+    base += monster.size == "large" && weapon.lbon ? dice(weapon.lbon) : 0;
+
+    let drainLifeBonus = 0;
+
+    if (weapon.name == "Grayswandir") {
+        doubleDamageFactor = 2;
+    } else if (weapon.name == "The Staff of Aesculapius") {
+        if ( ! ["undead", "demon"].includes(monster.type)) {
+            doubleDamageFactor = 2;
+            let hp = monster.size == "small" ? 8 : 10; // This is a simplification
+            drainLifeBonus = dice("1d" + hp);
+        }
+    } else if (weapon.name == "Stormbringer") {
+        base += dice(weapon.abon);
+        if ( ! ["undead", "demon"].includes(monster.type)) {
+            let hp = monster.size == "small" ? 8 : 10; // This is a simplification
+            drainLifeBonus = dice("1d" + hp);
+        }
+    } else if (weapon.abon) {
+        base += dice(weapon.abon);
+    } else if (weapon.amon == monster.type) {
+        doubleDamageFactor = 2;
+    } else if (weapon.atype == "fire" && monster.isColdResistant) {
+        doubleDamageFactor = 2;
+    } else if (weapon.atype == "cold" && monster.isFireResistant) {
+        doubleDamageFactor = 2;
+    }
+
+    let subtotalA = (base + weaponModifiers.enchantment) * doubleDamageFactor;
+
+    subtotalA += drainLifeBonus;
+    subtotalA = monster.isThickSkinned && weapon.isSoft ? 0 : subtotalA;
+    subtotalA = monster.type == "shade" && ! weapon.isSilver ? 0 : subtotalA;
+
+    if (weapon.name == "heavy iron ball") {
+        subtotalA = dice("1d25");
+    }
+
+    let blessedBonus = weaponModifiers.isBlessed && (monster.type == "undead" || monster.type == "demon") ? dice("1d4") : 0
+    let axeBonus = weapon.type == "axe" && monster.type == "wooden" ? dice("1d4") : 0
+    let silverBonus = weapon.isSilver && monster.isSilverHating ? dice("1d20") : 0
+
+    let subtotalB = subtotalA + blessedBonus + axeBonus + silverBonus;
+
+    let erosionPenalty = {"undamaged": 0, "damaged": -1, "very damaged": -2, "thoroughly damaged": -3}[weaponModifiers.erosion] * doubleDamageFactor;
+    if (subtotalB >= 1) {
+        subtotalB += erosionPenalty;
+        if (subtotalB < 1) {
+            subtotalB = 1;
+        }
+    }
+
+
+    let rogueBackstabBonus = hero.role == "Rogue" && monster.isFleeing ? dice("1d" + hero.xl) * doubleDamageFactor : 0;
+    let joustBonus = hero.isRiding && weapon.name == "lance" ? dice("2d10") : 0;
+    let samuraiBonus = hero.role == "Samurai" && weapon.name == "ya" ? 1 : 0;
+    let elfBonus = hero.race == "Elf" && weapon.name == "elven arrow" ? 1 : 0;
+
+    let totalDamage = subtotalB + rogueBackstabBonus + joustBonus + samuraiBonus + elfBonus;
+    totalDamage = totalDamage < 0 ? 0 : totalDamage;
+
+    strengthBonus = launchers.includes(weapon.type) ? 0 : parseInt(hero.strength.split(",")[1]);
+
+    // TODO: riding
+    let skillBonus;
+    if (weaponModifiers.twoWeapon) {
+        skillBonus = {"Unskilled": -3, "Basic": -1, "Skilled": 0, "Expert": 1};
+    } else {
+        skillBonus = {"Unskilled": -2, "Basic": 0, "Skilled": 1, "Expert": 2};
+    }
+    skillBonus = skillBonus[weapon.skill];
+
+    let isPoisonable = ["dart", "bow", "shuriken", "crossbow"].includes(weapon.type);
+    let poisonBonus = weapon.isProjectile && isPoisonable && weaponModifiers.isPoisoned ? dice("1d6") : 0;
+
+    let increaseDamageBonus = hero.strengthRingEnchantment + strengthBonus + skillBonus + poisonBonus;
+
+    let finalDamage = totalDamage + increaseDamageBonus;
+    finalDamage = increaseDamageBonus > 0 && finalDamage < 1 ? 1 : finalDamage;
+    finalDamage = finalDamage < 0 ? 0 : finalDamage;
+
+    let multishot = 1;
+
+    if (weapon.isProjectile) {
+        let mayHaveSkillBonus = true;
+        if (["Skilled", "Expert"].includes(weapon.skill)) {
+            if (hero.role == "Wizard" || hero.role == "Priest") {
+                mayHaveSkillBonus = false;
+            } else if (hero.role == "Healer" && weapon.type != "knife") {
+                mayHaveSkillBonus = false;
+            } else if (hero.role == "Tourist" && weapon.type != "dart") {
+                mayHaveSkillBonus = false;
+            } else {
+                multishot += 1;
+            }
+        }
+        multishot += weapon.skill == "Expert" ? 1 : 0;
+        if (mayHaveSkillBonus) {
+            if (hero.race == "Elf" && weapon.name == "elven arrow") {
+                multishot += 1;
+            } else if (hero.race == "Orc" && weapon.name == "orcish arrow") {
+                multishot += 1;
+            } else if (hero.race == "Gnome" && weapon.name == "crossbow bolt") {
+                multishot += 1;
+            }
+        }
+        if (hero.role == "Caveman" && weapon.type == "spear") {
+            multishot += 1;
+        } else if (hero.role == "Caveman" && weapon.type == "sling") {
+            multishot += 1;
+        } else if (hero.role == "Samurai" && weapon.name == "ya") {
+            multishot += 1;
+        } else if (hero.role == "Monk" && weapon.name == "shuriken (thrown)") {
+            multishot += 1;
+        } else if (hero.role == "Rogue" && weapon.type == "dagger") {
+            multishot += 1;
+        } else if (hero.role == "Ranger" && weapon.type != "dagger") {
+            multishot += 1;
+        }
+
+        if (weapon.name == "crossbow bolt") {
+            if (hero.race == "Gnome") {
+                if (["-2,-1", "-1,0", "0,0"].includes(hero.strength)) {
+                    multishot = dice("1d" + multishot)
+                }
+            } else {
+                if (["-2,-1", "-1,0", "0,0", "0,1", "1,1"].includes(hero.strength)) {
+                    multishot = dice("1d" + multishot)
+                }
+            }
+        }
+    }
+
+    return dice("1d" + multishot) * finalDamage;
+}
+
+function calculateWandHit(monster, wand) {
+    if (wand.name == "striking") {
+        if (monster.ac <= -9) {
+            return 0;
+        } else if (monster.ac >= 11) {
+            return 1;
+        }
+        return (9 + monster.ac) / 20;
+    }
+
+    if (monster.ac >= 11) {
+        return 1;
+    } else if (monster.ac >= 3) {
+        return 0.945 + (monster.ac / 200);
+    } else if (monster.ac >= 1) {
+        return 0.795 + ((11 * monster.ac) / 200);
+    } else if (monster.ac >= -1) {
+        return 0.8 + ((10 * monster.ac) / 200);
+    } else if (monster.ac >= -14) {
+        return 0.775 + ((5 * monster.ac) / 200);
+    }
+    return -6 / monster.ac;
+}
+
+function calculateWandDamage(dice, monster, wand) {
+    if (wand.name == "fire" && monster.isFireResistant) {
+        return 0;
+    } else if (wand.name == "cold" && monster.isColdResistant) {
+        return 0;
+    } else if (["striking", "magic missile"].includes(wand.name) && monster.isMagicResistant) {
+        return 0;
+    }
+    let base = dice(wand.base);
+    if (wand.name == "fire" && monster.isColdResistant) {
+        return base + dice(wand.bonus);
+    } else if (wand.name == "cold" && monster.isFireResistant) {
+        return base + dice(wand.bonus);
+    }
+    return base;
+}
+
+function calculateBrokenWandDamage(dice, hero, monster, wand) {
+    if (wand.name == "fire" && monster.isFireResistant) {
+        return 0;
+    } else if (wand.name == "cold" && monster.isColdResistant) {
+        return 0;
+    } else if (["striking", "magic missile"].includes(wand.name) && monster.isMagicResistant) {
+        return 0;
+    }
+
+    if (wand.name == "striking") {
+        return dice((hero.wandCharges + 1) + "d6");
+    } else if (wand.roll) {
+        return dice("1d" + (hero.wandCharges * wand.chargeMultiplier));
+    }
+    return hero.wandCharges * wand.chargeMultiplier;
+}
+
+
+function calculateSpellHit(hero, monster, spell) {
+    if (spell.name == "force bolt") {
+        let target = 10 + monster.ac;
+        if (target > 20) {
+            return 1;
+        } else if (target < 2) {
+            return 0;
+        }
+        return (target - 1) / 20;
+    }
+    let toHit = {"Unskilled": -4, "Basic": 0, "Skilled": 2, "Expert": 3}[spell.skill];
+    let dex = hero.dex;
+    if (dex <= 3) {
+        toHit += -3;
+    } else if (dex <= 5) {
+        toHit += -2;
+    } else if (dex <= 7) {
+        toHit += -1;
+    } else if (dex <= 14) {
+        toHit += 0;
+    } else {
+        toHit += dex - 14;
+    }
+
+    if (monster.ac >= 0) {
+        toHit += monster.ac;
+    } else {
+        toHit += (-1 + monster.ac) / 2;
+    }
+
+    if (toHit > (4-1)) {
+        return 1;
+    } else if (toHit < (4-20)) {
+        return 0;
+    }
+    return (toHit - 4 + 20) / 20;
+}
+
+function calculateSpellDamage(dice, hero, monster, spell) {
+    if (monster.isFireResistant && spell.name.includes("fire")) {
+        return 0;
+    } else if (monster.isColdResistant && spell.name.includes("cold")) {
+        return 0;
+    } else if (monster.isMagicResistant && spell.name.includes("magic")) {
+        return 0;
+    }
+
+    let bonus = 0;
+    if (hero.int <= 0) {
+        bonus = -3;
+    } else if (hero.int <= 13 || hero.xl < 5) {
+        bonus = 0;
+    } else if (hero.int <= 18) {
+        bonus = 1;
+    } else if (hero.int <= 24 || hero.xl < 14) {
+        bonus = 2;
+    } else if (hero.int >= 25) {
+        bonus = 3;
+    }
+
+    let hasMagicMirror = hero.role == "Knight" && hero.hasMagicMirror;
+
+    let nd = (Math.floor(hero.xl / 2) + 1)
+
+    if (spell.name == "force bolt") {
+        return dice(spell.base) + bonus;
+    } else if (spell.name == "drain life") {
+        let hp = monster.size == "small" ? 8 : 10; // This is a simplification
+        let dmg = dice("1d" + hp);
+        if (hasMagicMirror) { dmg *= 2; }
+        return dmg + bonus;
+    } else if (spell.name == "magic missile") {
+        let dmg = dice(nd + "d6") + bonus;
+        return hasMagicMirror ? dmg * 2 : dmg;
+    } else if (spell.name == "cone of cold (basic)") {
+        let dmg = dice(nd + "d6") + bonus;
+        if (monster.isFireResistant) { dmg += dice(nd + "d3"); }
+        return hasMagicMirror ? dmg * 2 : dmg;
+    } else if (spell.name == "fireball (basic)") {
+        let dmg = dice("12d6");
+        if (monster.isColdResistant) { dmg *= 2; }
+        return dmg;
+        // let dmg = dice(nd + "d6") + bonus;
+        // if (monster.isColdResistant) { dmg += 7; }
+        return hasMagicMirror ? dmg * 2 : dmg;
+    } else if (spell.name == "cone of cold (skilled)") {
+        let dmg = nd + bonus;
+        if (monster.isFireResistant) { dmg *= 2; }
+        return (dice("1d8") + 1) * dmg;
+    } else if (spell.name == "fireball (skilled)") {
+        let dmg = nd + bonus;
+        if (monster.isColdResistant) { dmg *= 2; }
+        return (dice("1d8") + 1) * dmg;
+    }
+}
+
+function recalculate() {
+    let shouldConsiderTohit = document.getElementById("to-hit").checked;
+
+    hero.role = document.getElementById("role").value;
+    hero.race = document.getElementById("race").value;
+    hero.strength = document.getElementById("strength").value;
+    hero.dex = document.getElementById("dex").valueAsNumber;
+    hero.int = document.getElementById("int").valueAsNumber;
+    hero.luck = parseInt(document.getElementById("luck").value);
+    hero.xl = document.getElementById("xl").valueAsNumber;
+    hero.strengthRingEnchantment = document.getElementById("strength-ring-enchantment").valueAsNumber;
+    hero.accuracyRingEnchantment = document.getElementById("accuracy-ring-enchantment").valueAsNumber;
+    hero.wandCharges = document.getElementById("wand-charges").valueAsNumber;
+    hero.isRiding = document.getElementById("is-riding").checked;
+    if (hero.role != "Knight") {
+        document.getElementById("has-magic-mirror").checked = false;
+    }
+    hero.hasMagicMirror = document.getElementById("has-magic-mirror").checked;
+    hero.hasBodyArmor = document.getElementById("has-body-armor").checked;
+
+    weaponModifiers.enchantment = document.getElementById("enchantment").valueAsNumber;
+    weaponModifiers.isBlessed = document.getElementById("is-blessed").checked;
+    weaponModifiers.isPoisoned = document.getElementById("is-poisoned").checked;
+    weaponModifiers.erosion = document.getElementById("erosion").value;
+    weaponModifiers.twoWeapon = false;
+
+    monster.size = document.getElementById("size").value;
+    monster.type = document.getElementById("type").value;
+    monster.ac = document.getElementById("ac").valueAsNumber;
+    if (["demon", "werecreature"].includes(monster.type)) {
+        document.getElementById("is-silver-hating").checked = true;
+    }
+    monster.isSilverHating = document.getElementById("is-silver-hating").checked;
+    monster.isFireResistant = document.getElementById("is-fire-resistant").checked;
+    monster.isColdResistant = document.getElementById("is-cold-resistant").checked;
+    monster.isMagicResistant = document.getElementById("is-magic-resistant").checked;
+    monster.isFleeing = document.getElementById("is-fleeing").checked;
+
+    let includeMeeleeWeapons = document.getElementById("meelee-weapons").checked;
+    let includeRangedWeapons = document.getElementById("ranged-weapons").checked;
+    let includeArtifactWeapons = document.getElementById("artifact-weapons").checked;
+    let includeTwoHandedWeapons = document.getElementById("two-handed-weapons").checked;
+    if ( ! ["Archeologist", "Barbarian", "Knight", "Tourist", "Valkyrie", "Rogue", "Samurai"].includes(hero.role)) {
+        document.getElementById("twoweapon-combos").checked = false;
+    }
+    let includeTwoWeaponCombos = document.getElementById("twoweapon-combos").checked;
+    let includeWands = document.getElementById("wands").checked;
+    let includeBrokenWands = document.getElementById("broken-wands").checked;
+    let includeSpells = document.getElementById("spells").checked;
+
+    let results = [];
+
+    let twoWeaponCombos = [];
+
+    for (let weapon of weapons) {
+        if ( ! includeMeeleeWeapons && ! weapon.isProjectile) {
+            continue;
+        } else if ( ! includeRangedWeapons && weapon.isProjectile) {
+            continue;
+        } else if ( ! includeTwoHandedWeapons && weapon.isTwoHanded) {
+            continue;
+        }
+
+        let skillSelect = document.querySelector("select[name='" + weapon.type + "']")
+
+        weapon.skill = skillSelect ? skillSelect.value : "Unskilled";
+        let hitRate = calculateWeaponHit(hero, monster, weapon, weaponModifiers);
+        let hitFactor = shouldConsiderTohit ? hitRate : 1;
+        results.push({
+            name: weapon.name,
+            type: weapon.type,
+            hit: hitRate,
+            min: hitFactor * calculateWeaponDamage(minDice, hero, monster, weapon, weaponModifiers),
+            max: hitFactor * calculateWeaponDamage(maxDice, hero, monster, weapon, weaponModifiers),
+            avg: hitFactor * calculateWeaponDamage(avgDice, hero, monster, weapon, weaponModifiers),
+        })
+
+        if (includeTwoWeaponCombos && ! weapon.isTwoHanded && ! weapon.isProjectile) {
+            let twoWeaponSkill = document.querySelector("select[name='two weapon combat']").value;
+            let skills = ["Unskilled", "Basic", "Skilled", "Expert"];
+            if (skills.indexOf(twoWeaponSkill) < skills.indexOf(weapon.skill)) {
+                weapon.skill = twoWeaponSkill;
+            }
+
+            let hitRate = calculateWeaponHit(hero, monster, weapon, weaponModifiers);
+            let hitFactor = shouldConsiderTohit ? hitRate : 1;
+
+            let min = hitFactor * calculateWeaponDamage(minDice, hero, monster, weapon, weaponModifiers);
+            let max = hitFactor * calculateWeaponDamage(maxDice, hero, monster, weapon, weaponModifiers);
+            let avg = hitFactor * calculateWeaponDamage(avgDice, hero, monster, weapon, weaponModifiers);
+
+            for (let weapon2 of weapons) {
+                if (weapon2.isProjectile || weapon2.isTwoHanded) {
+                    continue;
+                } else if (twoWeaponCombos.includes(weapon2.name + " / " + weapon.name)) {
+                    continue;
+                }
+
+                let skillSelect = document.querySelector("select[name='" + weapon2.type + "']")
+                weapon2.skill = skillSelect ? skillSelect.value : "Unskilled";
+                if (skills.indexOf(twoWeaponSkill) < skills.indexOf(weapon2.skill)) {
+                    weapon2.skill = twoWeaponSkill;
+                }
+
+                let hitRate2 = calculateWeaponHit(hero, monster, weapon2, weaponModifiers);
+                let hitFactor2 = shouldConsiderTohit ? hitRate2 : 1;
+
+                let min2 = hitFactor2 * calculateWeaponDamage(minDice, hero, monster, weapon2, weaponModifiers);
+                let max2 = hitFactor2 * calculateWeaponDamage(maxDice, hero, monster, weapon2, weaponModifiers);
+                let avg2 = hitFactor2 * calculateWeaponDamage(avgDice, hero, monster, weapon2, weaponModifiers);
+
+                twoWeaponCombos.push(weapon.name + " / " + weapon2.name);
+
+                results.push({
+                    name: weapon.name + " / " + weapon2.name,
+                    type: weapon.type != weapon2.type ? weapon.type + " / " + weapon2.type : weapon.type,
+                    hit: (hitRate + hitRate2) / 2,
+                    min: min + min2,
+                    max: max + max2,
+                    avg: avg + avg2,
+                })
+            }
+
+            if (includeArtifactWeapons) {
+                for (let weapon2 of artifactWeapons) {
+                    if (weapon2.isProjectile || weapon2.isTwoHanded) {
+                        continue;
+                    } else if (twoWeaponCombos.includes(weapon2.name + " / " + weapon.name)) {
+                        continue;
+                    }
+
+                    let skillSelect = document.querySelector("select[name='" + weapon2.type + "']")
+                    weapon2.skill = skillSelect ? skillSelect.value : "Unskilled";
+                    if (skills.indexOf(twoWeaponSkill) < skills.indexOf(weapon2.skill)) {
+                        weapon2.skill = twoWeaponSkill;
+                    }
+
+                    let hitRate2 = calculateWeaponHit(hero, monster, weapon2, weaponModifiers);
+                    let hitFactor2 = shouldConsiderTohit ? hitRate2 : 1;
+
+                    let min2 = hitFactor2 * calculateWeaponDamage(minDice, hero, monster, weapon2, weaponModifiers);
+                    let max2 = hitFactor2 * calculateWeaponDamage(maxDice, hero, monster, weapon2, weaponModifiers);
+                    let avg2 = hitFactor2 * calculateWeaponDamage(avgDice, hero, monster, weapon2, weaponModifiers);
+
+                    twoWeaponCombos.push(weapon.name + " / " + weapon2.name);
+
+                    results.push({
+                        name: weapon.name + " / " + weapon2.name,
+                        type: weapon.type != weapon2.type ? weapon.type + " / " + weapon2.type : weapon.type,
+                        hit: (hitRate + hitRate2) / 2,
+                        min: min + min2,
+                        max: max + max2,
+                        avg: avg + avg2,
+                    })
+                }
+            }
+
+        }
+    }
+
+    if (includeArtifactWeapons) {
+        for (let weapon of artifactWeapons) {
+            if ( ! includeMeeleeWeapons && ! weapon.isProjectile) {
+                continue;
+            } else if ( ! includeRangedWeapons && weapon.isProjectile) {
+                continue;
+            } else if ( ! includeTwoHandedWeapons && weapon.isTwoHanded) {
+                continue;
+            }
+
+            let skillSelect = document.querySelector("select[name='" + weapon.type + "']")
+            weapon.skill = skillSelect ? skillSelect.value : "Basic";
+
+            let hitRate = calculateWeaponHit(hero, monster, weapon, weaponModifiers);
+            let hitFactor = shouldConsiderTohit ? hitRate : 1;
+            // console.log(hitRate);
+
+            results.push({
+                name: weapon.name,
+                type: "artifact " + weapon.type,
+                hit: hitRate,
+                min: hitFactor * calculateWeaponDamage(minDice, hero, monster, weapon, weaponModifiers),
+                max: hitFactor * calculateWeaponDamage(maxDice, hero, monster, weapon, weaponModifiers),
+                avg: hitFactor * calculateWeaponDamage(avgDice, hero, monster, weapon, weaponModifiers),
+            })
+        }
+    }
+
+    if (includeWands) {
+        for (let wand of wands) {
+            let hitRate = calculateWandHit(monster, wand);
+            let hitFactor = shouldConsiderTohit ? hitRate : 1;
+            results.push({
+                name: wand.name,
+                type: "wand",
+                hit: hitRate,
+                min: hitFactor * calculateWandDamage(minDice, monster, wand),
+                max: hitFactor * calculateWandDamage(maxDice, monster, wand),
+                avg: hitFactor * calculateWandDamage(avgDice, monster, wand),
+            })
+        }
+    }
+
+    if (includeBrokenWands) {
+        for (let wand of brokenWands) {
+            results.push({
+                name: wand.name,
+                type: "broken wand",
+                hit: 1,
+                min: calculateBrokenWandDamage(minDice, hero, monster, wand),
+                max: calculateBrokenWandDamage(maxDice, hero, monster, wand),
+                avg: calculateBrokenWandDamage(avgDice, hero, monster, wand),
+            })
+        }
+    }
+
+    if (includeSpells) {
+        for (let spell of spells) {
+            if (spell.name.includes("skilled") && ! ["Knight", "Wizard"].includes(hero.role)) {
+                continue;
+            }
+            let skillSelect = document.querySelector("select[name='attack']")
+            spell.skill = skillSelect ? skillSelect.value : "Unskilled";
+            let hitRate = calculateSpellHit(hero, monster, spell);
+            let hitFactor = shouldConsiderTohit ? hitRate : 1;
+            results.push({
+                name: spell.name,
+                type: "spell",
+                hit: hitRate,
+                min: hitFactor * calculateSpellDamage(minDice, hero, monster, spell),
+                max: hitFactor * calculateSpellDamage(maxDice, hero, monster, spell),
+                avg: hitFactor * calculateSpellDamage(avgDice, hero, monster, spell),
+            })
+        }
+    }
+
+    displayResults(results);
+}
+
+function displayResults(results) {
+    let damageTable = document.getElementById("damage-table");
+    let tbody = damageTable.querySelector("tbody");
+    let shouldShowTop10 = document.getElementById("top-10").checked;
+
+    while (tbody.firstChild) {
+        tbody.removeChild(tbody.firstChild);
+    }
+
+    let i = 0;
+
+    let labels = [];
+    let minData = [];
+    let maxData = [];
+
+    //results = results.sort((a, b) => b.avg - a.avg);
+    results = results.sort((a, b) => {
+        if (b.avg === a.avg) {
+            // Sort by 'bar' in ascending order if 'avg' is the same
+            return b.max - a.max;
+        }
+        return b.avg - a.avg; // Sort by 'avg' in descending order
+    });
+    for (let result of results) {
+        let tr = document.createElement("tr");
+        ["name", "type", "hit", "min", "avg", "max"].forEach(value => {
+            let td = document.createElement("td");
+            let content = result[value];
+            if (value == "hit") {
+                content = Math.round(content * 100) + "%";
+            } else if (["min", "avg", "max"].includes(value)) {
+                content = content.toFixed(1);
+            }
+            td.textContent = content;
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+
+        if (result.max != 0) {
+            let label = result.name.replace("(thrown)", "(t)")
+            if (result.type == "wand") {
+                label += " (w)"
+            } else if (result.type == "broken wand") {
+                label += " (bw)"
+            }
+            if (i % 2 == 0) {
+                labels.push(label);
+            } else {
+                labels.push(["", "", label]);
+            }
+
+            if (result.min == result.avg) {
+                minData.push([result.min - 0.5, result.avg]);
+            } else {
+                minData.push([result.min, result.avg]);
+            }
+
+            if (result.max == result.avg) {
+                maxData.push([result.avg, result.max + 0.5]);
+            } else {
+                maxData.push([result.avg, result.max]);
+            }
+        }
+
+        i++;
+        if (i > 10 && shouldShowTop10) {
+            break;
+        }
+    }
+
+    window.chart.data.labels = labels;
+    window.chart.data.datasets[0].data = minData;
+    window.chart.data.datasets[1].data = maxData;
+
+    window.chart.options.scales.x.display = shouldShowTop10 ? true : false;
+    window.chart.update();
+}
+
+function displaySkills() {
+    let role = document.getElementById("role").value;
+    let weaponSkills = roleSkills[role];
+
+    let div = document.getElementById("skills");
+
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+
+    ["Basic", "Skilled", "Expert"].forEach(skillLimit => {
+        weaponSkills[skillLimit].forEach(weaponType => {
+            let span = document.createElement("span");
+            let label = document.createElement("label");
+            label.textContent = " " + weaponType + " ";
+            label.setAttribute("for", weaponType);
+            span.appendChild(label);
+            div.appendChild(span);
+
+            let select = document.createElement("select");
+            select.setAttribute("name", weaponType);
+            let isAtLimit = false;
+            ["Unskilled", "Basic", "Skilled", "Expert"].forEach(skillOption => {
+                if ( ! isAtLimit) {
+                    let option = document.createElement("option");
+                    option.textContent = skillOption;
+                    select.appendChild(option);
+                    if (skillOption == skillLimit) {
+                        option.setAttribute("selected", true);
+                        isAtLimit = true;
+                    }
+                }
+            });
+            select.addEventListener("change", recalculate);
+            span.appendChild(select);
+        })
+        let hr = document.createElement("hr");
+        div.appendChild(hr);
+    });
+}
+
+function setup() {
+    var ctx = document.getElementById("canvas").getContext("2d");
+    window.chart = new Chart(ctx, config);
+    displaySkills();
+    recalculate();
+}
+
+
+function resetSkills() {
+    for (let select of document.getElementById("skills").getElementsByTagName("select")) {
+        select.value = "Unskilled";
+    }
+    recalculate();
+}
+
+
+function maxSkills() {
+    for (let select of document.getElementById("skills").getElementsByTagName("select")) {
+        select.value = select.options[select.options.length - 1].value 
+    }
+    recalculate();
+}
+
+window.addEventListener('load', setup);
+document.getElementById("role").addEventListener("change", displaySkills);
+["role", "race", "xl", "strength-ring-enchantment", "accuracy-ring-enchantment", "wand-charges", "strength", "dex", "int", "luck", "is-riding", "has-magic-mirror", "has-body-armor", "enchantment", "is-blessed", "is-poisoned", "erosion", "size", "type", "ac", "is-silver-hating", "is-fire-resistant", "is-cold-resistant", "is-magic-resistant", "is-fleeing", "meelee-weapons", "ranged-weapons", "artifact-weapons", "two-handed-weapons", "twoweapon-combos", "wands", "broken-wands", "spells", "top-10", "to-hit"].forEach(element => {
+    document.getElementById(element).addEventListener('change', recalculate);
+});
+document.getElementById("reset-skills").addEventListener("click", resetSkills);
+document.getElementById("max-skills").addEventListener("click", maxSkills);
+
+
+let config = {
+    type: "bar",
+    data: {
+        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
+        datasets: [
+            {
+                label: "min",
+                backgroundColor: "rgba(240, 140, 121, 1.0)",
+                borderColor: "rgba(140, 140, 140, 0.0)",
+                borderWidth: 0,
+                data: [
+                    [0,5], [0,5], [0,5], [0,5], [0,5], [0,5], [0,5], [0,5], [0,5], [0,5],
+                ],
+                fill: "-1",
+                radius: 0,
+            },
+            {
+                label: "max",
+                backgroundColor: "rgba(121, 200, 121, 0.8)",
+                borderColor: "rgba(140, 140, 140, 0.0)",
+                borderWidth: 0,
+                data: [
+                    [5,10], [5,10], [5,10], [5,10], [5,10], [5,10], [5,10], [5,10], [5,10], [5,10]
+                ],
+                fill: "-1",
+                line: false,
+                radius: 0,
+            },
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display: false,
+            },
+        },
+        scales: {
+            x: {
+                display: false,
+                stacked: true,
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 0,
+                },
+            },
+            y: {
+                stacked: false,
+            }
+        },
+    }
+};
+</script>
+
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

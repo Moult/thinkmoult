@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="BIM projects have to specify Coordinate Reference Systems and their relationship to surveyed points and project origins in order to reliably geolocate geometry. I describe how this works with IFC, and the current state of compatibility with Revit.">
+    <title>IFC Coordinate Reference Systems and Revit</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>IFC Coordinate Reference Systems and Revit</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-05-21</p>
+    </header>
+    <article>
+
+<p>Revit has three reference points for coordinates: the internal origin, a survey point, and a project base point. The project base point may have an angle to true north set. When you export to IFC, an <code>IfcProject</code> and <code>IfcSite</code> is created. Both elements have coordinates and data. However, are these coordinates correct? Are they complete? And can we use them reliably in other software? Let's investigate.</p>
+<h2>Coordinate systems defined by <code>IfcProject</code></h2>
+<p>Let's talk about what we want the results to be. According to the IFC specification, <code>IfcProject</code> provides the following information:</p>
+<ul>
+<li>the project coordinate system</li>
+<li>the coordinate space dimension</li>
+<li>the precision used within the geometric representations</li>
+<li>optionally the indication of the true north</li>
+<li>optionally the map conversion between the project coordinate system and the geospatial coordinate reference system.</li>
+</ul>
+<p>This information is provided using the <code>RepresentationContexts</code> relationship of the <code>IfcProject</code>. This relationship will contain one or more <code>IfcGeometricRepresentationContext</code> elements. Each will typically have a <code>CoordinateSpaceDimension</code> of 3, to show a 3D model, and the <code>Precision</code> attribute shows the model precision.</p>
+<p>The actual project coordinate system is defined by the <code>HasCoordinateOperation</code> relationship. This holds an <code>IfcMapConversion</code> element, which in turn references an <code>IfcProjectedCRS</code>. Let's go through the attributes of <code>IfcProjectedCRS</code> first, as knowing the Coordinate Reference System (CRS) of the project is the most critical aspect of geeoreferencing:</p>
+<ul>
+<li><code>Name</code>: the <code>EPSG</code> code for the CRS. In Sydney, (i.e. GDA94 / MGA Zone 56) this would be <code>EPSG:28356</code>. This should be the only value you need to fill out if the EPSG number has a complete definition of the Projected CRS. If the EPSG number is not known, you can enter in <code>WKT</code> as a value here, and full out the subsequent attributes. Just for the sake of example, let's assume we wanted to describe <code>EPSG:28356</code>.</li>
+<li><code>Description</code>: this would be the description of the CRS, such as "GDA94 / MGA Zone 56". Note: to reiterate, this, and all subsequent attributes are optional if you have specified an EPSG number with a full definition.</li>
+<li><code>GeodeticDatum</code>: following our example above, we can specify it to be <code>GDA94</code>.</li>
+<li><code>VerticalDatum</code>: in Australia, this would be set to <code>EPSG:5111</code>, which represents AHD (Australian Height Datum)</li>
+<li><code>MapProjection</code>: in our example it will be <code>MGA</code>.</li>
+<li><code>MapZone</code>: this will be zone <code>56</code>, following our Sydney example.</li>
+<li><code>MapUnit</code>: the standard states it is in meters, so we will specify an <code>IfcNamedUnit</code> as such: <code>IFCSIUNIT (*, .LENGTHUNIT., $, .METRE.)</code>.</li>
+<li>It can also nest a <code>HasCoordinateOperation</code>, but you really shouldn't unless you want insanity to occur</li>
+</ul>
+<p>Now that the projected CRS is defined, we need to define whether or not there are any map conversions between our model's local coordinate system and the map coordinate system. Typically for horizontal construction projects, such as roads, rail, and other linear infrastructure, there would be no map conversion, and the local coordiante system will directly use Eastings and Northings of the map coordinate system. However, for vertical construction projects, such as buildings, there will almost always be a map conversion converting from small, local, XYZ coordinates, to map eastings, northings, and height coordinates. Here are the attributes of the <code>IfcMapConversion</code>:</p>
+<ul>
+<li><code>SourceCRS</code>: refers back to the <code>IfcGeometricRepresentationContext</code> of the <code>IfcProject</code> to establish the inverse relationship</li>
+<li><code>TargetCRS</code>: refers to the CRS used in the project. This will hold an <code>IfcCoordinateReferenceSystem</code>, or its subtype <code>IfcProjectedCRS</code>. It has a bit of data:</li>
+<li><code>Eastings</code>: your <code>IfcProject</code>'s world <code>IfcGeometricRepresentationContext</code>'s <code>0,0,0</code> origin will correlate to this number. In Sydney, if your building is the Sydney Opera House, this'll be something like <code>334902.775</code>. If you have specified a <code>MapUnit</code> in the <code>ProjectedCRS</code> you should use that unit (e.g. meters). Otherwise, you should use the project units (e.g. millimeters).</li>
+<li><code>Northings</code>: same as <code>Eastings</code>, but for the Y axis. For the Sydney Opera House, it'll be something like <code>6252274.139</code>.</li>
+<li><code>OrthogonalHeight</code>: continuing our example, this'll be the AHD of our world origin. Wikipedia says it is 4m in elevation, so I guess it'll be something like <code>4</code>. In this case, we keep the same units as <code>Eastings</code> and <code>Northings</code>, so that we can apply a uniform scale afterwords.</li>
+<li><code>XAxisAbscissa</code>: specifies the local X axis vector along the easting to determine rotation of the local coordinates. If there is no rotation, this will be <code>1</code>.</li>
+<li><code>XAxisOrdinate</code>: specifies the local X axis vector along the northing to determine rotation of the local coordinates. If there is no rotation, this will be <code>0</code>.</li>
+<li><code>Scale</code>: This is the average <em>combined scale factor</em> across the small site such that a local surface distance multiplied by this value equals a map distance. This will typically be something very close to <code>1</code>, but not quite (such as <code>0.99996</code>). Your surveyor can calculate the actual value.</li>
+</ul>
+<p>This <code>IfcMapConversion</code> and <code>IfcProjectedCRS</code> element of the <code>IfcProject</code>'s <code>IfcGeometricRepresentationContext</code> holds all of the georeferencing information that we require. These attributes contains all of the parameters required to perform a "Helmert transformation", which is a fancy way of saying how to offset, rotate, and scale local project coordinates to a globally positioned coordinate system. For your surveyor to provide these transformation parameters properly, they will need multiple surveyed points (a minimum of two), ideally taken at extremes across the site, in both your local coordinates, as well as their equivalents in the target CRS. They will also need to know your desired building orientation (i.e. project north) to calculate the X axis abcissa and ordinate, and a nominated false origin to set the Eastings and Northings. The more points that are surveyed, the more accurate this <code>IfcMapConversion</code> will become.</p>
+<p>With all of the information defined above, to convert from local coordinates <code>(X, Y, Z)</code>, to map grid coordinates <code>(X', Y', Z')</code>, you can use these relationships:</p>
+<p><img alt="How to convert from project to a target CRS coordinates" src="ifcmapconversion-relationship.gif"></p>
+<p>Credits go to <a href="https://buildingsmart.org.au/resources/">BuildingSmart Australasia</a> who has done great work in clarifying these concepts. Note that I have clarified the argument order of the <code>atan2</code> function is <code>y, x</code>, which is more common in programming languages.</p>
+<p>After all of this information is recorded, it's interesting to note that the <code>IfcGeometricRepresentationContext</code> additionally has a <code>TrueNorth</code> attribute. Assuming the <code>IfcMapConversion</code> is already provided, there is actually no need for a <code>TrueNorth</code> attribute, and so if it is provided, it is merely duplicate data and there for convenience. IFC readers should not parse it and should not apply the same rotation twice. The <code>IfcMapConversion</code> takes priority over the <code>TrueNorth</code> attribute.</p>
+<h2>The <code>WorldCoordinateSystem</code> attribute</h2>
+<p>The <code>IfcGeometricRepresentationContext</code> of the <code>IfcProject</code> also has a <code>WorldCoordinateSystem</code> attribute. Usually, this will be set to <code>(0, 0, 0)</code>, and represents the origin of the <em>virtual</em> world. In other words, any element in a project usually inherit the local relative placement of its parent, all the way up to <code>IfcSite</code>, but somewhere, it needs to end in an absolute coordinate. This <code>WorldCoordinateSystem</code> is the final absolute coordinate that is not relative to anything else. It can therefore be used to offset everything in your project, should you want to. The <code>IfcMapConversion</code> we just described, will then be used to convert our virtual world into the real world.</p>
+<h2>Coordinate system inheritance</h2>
+<p>The <code>IfcSite</code> is spatially contained in the <code>IfcProject</code>. However, the spatial containment is not the determining factor for how coordinates are inherited. Instead, the <code>IfcSite</code> has an <code>ObjectPlacement</code> and a <code>Representation</code> attribute. These are the important attributes to pay attention to.</p>
+<p>The <code>ObjectPlacement</code> attribute positions the <code>IfcSite</code> element relative to other objects. We will discuss about different placements below, but suffice to say that it merely deals with relative offsets of coordinates.</p>
+<p>The <code>Representation</code> attribute, however, contains an <code>IfcRepresentationContext</code> chosen from the list of contexts defined at the <code>IfcProject</code> level. It is this particular selection of the <code>IfcRepresentationContext</code> that allows the <code>IfcSite</code> to inherit a particular <code>WorldCoordinateSystem</code> and <code>MapConversion</code> attribute defined at the <code>IfcProject</code> level.</p>
+<p>I would like to emphasize that the inheritance of coordinate transformation is not done due to spatial containment, but instead due to the selection of <code>IfcRepresentationContext</code>. This allows different <code>IfcSite</code> elements to have a different <code>IfcRepresentationContext</code>, and therefore have a different <code>MapConversion</code>. This is useful if you are working on a small town or any geographically large projects, as different sites will likely require different Helmert transformations. That said, I have heard talk that the <code>IfcMapConversion</code> could be moved to be defined at the <code>IfcSite</code> level, instead of the <code>IfcProject</code>.</p>
+<p>In fact, any IFC product that has a representation can select its own context. This means that an <code>IfcWall</code> can have one map conversion, and have an <code>ObjectPlacement</code> to another IFC element which has a different map conversion. Although technically possible, it is bad practice and seasoned GIS professionals will tell you to never mix different CRSes on one map unless you want to be more artistic than useful.</p>
+<h2>Coordinate systems defined by <code>IfcSite</code></h2>
+<p>In addition to ordinary coordinates, the <code>IfcSite</code> provides <code>RefLatitude</code>, <code>RefLongitutde</code>, and <code>RefElevation</code> attributes. As the prefix "Ref" suggests, this is a latitude and longitutde provided only for reference. It is not sufficient for proper geolocation and if there is a discrepancy between the <code>IfcMapConversion</code> and the data provided in <code>IfcSite</code>, the <code>IfcMapConversion</code> takes priority.</p>
+<p>Note that these <code>RefLatitude</code> and <code>RefLongitude</code> values are recorded in integers that are separated by a full stop to represent degrees, minutes, seconds, and an optional millionths of a second. West and south locations are negative, and east and north locations are positive.</p>
+<p>In a real project, a project may contain multiple <code>IfcSite</code> objects. Each <code>IfcSite</code> has a <code>Representation</code>, which may include terrain, for example. For most projects, there is a site boundary, such as a cadastral boundary which denotes the legal plot of land. The <code>ObjectPlacement</code> of the <code>IfcSite</code> is therefore likely to be a corner of the site boundary which is a point that has been surveyed.</p>
+<h2>Coordinate systems defined by <code>IfcBuilding</code></h2>
+<p>The <code>IfcBuilding</code> contains a <code>Representation</code> of the building. It also contains an <code>IfcObjectPlacement</code>, which is relative to the <code>IfcSite</code>. This would place your building on your site model. The rotation of this placement also sets out the project north of the building. If your building has multiple wings, it may also define the individual project norths of each wing.</p>
+<p>The <code>IfcBuilding</code> additionally contains two attributes:</p>
+<ul>
+<li><code>ElevationOfRefHeight</code>: as one steps into your building, the finish floor level will be seen as the <em>building's internal reference height</em> of +0.00. This attribute will record this "+0.00 reference height" in terms of the absolute values of elevation above sea level.</li>
+<li><code>ElevationOfTerrain</code>: this is the height in absolute values of elevation above sea level of the terrain immediately surrounding the perimeter of the building. If the terrain slopes, it is taken to be the lowest point.</li>
+</ul>
+<p>Just like the reference point values in <code>IfcSite</code>, these are also duplications of data. It is not explicitly mentioned, but I believe that should there be a discrepancy, the derived coordinate from the <code>IfcMapConversion</code> takes priority.</p>
+<p>The <code>ElevationOfTerrain</code>, apart from being a reference value, also provides a datum to measure the <code>EavesHeight</code> and the <code>Height</code> (total height) of the building which is recorded in the <code>Qto_BuildingBaseQuantities</code>.</p>
+<h2>Absolute coordinates</h2>
+<p>If your object has an <code>IfcObjectPlacement</code>, it usually uses an <code>IfcLocalPlacement</code> which has a <code>PlacementRelTo</code>, thus inheriting the parent's placement. If you omit the <code>PlacementRelTo</code>, it does not inherit any more parent coordinates, and ends up being an absolute coordinate. An absolute coordinate is defined as only relative to the <code>WorldCoordinateSystem</code> of the <code>IfcProject</code>.</p>
+<p>A common example for this is the <code>IfcSite</code> element which is the immediate child of the <code>IfcProject</code>. Because its only parent coordinate is the <code>WorldCoordinateSystem</code>, it is known as an <em>absolute</em> placement.</p>
+<p>You can also omit the <code>IfcObjectPlacement</code> altogether, and it will therefore also be treated as an absolute placement which is equal to the <code>WorldCoordinateSystem</code> of the <code>IfcProject</code>.</p>
+<p>Omission of the <code>IfcObjectPlacement</code> is a quick and easy way to say that your <code>IfcBuildingStorey</code>, <code>IfcBuilding</code>, and <code>IfcSite</code>, are all at the <code>WorldCoordinateSystem</code>. This behaviour has been noted in some software, such as Revit in some circumstances.</p>
+<p>Keep in mind that this behaviour is technically possible but it is not endorsed by buildingSMART. For more information, see this <a href="http://www.buildingsmart-tech.org/implementation/ifc-implementation/ifc-impl-agreements/cv-2x3-143">ISG implementation agreement CV-2x3-143 agreement on having the containment tree and the relative placement tree identical for spatial elements</a>. It is only mentioned out of completeness.</p>
+<h2>Coordinate systems and <code>IfcGrid</code></h2>
+<p>Grids are by convention (i.e. described not enforced by the IFC specification) placed relative to the local placement of its container. Grids can be contained by <code>IfcSite</code>, <code>IfcBuilding</code>, or <code>IfcBuildingStorey</code>. As an alternative to a relative and absolute placements, coordinates can also be specified constrained to a grid system. This is as simple as using <code>IfcGridPlacement</code> for the <code>IfcObjectPlacement</code>.</p>
+<p>Using <code>IfcGridPlacement</code> allows you to specify an object's placement using the intersection of two grid lines, or <code>IfcVirtualGridIntersection</code>, and a direction. The details will not be described here, but using grids does not change the fundamental concept of site coordinates. Any object placed this way will still resolve to a local <code>(X, Y, Z)</code> which can be translated using the <code>IfcMapConversion</code>.</p>
+<p>It is therefore possible to have an <code>IfcGrid</code> spatially contained by an <code>IfcSite</code>. The <code>IfcBuilding</code> could then have a placement aligning with the grid. This makes intuitive sense to lay a building out relative to a grid placed on the site, but it breaks the ISG agreement where containment tree and relative placement tree should be identical.</p>
+<h2><em>Spatial Composition</em> and coordinates</h2>
+<p>For the objects that we've described so far, they usually use the <em>Spatial Composition</em> concept to relate to one another. Keep in mind that spatial decomposition and inheritance of coordinates are two separate concepts. Just because something is spatially contained in a parent container does <em>not</em> mean that it inherits its coordinates.</p>
+<p>However, that being said, a convention is endorsed by the specification's <a href="https://standards.buildingsmart.org/IFC/DEV/IFC4_2/FINAL/HTML/schema/ifcgeometricconstraintresource/lexical/ifclocalplacement.htm">documentation of <code>IfcLocalPlacement</code></a> to place objects relative to the same container that it is spatially contained in. I've linked the page for you to read the details of the relationships that are endorsed.</p>
+<h2>Coordinate systems created by Revit</h2>
+<p>Now that we know what should be defined and how they should be defined in an ideal world, let's take a Revit project as an example. We will be <a href="../how-to-create-better-ifc-files-with-revit.html">exporting using the open source Revit exporter as an IFC4 file</a>.</p>
+<p>Revit provides an <code>IfcProject</code> as expected, and this has one <code>IfcGeometricRepresentationContext</code>. Unfortunately, our luck ends here, as no <code>IfcMapConversion</code> is provided. Therefore, all that great stuff we talked about where we could record a CRS, its datums and projections, and so on, are not available.</p>
+<p>Let's see what information we <em>do</em> have in the <code>IfcProject</code>'s <code>IfcGeometricRepresentationContext</code>:</p>
+<ul>
+<li><code>Precision</code>: this is set to 0.01 of a millimeter in my metric scenario.</li>
+<li><code>WorldCoordinateSystem</code>: this is set to <code>(0, 0, 0)</code>. As far as I have observed, this never changes, regardless of the placement of any of Revit's origins.</li>
+<li><code>TrueNorth</code>: this represents a vector of the "Angle to True North" value that you have set for your project base point. For example, if your project has no rotation, it will be the vector <code>(0, 1)</code>. If your true north is set to 45 degrees (i.e. top left of your building), then it will be the vector <code>(-Pi/4, Pi/4)</code> (in the second quadrant). And so on.</li>
+</ul>
+<p>An <code>IfcSite</code> is also provided with the following information.</p>
+<ul>
+<li><code>RefLatitude</code>: this value is taken from your Revit project's "Location" latitude, and has no relationship to the survey point or project base point. There are a few quirks to watch out for: it is comma and space separated instead of using a full stop separator, and it records to a degree of precision that may return different results if you are using other programs that do not share the same degree of precision.</li>
+<li><code>RefLongitude</code>: same as latitude, but for longitude instead.</li>
+<li><code>RefElevation</code>: this value is set to the <code>Elev</code> field of the Revit Project Base Point.</li>
+</ul>
+<p>The final information we can extract is the <code>ObjectPlacement</code> attribute of the <code>IfcSite</code> element. This has a location and a direction. The direction is identical to the <code>TrueNorth</code> value described above, but has a Z dimension too. The Z dimension may be set to the <code>Elev</code> field of the Revit Project Base Point, if the "Include IFCSITE elevation in the site local placement origin" option is checked in the "Advanced" tab of the IFC export settings. If the option is not checked, it is set to <code>0</code>.</p>
+<p>Credits to <a href="https://www.clearboxbim.com/">Niel Simmonds</a> for clarifying the behaviour of elevation data.</p>
+<p>The <code>Location</code> of the <code>IfcSite</code>, however, is a bit of a tricky one. It is a 3D coordinate, with the Z ordinate always set to <code>0</code>. The X and Y ordinates have a relationship to the project base point (PBP) as shown below. Revit further complicates things by having a project base point that can be represented by eastings and northings that are relative to either the survey point, or the project's invisible internal origin point. These are denoted with the subscript <code>Survey</code> and <code>Origin</code> respectively.</p>
+<p><img alt="How to derive Revit's IfcSite coordinates" src="revit-ifcsite-coordinates.gif"></p>
+<p>The <code>IfcBuilding</code> is always set to a relative placement of <code>(0, 0, 0)</code>, and therefore fully inherits the location of the <code>IfcSite</code>. However, I have seen elevation data at the <code>IfcBuildingStorey</code> level, set in its <code>ObjectPlacement</code>'s <code>Location</code> Z ordinate (X and Y are hardcoded at <code>0, 0</code>). In particular, this Z value will not be the value you set in your Revit level schedule. Instead, it will be your Revit level value plus the <code>Elev</code> value of your Project Base Point. As a result, your building will always have "absolute" height values in its IFC export, even though it may not be inherited or stored at the location recommended by the IFC spec. I should note that the <code>Elev</code> value set on your Revit Survey Point has no impact whatsoever on the IFC export.</p>
+<p>It should be noted that <a href="../why-revit-is-shit/article.md">Revit does not know what a building or site is</a> and so it is not possible to have multiple buildings, building portions, sites, or sub-sites. All files automatically generate and contain all of their contents inside a single site and single building.</p>
+<p>Knowing this information is extremely important. Because Revit does not specify a CRS conversion, many people put their local CRS eastings and northings coordinates into the project base point and the survey point. As most of these values are very large in magnitude, the <code>IfcSite</code> local placement will too be extremely far off in space.</p>
+<p>This far site placement is inherited by every single object spatially contained by the site. Any program which then parses the IFC to extract the geometry will have to deal with this, and the inability to deal with such large transformation magnitudes is a well known problem in the 3D industry. As a result, geometry gets unnecessarily "broken" and imports are unreliable. You can experience this yourself by importing an IFC into Blender which has CRS coordinates, or even attempting to import an IFC back into Revit: it won't be able to handle its own creation.</p>
+<p>As a workaround, you can simply modify the <code>IfcLocalPlacement</code> of the <code>IfcSite</code> in a text editor before importing the IFC. After the import, you can then specify using native GIS features of your application how the origin point translates to a target CRS. Knowing the relationship of the <code>IfcSite</code> coordinates above will help you specify the origin correctly. I tend to simply reset the value such that the origin point corresponds with the project base point. In simple scenarios this is <code>(0, 0, 0)</code>, but sometimes it may have a further offset which you can calculate using the formula above. An alternative, simpler way is by finding the difference in coordinates between the <code>IfcSite</code> and Revit's project base point, and making that the new <code>IfcSite</code> local placement <code>Location</code>.</p>
+<p>This article should clarify all coordinate related concepts in BIM and Revit, and hopefully you can now use IFCs a bit more reliably across other software other than Revit.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

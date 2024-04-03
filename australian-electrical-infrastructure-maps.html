@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="See maps of Australia&#x27;s electrical infrastructure, covering all major power stations, electrical transmission lines, and substations. See generation capacities of all renewable and non-renewable power plants and a brief description of energy generation within the NSW and Sydney region.">
+    <title>Australian electrical infrastructure maps</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Australian electrical infrastructure maps</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-02-26</p>
+    </header>
+    <article>
+
+<p>Today we're going to take a brief look at Australia's electrical
+infrastructure. The dataset is available publicly from <a href="http://services.ga.gov.au/">Geoscience
+Australia</a>, but for those who don't dabble
+in GIS software it can be a little hard to get to. I've put it all
+together in <a href="https://www.qgis.org/en/site/">QGIS</a>, and here's a few
+snapshots for the curious. Now you can pretend you're an expert
+electrical engineer and say judgemental things about Australia!</p>
+<p>These maps cover major national powers stations, electricity
+transmission lines, and substations. If you've ever wondered where your
+electricity comes from, or how it gets to your house, this may give you
+a brief idea of how it all fits together.</p>
+<p>Let's start with Australia as a whole. Translucent circles represent
+electrical power stations, and their size is weighted by the generation
+capacity. For convenience, any power station that has a generation
+capacity of greater than 250MW is labeled. Any non-renewable source is
+shaded black, and renewables are shaded in red. Transmission power lines
+are in red, and substations are the small red dots. Transmission lines
+are weighted based on their voltage capacity - thicker means more kV,
+thinner means less. Dotted transmission lines occur underground and the
+rest are overhead.</p>
+<p>You can click any map for a high resolution version.</p>
+<p><a href="electricity-australia-map.png"><img alt="Australian electrical infrastructure
+map" src="electricity-australia-map-1024x844.png"></a></p>
+<p>Detailed analysis aside, we can see that Australia is still largely
+based on non-renewables. This is unsurprising. Similarly unsurprising is
+the south-east coast concentration, and proximity to densely populated
+areas. Tasmania is mostly devoid of non-renewables, which is great, but
+what's that large red circle in the south east? Let's take a look in
+more detail.</p>
+<p><a href="electricity-nsw-map.png"><img alt="NSW electrical infrastructure
+map" src="electricity-nsw-map-1024x697.png"></a></p>
+<p>Zooming into NSW, we can capture <a href="https://en.wikipedia.org/wiki/Talbingo_Dam">Talbingo
+Dam</a>, which services the
+<a href="http://www.snowyhydro.com.au/energy/hydro/pumping-stations/">Tumut hydroelectric power
+station</a>.
+Tumut is special as it is the highest-capacity renewable power station,
+and according to the <a href="https://www.resourcesandenergy.nsw.gov.au/investors/electricity-generation">list of major power
+stations</a>
+by the Department of Resources &amp; Energy, it has a capacity of 2,465MW.
+Put into context, this is just under the 2800MW capacity of the
+Bayswater coal plant, the second largest <em>non-renewable</em> power plant in
+NSW.</p>
+<p>All this talk about capacity is really important because most renewable
+power stations have a capacity of less than 100MW. <strong>So you would have
+to build say 20-40 renewable power stations to equal the capacity of a
+single coal plant.</strong> If you excluded Tumut and Murray (the next high
+capacity hydro after Tumut), and added up every single renewable power
+plant in NSW (wind, solar, hydro, geothermal, biofuel, and biogas), you
+would only then equal the capacity of your average NSW coal plant. Snowy
+Hydro, which runs the show, are damn successful, and the secret is in
+the name: snow makes for good hydro! All that melting and sudden runoff
+is great for electricity.</p>
+<p><a href="electricity-sydney-map.png"><img alt="Sydney electrical infrastructure
+map" src="electricity-sydney-map-1024x722.png"></a></p>
+<p>Zooming further into the Sydney region shows coal around the perimeter,
+as well as the local contender which is the Warragamba dam hydro.
+Despite the promise of the Warragamba dam hydro, it is important to note
+that it is disconnected from the grid and only provides power when the
+dam is at a certain level. This is quite a rare occasion for Warragamba,
+which provides 80% of the potable water of Sydney. On my recent visit to
+Warragamba, I was actually told that the hydro is being shut down due to
+high operating costs. Simply put, the dam is better as a reservoir
+instead of a hydro source.</p>
+<p><a href="electricity-sydney-map-2.png"><img alt="Sydney electrical infrastructure map zoomed
+in" src="electricity-sydney-map-2-1024x720.png"></a></p>
+<p>Let's take a closer look at the Sydney region. We see a spatter of
+renewables and non-renewables. Still, the non-renewables outweigh the
+renewables - we'll take a closer look at insolation and local solar
+capacity in a future blog post, but right now the only renewables of
+note are the biogases. In short, these stem off landfills (Eastern
+Creek, Lucas Heights, and Spring Farm) and industrial wastelands
+(Camellia). Also interesting to note is that just like the Warragamba
+dam, all of these landfills are already shut down or close to shutting
+down. We'll talk about the waste issue and landfill capacities in a
+future blog post too.</p>
+<p>In summary, Australia has a little bit more work to do. Of course, the
+issue is a lot deeper than these maps, but we can't cram everything into
+one blog post, so hopefully it's enough to whet your appetite.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

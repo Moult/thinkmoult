@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Learn how to salvage your legacy web application using Behat&#x27;s automated testing with a simple 7 line code patch to your new or existing test suite.">
+    <title>Use Behat to recover your legacy web app</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Use Behat to recover your legacy web app</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2014-10-06</p>
+    </header>
+    <article>
+
+<p>Your legacy project is going to the dogs. No problem, with this easy 7
+line code patch you can now fix your entire codebase within a weekend!</p>
+<pre><code>/**
+ * @Given /^I will write this test in the future$/
+ */
+public function iWillWriteThisTestInTheFuture()
+{
+    throw new PendingException();
+}
+</code></pre>
+<p>Go you! :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

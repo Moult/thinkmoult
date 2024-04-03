@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="3D scanning results in a point cloud which often needs to be converted into a closed mesh surface. In this article I propose a new technique of mesh reconstruction using metaballs.">
+    <title>Point cloud mesh reconstruction with metaballs</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Point cloud mesh reconstruction with metaballs</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2019-05-15</p>
+    </header>
+    <article>
+
+<p>When you scan an object, a point cloud is generated of the object in space. This
+point cloud is often converted into a mesh using a process known as mesh
+reconstruction. The mesh can then be textured, retopologised, and so on.</p>
+<p>The mesh reconstruction process often uses one of a few famous algorithms out
+there. One example is Poisson mesh reconstruction, I believe originally
+developed at Microsoft, which looks at the normals or orientations of each of
+the points in the point cloud. These normals help it determine the boundary
+between outside the scanned object and inside the scanned object. The boundary
+is then converted into an interpolated surface, which forms the new mesh.</p>
+<p>The Poisson reconstruction algorithm isn't always the best choice. For example,
+when you don't know the orientations of the points, and it is not easy to derive
+it, then Poisson wouldn't fare too well. If you also have lots of thin shapes,
+such as leaves on a tree, Poisson will struggle. But that's ok, since there are
+other algorithms out there, each with their pros and cons.</p>
+<p><img alt="Poisson creating bulbous forms when reconstructing
+vegetation" src="bulbous-poisson-reconstruction.png"></p>
+<p>In 2015, I dealt with the issue of having to reconstruct meshes from extremely
+sparse or poor scans with holes. I'd like to share that there is a another
+approach to mesh reconstruction using <em>metaballs</em>. I haven't seen others use
+this method, so I thought I'd share it here.</p>
+<p><a href="https://en.wikipedia.org/wiki/Metaballs">Metaballs</a> define a surface usually
+based on the distance from the centroid of each point. Each point represents a
+blob-like sphere, and when you get points close to each other, just as water
+droplets would join one another, these blobs would coalesce into a form.</p>
+<p>Therefore, if you convert each point in a point cloud into a metaball and adjust
+its threshold to overlap with the average density of the scan, you can convert
+your scan into a very blobby mesh. This type of reconstruction works well on
+thin shapes, but does not attempt to patch or interpolate over any holes in the
+scan (which can be good if your scan is particularly bad or misleading). It also
+does not need to consider the entire point set at once or bother with point
+orientation. With this technique, it is possible to reconstruct in batches or
+zones and then stitch the results together.</p>
+<p>Let's see an example, on a particularly nasty photogrammetry dataset where some
+parts were very well scanned and other parts were very badly scanned, with a
+relatively sparse point cloud.</p>
+<p><img alt="A metaball reconstruction on the left, with a Poisson reconstruction of the
+same dataset on the right" src="metaball-mesh-reconstruction.jpg"></p>
+<p>If you want to try your own reconstruction, you can test this reconstruction
+very easily with Blender. Blender supports metaballs out of the box. Simply
+create a metaball, and set it to be the duplivert object of a point cloud. No
+coding skills required and no proprietary software needed.</p>
+<p>Let's see another reconstruction with the Stanford bunny.  If you want to
+recreate this, you will first need to <a href="https://stackoverflow.com/questions/30783446/how-can-i-read-transform-the-range-images-of-the-stanford-bunny-ply-files">reorientate the source point cloud of the
+Stanford
+bunny</a>.</p>
+<p><img alt="Metaball reconstruction of the Stanford
+bunny" src="stanford-bunny-metaball-reconstruction.png"></p>
+<p>On the left is the metaball reconstruction, and on the right is the zipper
+high resolution reconstruction provided by Stanford (with normals smoothed). As
+you can see, the metaball reconstruction results in a pretty detailed mesh. You
+can also see artifacts of blobbiness and the bunny on the left is marginally
+fatter due to the metaball radius.</p>
+<p>Happy scanning! If you are aware of research with this technique, please send me
+an email and I'd love to hear about it.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

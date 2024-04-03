@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Behat is a behaviour driven development (BDD) tool. I show how to use it to evaluate UI testing.">
+    <title>In order to discuss BDD, as a blogger, I need to talk about Behat</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>In order to discuss BDD, as a blogger, I need to talk about Behat</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2013-07-09</p>
+    </header>
+    <article>
+
+<p>If you're developing a web application, especially one that uses PHP,
+you <em>should</em> know about <a href="http://behat.org/">Behat</a>.</p>
+<p>Behat introduces itself as "a php framework for testing your business
+expectations". And it does exactly that. You write down your business
+expectations of the application, and it automatically tests whether or
+not your application achieves them.</p>
+<p>You begin every feature description with a three liner following the
+form:</p>
+<pre><code>Feature: Foo bar In order to ... (achieve what goal?)
+As a ... (what target audience?)
+I need to ... (use what feature?)
+</code></pre>
+<p>This is then split up into individual scenarios of using this feature,
+all of which are described using natural English following the <a href="http://docs.behat.org/guides/1.gherkin.html">Gherkin
+syntax</a>. It then uses
+<a href="http://mink.behat.org/">Mink</a> which is a browser abstraction layer to
+run these tests.</p>
+<p>I've been enjoying Behat for quite some time now, and I've noticed
+certain tests I need to write that come up again and again which aren't
+included in the default Mink definitions.</p>
+<p>The first is to check whether or not an element is visible. These days,
+Javascript heavy UIs use a lot of hiding and showing, and often this is
+vital to the business expectations of how the website should work. These
+sorts of tests need a non-headless browser emulator, such as Sahi.
+Simply prefix your test with the line <code>@mink:sahi</code>, and now we can use
+the following definition:</p>
+<pre><code>/** \* @Then /^&quot;(\[^&quot;\]\*)&quot; should be visible$/ */
+public function shouldBeVisible($selector) {
+    $element = $this-&gt;getSession()-&gt;getPage()-&gt;find('css', $selector);
+    if (empty($element))
+        throw new Exception('Element &quot;'.$selector.'&quot; not found');
+
+    $display = $this-&gt;getSession()-&gt;evaluateScript(
+        'jQuery(&amp;quot;'.$selector.'&amp;quot;).css(&amp;quot;display&amp;quot;)'
+    );
+
+    if ($display === 'none')
+        throw new Exception('Element &amp;quot;'.$selector.'&amp;quot; is not visible');
+}
+</code></pre>
+<p>... so you can now write ...</p>
+<pre><code>Then &quot;div&quot; should be visible
+</code></pre>
+<p>Worth highlighting is the <code>-&gt;evaluateScript()</code> function that is being
+called. This means that anything you can check with JQuery can be
+tested. This is pretty much everything.</p>
+<p>Another useful query is dealing with images. Modern web apps have to
+handle image uploading quite a bit, and often this comes with resizing
+or cropping (for avatars, keeping to layout widths, thumbnails).
+Wouldn't it be great if you could just write...</p>
+<pre><code>Given I have an image with width &quot;500&quot; and height &quot;400&quot; in &quot;/tmp/foo.png&quot;
+Then the &quot;img&quot; element should display &quot;/tmp/foo.png&quot;
+And the &quot;img&quot; element should be &quot;500&quot; by &quot;400&quot; pixels
+</code></pre>
+<p>... and of course, now you can. All this code is included in
+<a href="https://github.com/Moult/vtemplate">vtemplate</a> under the
+<a href="https://github.com/Moult/vtemplate/blob/master/features/bootstrap/FeatureContext.php">FeatureContext
+file</a>.</p>
+<p>Happy testing!</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

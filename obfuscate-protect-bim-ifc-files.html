@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Learn how to protect and obfuscate BIM IFC files from Revit and ArchiCAD by hiding proprietary company data. Hide material information, custom property sets, and IFC element attributes.">
+    <title>How to obfuscate and protect BIM IFC files</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to obfuscate and protect BIM IFC files</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2018-01-28</p>
+    </header>
+    <article>
+
+<p>Within the architecture, engineering, and construction industry, we
+often share IFC files to transfer building information to others. IFC
+(<a href="https://en.wikipedia.org/wiki/Industry_Foundation_Classes">Industry Foundation
+Classes</a>) is
+an open standard for storing BIM information. This IFC file can be
+produced by software such as Revit, ArchiCAD, or SketchUp.</p>
+<p>On occasion, however, we would like to strip out information from the
+IFC. Perhaps there is some classified information that is stored in one
+of the IFC properties, or perhaps you just need a clean set of a
+geometry in the respective classes to work with. In this article, we
+will assume that you want to obfuscate the IFC such that all geometric
+information is retained (specifically, <code>IfcBuildingElement</code> subtypes and
+<code>IfcShapeRepresentation</code>), but other BIM information is mangled.</p>
+<p>This is a relatively easy task, and can be done with a standard text
+editor. IFC files are plain text files, which although generally do not
+lend themselves well to hand-editing, are quite easy to modify with
+regex. For this exercise, you will need <a href="www.vim.org">Vim</a>, which is the
+world's most advanced text editor which also happens to support regex
+commands, and not choke upon files which are many gigabytes in size. If
+you are not using Vim, you will need to convert the regex below to your
+own probably PCRE compliant flavour.</p>
+<p>We'll take a look at stripping three types of data in the IFC: strings,
+non-strings, and the element classes themselves.</p>
+<p>In the IFC format, apart from the file header, all strings represent
+user data with the exception of those hardcoded in the
+<code>IfcShapeRepresentation</code> (which really should be constants, ideally, but
+hey). The one other slight exception to this are <code>IfcGloballyUniqueId</code>
+strings which is recommended to be a unique 128-bit number, but since
+all parsers generally ignore this it is safe to throw this baby out with
+the bathwater. All string information are enclosed in single quotes
+which makes stripping with regex trivial.</p>
+<p>Non string information is a bit trickier, but generally we need to only
+care about RGB codes and transparency codes.</p>
+<p>Subtypes which share the same express specification can be swapped out
+interchangeably with one another, such as columns and beams. Others may
+exist but I haven’t looked too deeply.</p>
+<p>As such, the file can be stripped by:</p>
+<pre><code>:g!/SHAPEREP/s/'.{-}'/'0'/g
+:%s/RGB((.{-}),.*)/RGB(\1,0.5,0.5,0.5)/g
+:%s/IFCSURFACESTYLERENDERING((.{-}),.{-},/IFCSURFACESTYLERENDERING(\1,1,/g
+:%s/IFCCOLUMN/IFCBEAM/g
+</code></pre>
+<p>(note: maintain file headers)</p>
+<p>As a bonus, we should also strip material information. Material metadata
+is already stripped by virtue of stripping all strings, but even though
+every material has no data, the material assignment information is still
+there. Unfortunately, some IFC outputs split the
+<code>IfcRelAssociatesMaterial</code> into multiple lines. Multi-line regexes
+should be treated with caution as it is easy to cause lexical errors.
+Here’s my attempt:</p>
+<pre><code>%s/RELASSOCIATESMATERIAL((.*_.{-},#).{-});/RELASSOCIATESMATERIAL(\100000);/g
+</code></pre>
+<p>Where <code>00000</code> is the ID of the <code>IfcMaterial</code> you'd like to reset it to.</p>
+<p>The result is shown below, where all layer information, all property set
+information is trashed, all names are trashed, all materials reset, and
+it thinks a column is a beam, etc. I am viewing the results with
+<a href="http://www.solibri.com.au">Solibri IFC Model Checker</a>.</p>
+<p><img alt="Obfuscated IFC in Solibri" src="image015.png"></p>
+<p>Keep in mind that with all the best intentions of IFC and the Building
+Smart folks behind the standard, the implementation is rather spotty in
+various software, especially Revit. So, your mileage may vary.</p>
+<p>As a closing note, IFC is meant for interoperability. Stripping
+information in this manner is not particularly condoned by myself. You
+may want to consider alternatives such as... Well, just giving them the
+data :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

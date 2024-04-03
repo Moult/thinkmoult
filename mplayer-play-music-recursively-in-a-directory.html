@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Use MPlayer to play music or video files recursively within a directory in Linux. This uses GNU find and the playlist argument in mplayer.">
+    <title>How to use MPlayer to play music recursively in a directory</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to use MPlayer to play music recursively in a directory</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2009-07-22</p>
+    </header>
+    <article>
+
+<p>I have always wondered how to do this. It's quite often I have
+directories full of media files (specifically music) and subdirectories
+within them also with music files, and though the manual for MPlayer is
+thicker than the Chinese phonebook I have not been able to find any
+option for it. I did however find a method which isn't exactly the guru
+one-liner, but here it is anyway. It's broken into two steps, the first
+to create a playlist, and then to play the playlist.</p>
+<pre><code>$ find -maxdepth 1 -type f -name \*.\* &gt; playlist
+$ mplayer -playlist playlist
+</code></pre>
+<p>Just add a <code>-loop 0</code> suffix if you want to loop :)</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

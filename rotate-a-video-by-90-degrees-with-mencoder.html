@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Explains how to use mencoder to rotate a video, such as a .mov, by 90 degrees clockwise and anticlockwise in Linux.">
+    <title>Rotate a video by 90 degrees with mencoder</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Rotate a video by 90 degrees with mencoder</h1>
+        <nav>
+            <ul>
+                <li><a href="https://thinkmoult.com/">Homepage</a></li>
+                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
+            </ul>
+        </nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2010-04-08</p>
+    </header>
+    <article>
+
+<p>I was recently doing some video editing work where the workflow was
+something like this: film in portrait, transfer to computer, rotate
+videos by 90 degrees, sequence together several videos, strip out
+background noise from entire video. Filming was done with a camera,
+sequencing was done by Kdenlive (I've previously only had experience
+with Blender's VSE and I must say I was very happy with this new
+application), and the noise-stripping was done with Audacity. I must say
+I'm surprised at how fast this was all accomplished and kudos to all
+those developers who created these apps.</p>
+<p>However one thing I didn't know how to do was how to rotate the video by
+90 degrees. Kdenlive can do it but it ends up being awkwardly stretched
+and I couldn't figure out how to unstretch it. Luckily <code>mencoder</code>, which
+comes with the <code>mplayer</code> package, has got a few tricks up its sleeve.</p>
+<p>More for my own records than for anybody else, here's the command I
+used:</p>
+<pre><code>$ mencoder -vf rotate=2 -o output.avi -oac pcm -ovc lavc input.mov
+</code></pre>
+<p>As my input file was a <code>.mov</code> some of the sound wasn't synchronised well
+after rotating, which was easily fixed by this option <code>-demuxer mov</code>. If
+you want to rotate clockwise instead of anticlockwise change <code>rotate=2</code>
+to <code>rotate=1</code>.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

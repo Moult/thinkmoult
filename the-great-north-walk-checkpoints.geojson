@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "the-great-north-walk-checkpoints",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "pkuid": 1, "name": "Macquarie Place Obelisk" }, "geometry": { "type": "Point", "coordinates": [ 151.210197132415487, -33.863250550583587 ] } },
+{ "type": "Feature", "properties": { "pkuid": 2, "name": "Circular Quay" }, "geometry": { "type": "Point", "coordinates": [ 151.210478837909704, -33.860781900265053 ] } },
+{ "type": "Feature", "properties": { "pkuid": 3, "name": "Hunters Hill" }, "geometry": { "type": "Point", "coordinates": [ 151.150008628301578, -33.834206791312972 ] } }
+]
+}
