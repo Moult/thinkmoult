@@ -1,0 +1,6 @@
+html { padding: 10px; }
+body { max-width: 600px; margin-left: auto; margin-right: auto; }
+img { max-width: 100%; text-align: center; margin-left: auto; margin-right: auto; display: block; }
+p.author { font-weight: bold; }
+p.date { font-style: italic; }
+pre { white-space: pre-wrap; white-space: -moz-pre-wrap; white-space: -pre-wrap; white-space: -o-pre-wrap; word-wrap: break-word; }
