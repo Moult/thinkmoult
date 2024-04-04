@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lamp sconce LG125/860B22</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Lamp sconce LG125/860B22 free 3D model</h1>
+        <nav><a href="https://thinkmoult.com/radiance.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to Radiance models</a></nav>
+    </header>
+    <article>
+
+<p><img alt="Preview of the wall sconce with an LG125/860B22 lamp" src="pic/lamp-sconce-lg125-860b22.png"></p>
+<p>I have this spherical sconce luminaire in my house. I don't know what product it
+is or where it came from, but I measured it. It has a plastic socket and it has
+a white coated sphere as a globe / bulb. So yes, technically this model includes
+the full luminaire, and that's why I kept "sconce" in the name.</p>
+<p>The globe / lamp itself as an LG125/860B22 bulb with a opal polycarbonate
+diffuser sphere, with a white plastic shell. It with the following features:</p>
+<ul>
+<li>B22 base</li>
+<li>High efficiency SMD LED chips inside with a 270 degree beam</li>
+<li>6000K</li>
+<li>CRI&gt;80</li>
+<li>1200 lumens</li>
+</ul>
+<p>There is no <code>.ies</code> file.</p>
+<h2>Materials</h2>
+<p>The colours have been calibrated with Macbethcal but the specularity and
+roughness values are guessed.</p>
+<p>Two version of the bulb material are provided - one is when the bulb is off, and
+one when the bulb is on. As there is no <code>.ies</code> file, but as the globe emits a
+rather omnidirectional white light, it is approximated with a <code>light</code> material,
+with the options taken from <code>lampcolor</code>. Depending on which <code>.rad</code> file you
+include, you can either turn the bulb on or off.</p>
+<h2>Usage</h2>
+<p>This Radiance model follows the <a href="https://thinkmoult.com/proposed-radiance-filesystem-hierarchy-standard.html">Radiance Filesystem Hierarchy
+Standard</a>. As
+such, please run <code>make lib</code> to build the Radiance mesh file. Once done, you can
+use this in your scene by:</p>
+<pre><code>!xform lib/lamp-sconce-lg125-860b22/obj/bulb-off.rad
+!xform lib/lamp-sconce-lg125-860b22/obj/bulb-on.rad
+</code></pre>
+<h2>Authors</h2>
+<p>This model was created by <a href="https://thinkmoult.com">Dion Moult</a>.</p>
+    </article>
+    <section>
+        <h2>Free 3D model download</h2>
+        <ul>
+            <li><a href="https://thinkmoult.com/lib/lamp-sconce-lg125-860b22/">Browse the library source</a></li>
+            <li><a href="https://thinkmoult.com/dist/lamp-sconce-lg125-860b22.tar.gz">Download packaged <code>lamp-sconce-lg125-860b22.tar.gz</code></a></li>
+        </ul>
+    </section>
+    <section>
+ <h2>Comments</h2>
+ <p>
+     If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+ </p>
+    </section>
+    <footer>
+     <h3>License</h3>
+     <p>
+     This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the asset <code>LICENSE</code> file.
+     </p>
+    </footer>
+</body>
+</html>

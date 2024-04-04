@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crabgrass</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Crabgrass free 3D model</h1>
+        <nav><a href="https://thinkmoult.com/radiance.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to Radiance models</a></nav>
+    </header>
+    <article>
+
+<p><img alt="Preview of crabgrass" src="pic/crabgrass.png"></p>
+<p>Crabgrass is usually seen as a weed in gardens, and looks a bit like a crab.</p>
+<p>This model is provided as a circular patch, which is relatively sparse.
+It is assumed that this patch will be instanced many times with different
+translated locations, rotations, and scales in order to build up the illusion of
+a field of vegetation.</p>
+<h2>Materials</h2>
+<p>The colours have been calibrated with Macbethcal to a patch of grass in
+Australia, but the specularity and roughness values are guessed. Therefore the
+green of the grass should be within the ballpark of believable colours, but it
+should not be treated as a proper representation of a specific species.</p>
+<h2>Usage</h2>
+<p>This Radiance model follows the <a href="https://thinkmoult.com/proposed-radiance-filesystem-hierarchy-standard.html">Radiance Filesystem Hierarchy
+Standard</a>. As
+such, please run <code>make lib</code> to build the Radiance mesh file. Once done, you can
+use this in your scene by:</p>
+<pre><code>!xform lib/crabgrass/obj/model.rad
+</code></pre>
+<p>In order to preserve memory in the occasion of including many instances of this
+model, an <code>.oct</code> octree is also provided, and so you can instance it in your
+scene as follows:</p>
+<pre><code>void instance model
+1 lib/crabgrass/obj/model.oct
+0
+0
+</code></pre>
+<h2>Authors</h2>
+<p>This model was originally created by Marco Pavanello and Joseph Dowling in their
+<a href="https://3d-wolf.com/products/grass.html">free Blender grass pack</a> licensed
+under GPL.</p>
+<p>This model was modified by <a href="https://thinkmoult.com">Dion Moult</a> in order to
+create circular patches, follow the RFHS requirements such as naming and model
+scale, and add Radiance material definitions.</p>
+<p>The original content does not specify which version of GPL it was licensed for,
+and this creates some confusion, especially as GPLv3 is much more specific about
+compatibility. Therefore this model is licensed under the Creative Commons
+Attribution 4.0 license (CC-BY 4.0).</p>
+    </article>
+    <section>
+        <h2>Free 3D model download</h2>
+        <ul>
+            <li><a href="https://thinkmoult.com/lib/crabgrass/">Browse the library source</a></li>
+            <li><a href="https://thinkmoult.com/dist/crabgrass.tar.gz">Download packaged <code>crabgrass.tar.gz</code></a></li>
+        </ul>
+    </section>
+    <section>
+ <h2>Comments</h2>
+ <p>
+     If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+ </p>
+    </section>
+    <footer>
+     <h3>License</h3>
+     <p>
+     This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the asset <code>LICENSE</code> file.
+     </p>
+    </footer>
+</body>
+</html>

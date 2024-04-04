@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Creating grass and plants in Radiance</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-05-01</p>
     </header>
@@ -41,14 +36,14 @@ planes as much as possible.</p>
 <h2>Bake all the vegetation into a single mesh</h2>
 <p>The simplest approach is to "bake" the generated vegetation into a static mesh
 and export it as an OBJ, regardless of what generated it in the first place. The
-mesh can then be included in a typical manner as described by my <a href="../basic-rendering-tutorial-radiance/article.md">basic Radiance
+mesh can then be included in a typical manner as described by my <a href="https://thinkmoult.com/assets/../basic-rendering-tutorial-radiance/article.md">basic Radiance
 beginners tutorial</a>. Despite
 its simplicity, there are a few disadvantages of this approach: firstly, the
 created OBJ can become extremely large, it also does not conserve memory on
 repeated elements when rendering, and it is an all or nothing approach, it is
 hard to turn on and off elements. That said, it is very, very easy, and so I use
-this approach to create a planter bed in my <a href="../photorealistic-rendering-with-radiance/article.md">living room Radiance render</a>.</p>
-<p><img alt="A baked planter bed mesh with many polygons rendered in Radiance" src="planter-bed.jpg"></p>
+this approach to create a planter bed in my <a href="https://thinkmoult.com/assets/../photorealistic-rendering-with-radiance/article.md">living room Radiance render</a>.</p>
+<p><img alt="A baked planter bed mesh with many polygons rendered in Radiance" src="https://thinkmoult.com/assets/planter-bed.jpg"></p>
 <p>With Blender, there is a trick to export complex particle creations into a
 single mesh without needing to bake it first, by linking the particle object
 into a fresh file and then exporting an OBJ.</p>
@@ -66,10 +61,10 @@ such as a patch of vegetation, and do not go overboard in the number of
 instances, then this is a valid technique. Here is an example of an instance you
 might create which is not too long or thin.</p>
 <p><img alt="An instance of a plant stem, which could be repeated many
-times" src="stem-instance.png"></p>
+times" src="https://thinkmoult.com/assets/stem-instance.png"></p>
 <p>The instance is then placed multiple times with different locations and
 rotations to build up complexity.</p>
-<p><img alt="An example of many tufts of ferns instanced to create a scene" src="instance-example.png"></p>
+<p><img alt="An example of many tufts of ferns instanced to create a scene" src="https://thinkmoult.com/assets/instance-example.png"></p>
 <p>In Blender, there is a very easy way to do this, using a technique known as
 <em>dupliverts</em>. With this technique, a mesh is created where each vertex
 represents the origin of placing an instance. This Blender script automatically
@@ -97,13 +92,13 @@ convincing. I have released many types of plants in the <a href="https://radianc
 repository</a> where you can download and quickly
 create vegetation yourself.</p>
 <p><img alt="A patch of Bahia grass available in the free Radiance model
-repository" src="bahia-grass.png"></p>
+repository" src="https://thinkmoult.com/assets/bahia-grass.png"></p>
 <h2>Using alpha mapped planes for textures</h2>
 <p>Alpha mapped planes are a standard technique in the CG industry. Here is how to
 define it in Radiance. First, we define <code>diffuse-map</code>, this is the diffuse
 texture that we will use for our object. Then, we will apply to this a plastic
 shader. Our plastic shader multiplies the RGB values of the <code>diffuse-map</code> by 1.
-For more information about how to set a diffuse map, you can read <a href="../use-macbethcal-to-calibrate-textures/article.md">how to use
+For more information about how to set a diffuse map, you can read <a href="https://thinkmoult.com/assets/../use-macbethcal-to-calibrate-textures/article.md">how to use
 macbethcal to calibrate
 textures</a>.</p>
 <p>Then, <code>my-material</code> is defined, which is what will be assigned to our actual

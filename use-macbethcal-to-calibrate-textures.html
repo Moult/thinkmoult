@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Use macbethcal to calibrate textures</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2018-12-30</p>
     </header>
@@ -32,7 +27,7 @@ news is that with some properly calibrated image textures (or patterns, in
 Radiance speak), the render can look a lot more sexy!</p>
 <p>The example below is the <a href="http://radsite.lbl.gov/mgf/scenes.html">NRC office MGC example
 scene</a>.</p>
-<p><img alt="A scientifically accurate, but fake looking office scene" src="nrcoff.gif"></p>
+<p><img alt="A scientifically accurate, but fake looking office scene" src="https://thinkmoult.com/assets/nrcoff.gif"></p>
 <p>One of the most powerful tools a CG artist has to bring life to a render is to
 use different types of image textures. The most basic of these is known as a
 "diffuse map", an image that holds the RGB values of the different diffuse (i.e.
@@ -51,7 +46,7 @@ Classic</a>. It's best to do this with
 sunlight as it is a high quality light source that emits light across the full
 visible spectrum, unlike indoor artificial lights which are relatively spikey.</p>
 <p><img alt="An example photo next to a brick to be
-measured" src="macbeth-colour-checker-photo.png"></p>
+measured" src="https://thinkmoult.com/assets/macbeth-colour-checker-photo.png"></p>
 <p>Take a RAW photo with the colour chart next to the object with the same even
 lighting across both the chart and the object. Make sure that you do not shadow
 the sample or the chart, and try to minimise self shadowing, or specular
@@ -73,7 +68,7 @@ chart. The chart has a crosshair on each corner, so open up the image with
 <code>ximage</code>, and then press <code>p</code> when your cursor is over a corner to print the
 coordinates. You can use <code>Ctrl+LMB</code> to pan around the image if the image is
 larger than your screen (don't resize the image!).</p>
-<p><img alt="Using ximage to show pixel coordinates by pressing 'P'" src="ximage-coordinates.png"></p>
+<p><img alt="Using ximage to show pixel coordinates by pressing 'P'" src="https://thinkmoult.com/assets/ximage-coordinates.png"></p>
 <p>Then run <code>macbethcal</code> with the following syntax, replacing things like <code>TLX</code>
 with the top left X coordinate and <code>TLY</code> with the top left Y coordinate, and so
 on. The order is top left, top right, bottom left, and bottom right.</p>
@@ -134,7 +129,7 @@ convert <code>.3 .1 .6</code> to <code>.1 .2 .3</code>.</p>
 materials. More specular materials will be measured to be darker than their true
 diffuse RGB reflectance. At the time of writing, I do not have a good general
 solution for this, and recommend heuristic measurements to test under known conditions.</p>
-<p>However, I have rendered out various benchmark <a href="../radiance-specularity-and-roughness-value-examples/article.md">examples of specular and
+<p>However, I have rendered out various benchmark <a href="https://thinkmoult.com/assets/../radiance-specularity-and-roughness-value-examples/article.md">examples of specular and
 roughness
 values</a> that
 you might find useful.</p>

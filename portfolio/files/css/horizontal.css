@@ -1,0 +1,85 @@
+/* horizontal ##############################*/
+.horizontal {
+	background: #1a1a1a;
+	width: 100%;
+	margin: 0 auto;
+	height: 140px;
+	}
+	
+.horizontal .carousel {
+	width: 960px;
+	height: 140px;
+	margin: 0 auto;
+	position: relative;
+	}
+	
+.horizontal .carousel_container {
+	width: 663px; /* 3x220 + 3x1px margin */
+	height: 140px;
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 0 50px;
+	position: relative;
+	}
+	
+.horizontal ul  { 
+	height: 140px;
+	width: 1980px; /* will be overwritten by javascript*/
+}
+	
+.horizontal ul li {
+	width: 220px;
+	height: 140px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	position: relative
+	}
+	
+.horizontal ul li a {
+	width: 220px;
+	height: 140px;
+	background: #CCC;
+	display: block;
+	color: #fff;
+	}
+	
+.horizontal ul li .caption {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	}
+	
+	
+.carousel_right, .carousel_left {
+	position: absolute;
+	width: 26px;
+	height: 51px;
+	display: block;
+	text-indent: -9999px;
+	}
+	
+.carousel_left { 
+	top: 45px; left:0px;
+	background: url(../images/prev.png) top left;
+	}
+.carousel_right { 
+	top: 45px; right:0px;
+	background: url(../images/next.png) top left;
+	}
+.carousel_right:hover, .carousel_left:hover {
+	background-position: bottom left;
+	}
+	
+.disable { display: none; }
+
+.caption {
+    padding: 10px;
+    font-family: 'Lato', 'arial', 'sans-serif';
+    font-weight: 'normal';
+    font-size: 12px;
+    color: #FFEFF7;
+    background-color: rgba(00, 00, 00, 0.5);
+}

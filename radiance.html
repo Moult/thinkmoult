@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radiance free 3D model repository</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Radiance free 3D model repository</h1>
+        <nav><a href="https://thinkmoult.com/"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to homepage</a></nav>
+    </header>
+    <article>
+        <p>
+             The Radiance model repository is a free, open-source repository of
+             3D models, textures, lighting files, and Radiance material
+             definitions which can be used in scenes.
+         </p>
+        <p>
+	    It is fairly common to find 3D models in various formats online
+	    which have materials defined for popular rendering engines.
+	    However, when producing renders with Radiance, we are interested in
+	    3D models that are to scale, have a certain level of detail built
+	    into it, and also have materials, lights, and textures defined in a
+	    very specific way. This means that existing repositories are not
+	    too useful. Here's what you'll find in this repository:
+        </p>
+	<ul>
+	<li><strong>All models are a digital twin of a real-life physical product.</strong> This repository must have <em>photometrically correct</em> material definitions, and so it is not possible to have an imaginary object, as we cannot scan that material. Where possible, the real product will be named and linked to so you can check what it physically looks like.</li>
+	<li><strong>All models are in metres.</strong> Relative scale is important in lighting simulation, and so we have chosen metres as a standard.</li>
+	<li><strong>All models have calibrated materials.</strong> All material definitions are defined in Radiance syntax and obtained from measurements of the real life object, such as through the <em>macbethcal</em> method. Any approximations in the material will be described explicitly to you so you can make an informed judgement. It is encouraged to be critical of the measurements and verify measurements are correct. If you have an improvement, please share it so that everybody benefits (as required by CC-BY-SA).</li>
+	<li><strong>All lights are real lights.</strong> Any significant light would be represented by an <code>.ies</code> file, with a careful definition of the luminaire.</li>
+	<li><strong>All models are geometrically and texturally detailed.</strong> This repository has the dual purpose of being validated, as well as aesthetically pleasing (without sacrificing correctness). This means that we aim for detailed geometry (to a degree that does not prohibit the simulation), and rich textures (in the CG artist sense of the term) with UV mappings. Textures will be calibrated to ensure they still represent the average RGB of the material.</li>
+	<li><strong>All models have a preview picture.</strong> These preview pictures give only a rough idea of what the model contains, but are not a photometrically correct simulation and will therefore look fake. The model will look different when placed in a true life environment.</li>
+	<li><strong>Models are categorised using the IFC4 ISO BIM standard.</strong> As the purpose of these lighting simulations are mostly for simulations of the built environment, we have chosen to use BIM classifications.</li>
+	<li><strong>All models are open-source and open-data.</strong> Not only is this entire repository under CC-BY-SA, any source models with their parametric data are retained in open-source formats, such as <code>.blend</code> <a href="https://blender.org/">Blender</a> format and <code>.obj</code> files both being provided.
+	<li><strong>All assets follow the RFHS for easy reuse.</strong> The <a href="proposed-radiance-filesystem-hierarchy-standard.html"> Radiance Filesystem Hierarchy Standard</a> is a proposed file organisation standard to organise and reuse assets across scenes in Radiance, so using a model is a simple as a single <code>xform</code> line of code.</li>
+	</ul>
+        <p>
+            I have written a little bit about <a
+                   href="radiance-free-3d-model-repository.html">
+                why we need a Radiance free 3D model repository</a>, which
+            describes some of my motivations behind hosting this repository. I
+            hope these ideas resonate with you.
+        </p>
+    </section>
+    <section>
+    <h2>Contributing</h2>
+    <p>
+        You are encouraged to contribute to this repository! You can contribute
+        by:
+    </p>
+    <ul>
+        <li>Hosting a mirror of the repository. Yes, unlike other repositories,
+            this is encouraged!</li>
+        <li>Adding your own objects to the repository. Please contact me to
+            add it.</li>
+        <li>If you own a product that a model here represents, please don't
+            hesitate to scan your own materials and critically analyse how to
+            improve the materials defined here. Any changes that improve the
+            accuracy of these models are very welcome.</li>
+    </ul>
+    </section>
+    <section>
+        <h2>IfcAudioVisualAppliance</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="monitor-lg-24m38h.html">Monitor LG 24M38H</a><br />
+                    The LG 24M38H computer monitor is a fairly generic black computer monitor. It has a 1920x1080 screen resolution with a typical brightness of 200 cd/m^2. It has a brushed black texture on its plastic frame, and some decals for menu icons on the screen.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="earphones-sennheiser-m2-ieg.html">Earphones Sennheiser M2 IEG free 3d model</a><br />
+                    The Sennheiser M2 IEG Momentum in-ear earphones are your typical black earphones. This is a free 3D Radiance model of the earphones which contains the buds, coupler, and volume rocker. You can model the wires based off the profile yourself.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcDoor</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="screen-door-single-swing-right-820w-2100h.html">Screen door single swing right 820w 2100h</a><br />
+                    This is an off-white metal framed screen door, which has a mesh or fine black fly screen across its centre.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="door-sliding-to-right-2-panel-1750w-2010h.html">Door sliding to right 2 panel 1750w 2010h</a><br />
+                    This is a two panel metal framed glazed sliding door with a vision strip. It has a structural opening of 1750mm wide and 2010mm high, with some tolerance. It has a black metal handle with locking hardware.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="door-single-swing-left-900w-2100h.html">Door single swing left 900w 2100h</a><br />
+                    This is a white painted wooden hollowcore door with a glazed panel. It has a white fabric blinds attached to it, doorknob lock, barrel bolt, and air seal at the bottom.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcElectricAppliance</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="mouse-microsoft-intellimouse-optical-usb.html">Mouse Microsoft Intellimouse Optical USB</a><br />
+                    The Microsoft Intellimouse Optical USB mouse is a fairly generic old popular computer mouse. It has a rubber scroll wheel, side buttons, a Microsoft branding decal, and a red LED luminaire on its plastic body.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="keyboard-filco-majestouch-2-tenkeyless.html">Keyboard Filco Majestouch 2 Tenkeyless</a><br />
+                    This is a free Radiance 3D model of the Filco Majestouch 2 Tenkeyless keyboard. Being a tenkeyless keyboard, it lacks a numpad. It is a fairly generic design but sports key decals affixed to the front face of each key, as opposed to on the top. It is a mechanical keyboard and has blue LEDs.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcFurniture</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="shoe-rack-bunnings-2-tier-white-wooden.html">Shoe rack Bunnings 2 tier white wooden</a><br />
+                    This is a free 3D model of a 2-tier white wooden shoe rack sold by Bunnings in Australia. It comes as a flatpack, built out of pine wood, and painted white.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="shoe-leather.html">Shoe leather</a><br />
+                    This is a black leather man&#x27;s office shoe. It has a left shoe and a right shoe.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="saw-horse-bunnings-craftright-folding-metal-leg.html">Saw horse Bunnings Craftright folding metal leg</a><br />
+                    This is a saw horse by Craftright sold by Bunnings in Australia. It has folding orange metal legs.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="mousepad-generic.html">Mousepad generic</a><br />
+                    This is a free 3D Radiance model of a generic grey mousepad I had lying on my desk. It isn&#x27;t particularly special in any way, but sometimes you need some entourage.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="book-rendering-with-radiance.html">Book &quot;Rendering with Radiance&quot;</a><br />
+                    Download a free 3D model for use in a Radiance scene or project for the book &quot;Rendering with Radiance&quot;, by Greg Ward and Rob Shakespeare.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcGeographicElement</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="vinca-major-variegata.html">Vinca major variegata</a><br />
+                    Vinca major variegata is a perennial herbacious plant that is can be used as groundcover.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="tradescantia-pallida.html">Tradescantia pallida (wandering jew, purple heart)</a><br />
+                    Tradescantia pallida, otherwise known as wandering jew or purple heart, is a perennial herbacious purple plant that is a groundcover that likes to spread. It has good indoor air filtration properties.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="rye.html">Rye</a><br />
+                    Rye is a tall grass with recognisable seed heads. This can be used to give variation in the height of groundcovers in generic grassy scenes.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="nephrolepis-exaltata.html">Nephrolepis exaltata (Boston fern, sword fern)</a><br />
+                    Nephrolepis exaltata, also known as the Boston fern or sword fern, is a perennial herbacious fern. It is often used as an indoor plant.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="crassula-multicava.html">Crassula multicava</a><br />
+                    Crassula multicava is a perennial succulent often grown as a groundcover plant. It is a hardy plant and resistant to dryness.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="crabgrass.html">Crabgrass</a><br />
+                    Crabgrass is a spreading, crab-like grass that is usually considered to be a weed in north American gardens.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="clover.html">Clover</a><br />
+                    This clover model can be used as a dense, small, patch of groundcover amongst a primary species of vegetation.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="chlorophytum-comosum.html">Chlorophytum comosum (spider plant)</a><br />
+                    Chlorophytum comosum, otherwise known as spider plant, is a perennial flowering plant. It is often used as groundcover, border plants, or house plants. It has good indoor air filtration properties.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="bahia-grass.html">Bahia grass</a><br />
+                    Bahia grass is a common grass that can be used when generic turf is required in a render and no local species model is available.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcLamp</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="lamp-sconce-lg125-860b22.html">Lamp sconce LG125/860B22</a><br />
+                    This LED lamp has an opal globe LG125/860B22 emitting white 6000K light omnidirectionally. It does not come with an .ies file, but approximates its specification of 1200 lumens.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="lamp-led-ikea-ryet-50325332.html">Lamp LED Ikea Ryet 50325332</a><br />
+                    This is a lamp model based off the LED Ikea Ryet 50325332, which is a clear chandelier or candelabra lamp / bulb. This product is no longer sold but this model may be used as a generic 2700K lamp.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcLightFixture</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="luminaire-kmart-upright-floor-lamp.html">Luminaire KMart upright floor lamp</a><br />
+                    This upright floor lamp sold by Kmart in Australia is a typical light fixture with a replacable globe of up to 60W. It has cable fixings on its stand.
+                </p>
+            </li>
+            <li>
+                <p>
+                    <a href="luminaire-ikea-ingared-beige.html">Luminaire Ikea Ingared beige</a><br />
+                    This is a free 3D model of a the Ikea Ingared beige luminaire. It is a typical desk luminaire with a cylindrical polyester lamp shade and brushed metal stand.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcOutlet</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="gpo-double-australia.html">GPO Double Australia</a><br />
+                    Double GPOs (general purpose outlet) in Australia generally look like this. Here&#x27;s a free 3D model of a typical one that you can find almost anywhere, for use in lighting simulation models.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcPort</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="plug-round-generic.html">Plug round generic</a><br />
+                    This is a generic power plug that is plugged into a socket. It is made out of black rubber.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcSwitchingDevice</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="switch-generic.html">Switch generic</a><br />
+                    This is a generic styled single and double wall mounted electrical toggle switch. It has its own encasement and is painted in white paint.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcWall</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="lysaght-smartascreen.html">Lysaght Smartascreen</a><br />
+                    Lysaght Smartascreen is a profiled metal fence or screen that is made from Colorbond steel, sold by Lysaght in Australia.
+                </p>
+            </li>
+        </ul>
+    </section>
+    <section>
+        <h2>IfcWindow</h2>
+        <ul>
+            <li>
+                <p>
+                    <a href="window-5-panel-right-1530w-2230h.html">Window 5-panel right 1530w 2230h</a><br />
+                    This is a 5-panel window with a single pane of clear glazing in each panel, surrounded by a wooden, white painted frame. 3 of the panels are awning windows which open out.
+                </p>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+ <h2>Comments</h2>
+ <p>
+     If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+ </p>
+    </section>
+    <footer>
+     <h3>License</h3>
+     <p>
+     This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the asset <code>LICENSE</code> file.
+     </p>
+    </footer>
+</body>
+</html>

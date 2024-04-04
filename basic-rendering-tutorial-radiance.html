@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Basic rendering tutorial with Radiance</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2018-01-14</p>
     </header>
@@ -58,7 +53,7 @@ open-source, free, and Unix-friendly software. In this case, I have
 started with a default scene, and arbitrarily replaced the default cube
 with a mesh of the Blender monkey mascot. I have also given the mesh a
 material, named <code>white</code>.</p>
-<p><img alt="Default scene with Blender monkey" src="Screenshot_20180107_221555.png"></p>
+<p><img alt="Default scene with Blender monkey" src="https://thinkmoult.com/assets/Screenshot_20180107_221555.png"></p>
 <p>Using Blender is optional, of course, and you can use whatever 3D
 program you like. Radiance works with the <a href="https://en.wikipedia.org/wiki/Wavefront_.obj_file">OBJ
 format</a>, which is an
@@ -133,7 +128,7 @@ rotated or not. When specifying a parameter to Radiance, you will prefix
 the parameter name with a hyphen, followed by the parameter value. So,
 for a camera at the origin facing east (where +X is east and +Z is up),
 I can tell Radiance this by typing <code>-vp 0 0 0 -vd 1 0 0 -vu 0 0 1</code>.</p>
-<p><img alt="Radiance camera definition" src="Screenshot_20180107_230637.png"></p>
+<p><img alt="Radiance camera definition" src="https://thinkmoult.com/assets/Screenshot_20180107_230637.png"></p>
 <p>Calculating these vectors is a real pain unless your camera is in a
 really simple location and is orthogonal to the world axes like in my
 previous example. However, here's a fancy script you can run in Blender
@@ -174,7 +169,7 @@ light bounces, we would have a flat silhouette of our monkey).</p>
 <pre><code>$ ximage render.pic
 </code></pre>
 <p>You should see something like the following:</p>
-<p><img alt="Final Radiance render" src="Screenshot_20180107_232750.png"></p>
+<p><img alt="Final Radiance render" src="https://thinkmoult.com/assets/Screenshot_20180107_232750.png"></p>
 <p>One final step. It's quite irksome and technical to run all of the
 commands for <code>rpict</code>, <code>oconv</code> and such, and so it's much better to use
 the <em>executive control</em> program <code>rad</code>. <code>rad</code> allows you to write the
@@ -211,7 +206,7 @@ REPORT=0.1
 interactively render it, on an X server you can run
 <code>rad -o x11 scene.rif</code>. I used the above <code>.rif</code> file and ran it against
 a higher resolution mesh, and I've included the results below.</p>
-<p><img alt="Rad rendered image" src="2018-02-01-204222_512x512_scrot.png"></p>
+<p><img alt="Rad rendered image" src="https://thinkmoult.com/assets/2018-02-01-204222_512x512_scrot.png"></p>
 <p>All done! We've learned about bringing in an OBJ mesh with Radiance
 materials, placing them in a scene, and rendering it from a camera. Hope
 it's been useful. Of course, our final image doesn't look exactly great

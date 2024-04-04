@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>How to view BIM IFC files on Linux</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-01-12</p>
     </header>
@@ -30,7 +25,7 @@ databases, regardless of the technology vendor. One example is where you can
 Excel</a> and
 use this Excel spreadsheet to perform BIM queries.</p>
 <p><img alt="An IFC file integrated into Excel, viewed with open-source LibreOffice
-Calc. Here it shows IfcMaterial layers." src="ifc-viewer-excel-libreoffice.png"></p>
+Calc. Here it shows IfcMaterial layers." src="https://thinkmoult.com/assets/ifc-viewer-excel-libreoffice.png"></p>
 <p>Other than Windows, it is important to consider platforms that are less widely
 used in the architecture industry, such as Linux. Linux is especially conducive
 towards open-source development, rapid protoyping, and is the gold standard for
@@ -76,13 +71,13 @@ makes it quite a formidable tool in your arsenal. BlenderBIM, like Blender, is
 <li><strong>IFC Clash</strong> - this performs clash detection on IFC files</li>
 <li><strong>IFC COBie</strong> - this converts IFC SPF data into spreadsheet format based on the COBie template.</li>
 </ul>
-<p><img alt="Blender IFC import showing basic IFC properties" src="blender-ifc-import.png"></p>
+<p><img alt="Blender IFC import showing basic IFC properties" src="https://thinkmoult.com/assets/blender-ifc-import.png"></p>
 <p>This method is also great if your purpose is visualisation and rapid
 prototyping. Blender works very well with VR, 3D printing, and also supports
 tools for sun path simulation and CFD. For instance here is a derived
 <code>IfcSpace</code> that has been used to help create a wind simulation. In the example
 below, I was testing wind funnelling into the entrance of a shopping centre.</p>
-<p><img alt="CFD analysis in Blender using IFC as a base, here shown in OpenFOAM" src="blender-ifc-cfd.png"></p>
+<p><img alt="CFD analysis in Blender using IFC as a base, here shown in OpenFOAM" src="https://thinkmoult.com/assets/blender-ifc-cfd.png"></p>
 <p>When you are testing these massing models in Blender, you can always round-trip
 it back into IFC using FreeCAD.</p>
 <h2>View and edit IFCs with FreeCAD</h2>
@@ -102,7 +97,7 @@ feat is something that some Revit aficionados may claim is impossible, but they
 are wrong.</p>
 <p>As such, opening and editing an IFC in FreeCAD literally as simple as going
 "File-&gt;Open".</p>
-<p><img alt="FreeCAD opening and editing an IFC file natively" src="freecad-ifc-viewer.png"></p>
+<p><img alt="FreeCAD opening and editing an IFC file natively" src="https://thinkmoult.com/assets/freecad-ifc-viewer.png"></p>
 <p>At the time of writing, IFC support is largely a bleeding edge thing, and so I
 would recommend getting the latest <a href="https://github.com/FreeCAD/FreeCAD/releases">unstable AppImage
 release</a> with support for Python 3,
@@ -163,7 +158,7 @@ $ SimpleViewerExample
 </code></pre>
 <p>Here you can see it running in action:</p>
 <p><img alt="SimpleViewerExample based on IfcPlusPlus running on
-Linux" src="ifcplusplus-ifc-linux-viewer.png"></p>
+Linux" src="https://thinkmoult.com/assets/ifcplusplus-ifc-linux-viewer.png"></p>
 <h2>View IFC geometry and attributes with IfcOpenShell Viewer</h2>
 <p>Finally, and with the most customisation, you can run the IfcOpenShell Python
 Viewer. This viewer is seemingly not mentioned anywhere but <a href="http://www.pythonocc.org/category/quick-examples/">only in
@@ -193,7 +188,7 @@ code</a>
 which will have a tree viewer, attributes, and all the rest of it. As you can
 see in the screenshot below it also parses property sets very well.</p>
 <p><img alt="IfcOpenShell Python application running on
-Linux" src="ifcopenshell-ifc-linux-viewer.png"></p>
+Linux" src="https://thinkmoult.com/assets/ifcopenshell-ifc-linux-viewer.png"></p>
 <p>IfcOpenShell's Python module also has some pretty powerful ways to slice and
 dice IFCs, some of which is mentioned in the <a href="http://blog.ifcopenshell.org/">IfcOpenShell
 blog</a> and some in the <a href="http://academy.ifcopenshell.org/">IfcOpenShell

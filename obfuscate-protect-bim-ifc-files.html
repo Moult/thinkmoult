@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>How to obfuscate and protect BIM IFC files</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2018-01-28</p>
     </header>
@@ -38,7 +33,7 @@ information is retained (specifically, <code>IfcBuildingElement</code> subtypes 
 <p>This is a relatively easy task, and can be done with a standard text
 editor. IFC files are plain text files, which although generally do not
 lend themselves well to hand-editing, are quite easy to modify with
-regex. For this exercise, you will need <a href="www.vim.org">Vim</a>, which is the
+regex. For this exercise, you will need <a href="https://thinkmoult.com/assets/www.vim.org">Vim</a>, which is the
 world's most advanced text editor which also happens to support regex
 commands, and not choke upon files which are many gigabytes in size. If
 you are not using Vim, you will need to convert the regex below to your
@@ -79,7 +74,7 @@ Here’s my attempt:</p>
 information is trashed, all names are trashed, all materials reset, and
 it thinks a column is a beam, etc. I am viewing the results with
 <a href="http://www.solibri.com.au">Solibri IFC Model Checker</a>.</p>
-<p><img alt="Obfuscated IFC in Solibri" src="image015.png"></p>
+<p><img alt="Obfuscated IFC in Solibri" src="https://thinkmoult.com/assets/image015.png"></p>
 <p>Keep in mind that with all the best intentions of IFC and the Building
 Smart folks behind the standard, the implementation is rather spotty in
 various software, especially Revit. So, your mileage may vary.</p>

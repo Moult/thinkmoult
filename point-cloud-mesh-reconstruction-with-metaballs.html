@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Point cloud mesh reconstruction with metaballs</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-05-15</p>
     </header>
@@ -37,7 +32,7 @@ it, then Poisson wouldn't fare too well. If you also have lots of thin shapes,
 such as leaves on a tree, Poisson will struggle. But that's ok, since there are
 other algorithms out there, each with their pros and cons.</p>
 <p><img alt="Poisson creating bulbous forms when reconstructing
-vegetation" src="bulbous-poisson-reconstruction.png"></p>
+vegetation" src="https://thinkmoult.com/assets/bulbous-poisson-reconstruction.png"></p>
 <p>In 2015, I dealt with the issue of having to reconstruct meshes from extremely
 sparse or poor scans with holes. I'd like to share that there is a another
 approach to mesh reconstruction using <em>metaballs</em>. I haven't seen others use
@@ -58,7 +53,7 @@ zones and then stitch the results together.</p>
 parts were very well scanned and other parts were very badly scanned, with a
 relatively sparse point cloud.</p>
 <p><img alt="A metaball reconstruction on the left, with a Poisson reconstruction of the
-same dataset on the right" src="metaball-mesh-reconstruction.jpg"></p>
+same dataset on the right" src="https://thinkmoult.com/assets/metaball-mesh-reconstruction.jpg"></p>
 <p>If you want to try your own reconstruction, you can test this reconstruction
 very easily with Blender. Blender supports metaballs out of the box. Simply
 create a metaball, and set it to be the duplivert object of a point cloud. No
@@ -68,7 +63,7 @@ recreate this, you will first need to <a href="https://stackoverflow.com/questio
 Stanford
 bunny</a>.</p>
 <p><img alt="Metaball reconstruction of the Stanford
-bunny" src="stanford-bunny-metaball-reconstruction.png"></p>
+bunny" src="https://thinkmoult.com/assets/stanford-bunny-metaball-reconstruction.png"></p>
 <p>On the left is the metaball reconstruction, and on the right is the zipper
 high resolution reconstruction provided by Stanford (with normals smoothed). As
 you can see, the metaball reconstruction results in a pretty detailed mesh. You

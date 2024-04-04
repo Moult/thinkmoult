@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>A Beaglebone, a Blender, a Board, and a Swarm</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2013-07-13</p>
     </header>
@@ -27,7 +22,7 @@ break and create. But in my opinion, hardware should <em>just work</em>. But
 even though that's another story altogether, it did explain my
 apprehension when I greeted the UPS guy one morning delivering a
 <a href="http://beagleboard.org/">BeagleBone Black</a>.</p>
-<p><img alt="A BeagleBone Black" src="beagleboneblack.jpg"></p>
+<p><img alt="A BeagleBone Black" src="https://thinkmoult.com/assets/beagleboneblack.jpg"></p>
 <p>Let's begin with the BBB. It's a computer the size of a credit card,
 which isn't that impressive if you realise that your phone is a
 computer. I find the best way to explain it is in terms of two other
@@ -46,7 +41,7 @@ at 45USD.</p>
 <p>The next step upon receiving this wonderboard was obvious. Let's build a
 swarm of robots. Along with two university friends, Lawrence Huang and
 Gloria Nam, we set out planning the system.</p>
-<p><img alt="An overview of the parts of the physical model" src="world.png"></p>
+<p><img alt="An overview of the parts of the physical model" src="https://thinkmoult.com/assets/world.png"></p>
 <p>The base was to be constructed out of a 1200x1200mm wooden plywood board
 and cut it into a circle with a hole in the middle. This would be the
 "world" where the robot swarm would live on. This world would operate
@@ -62,7 +57,7 @@ had to disperse to discover where the rotated resource depots were, and
 the swarm as a whole had a set of goals and quota limitations. Five
 movement types (along with the math) were worked out to allow the bots
 smooth and flexible movement across the terrain.</p>
-<p><img alt="Movement rules" src="rules.png"></p>
+<p><img alt="Movement rules" src="https://thinkmoult.com/assets/rules.png"></p>
 <p>The overmind was next. We would use <a href="http://blender.org/">Blender</a>'s
 very flexible boid simulator along with custom Python scripts using
 Blender's Python API to simulate the swarm behavior on the computer and
@@ -73,24 +68,24 @@ the swarm, and having this bot track the motions of a single bot on the
 computer screen, but still behave as part of the full 32-robot swarm on
 the screen. Viewers could then see on the screen the full swarm
 behavior, and physically see a single bots behavior in front of them.</p>
-<p><img alt="Swarm boid simulation in Blender" src="swarmscreenshot.png"></p>
+<p><img alt="Swarm boid simulation in Blender" src="https://thinkmoult.com/assets/swarmscreenshot.png"></p>
 <p>The car itself was then built. It was relatively small and was barely
 enough to fit the two continuous-rotation servo motors that were
 required to power its left and right treads. It had a little tank on its
 top to hold resources, a depositing mechanism at its front, and dragged
 along a massive conveyor belt to collect resources behind it.</p>
-<p><img alt="A single robotic car" src="car.png"></p>
+<p><img alt="A single robotic car" src="https://thinkmoult.com/assets/car.png"></p>
 <p>Now the fun part - calibrating the simulated swarm with the actual
 physical swarm behavior, and doing all the physical PWM circuits. Many
 sleepless nights later it was a success. Here we see the bot doing a
 weird parking job into the depot and collecting resources, going back to
 the center, and depositing it. Apologies for the lack of video.</p>
-<p><img alt="Robot's collecting resources" src="collect.png"></p>
+<p><img alt="Robot's collecting resources" src="https://thinkmoult.com/assets/collect.png"></p>
 <p>And there we have it. A swarm of robots. Did it curb my fear of
 hardware? Not entirely.</p>
-<p><img alt="A front shot" src="frontshot.png"></p>
+<p><img alt="A front shot" src="https://thinkmoult.com/assets/frontshot.png"></p>
 <p>For those interested in the actual system, here's a macro overview:</p>
-<p><img alt="Overview of the system" src="system.png"></p>
+<p><img alt="Overview of the system" src="https://thinkmoult.com/assets/system.png"></p>
 <p>A few extra fun things from the project:</p>
 <ul>
 <li>Calibration was not easy. Actually, it was very hard. No, it was

@@ -11,18 +11,13 @@
 <body>
     <header>
         <h1>Robotic wire cutting toolpath generation with Blender</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-05-06</p>
     </header>
     <article>
 
-<p>In a previous post, I talked about <a href="../robotic-stereotomy-stone-diamond-wire-cutting/article.md">using a diamond wire to cut
+<p>In a previous post, I talked about <a href="https://thinkmoult.com/assets/../robotic-stereotomy-stone-diamond-wire-cutting/article.md">using a diamond wire to cut
 stone</a>. The wire
 cutter would be attached to a 6-axis robot arm which would then be pushed
 through the stone. If you haven't yet read it, read it now.</p>
@@ -43,7 +38,7 @@ of the surface UV. Given a clean mesh topology with a lot of quads, we figured
 that the wire could simply follow edge rings, starting with U, an following V,
 until it had carved up the required shape.</p>
 <p><img alt="Edge loops and edge rings which create a natural
-toolpath" src="edge-loops-and-edge-rings.png"></p>
+toolpath" src="https://thinkmoult.com/assets/edge-loops-and-edge-rings.png"></p>
 <p>The KRL syntax in its simplest form supports an XYZ for the toolhead location,
 along with a tool axis vector and tool "up" vector. The XYZ is all relative to a
 datum which is calibrated at the beginning. The datum would be an arbitrary
@@ -64,7 +59,7 @@ hot-wire cutter (resistance wire with a haphazardous power pack tied to it) and
 styrofoam. If you clamp the foam down at the bottom and use dense foam, it sort
 of doesn't move around too much.</p>
 <p><img alt="Carving foam using toolpaths generated from edge
-loops" src="cutting-foam-block.png"></p>
+loops" src="https://thinkmoult.com/assets/cutting-foam-block.png"></p>
 <p>By the time I write this post, all the languages, robot APIs and scripts would
 be deprecated, and so is probably not worth digging up and sharing. However, the
 principle of edge loops and seams as a workflow was really quite intuitive, and

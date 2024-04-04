@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Create 360 VR panoramas with Radiance</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-01-05</p>
     </header>
@@ -31,7 +26,7 @@ and mapping the 360 panoramic image as a texture to the inside of the sphere or
 cube. Looking around, this sphere or cube is set in a special way to not cast
 any shadows nor have any calculated lighting to give away the illusion that you
 are inside a sphere or cube, and then you can see the environment around you.</p>
-<p><img alt="An example of a camera inside of a sphere" src="360-spheremap-example.png"></p>
+<p><img alt="An example of a camera inside of a sphere" src="https://thinkmoult.com/assets/360-spheremap-example.png"></p>
 <p>This technique has many names, known as a sky map, environment map, or sphere /
 cube map (specifically if the texture is created for a sphere or cube shape).
 It's quite an old and established technique, often used to create a background
@@ -54,7 +49,7 @@ of the render, and 360 around the perimeter of the render.</p>
 increases as the view moves behind you (i.e. towards the perimeter of the
 rendered circle). This can create a pinch-like artifact in the VR.</p>
 <p><img alt="An example of an angular spheremap rendered with
-Radiance" src="angular-spheremap.png"></p>
+Radiance" src="https://thinkmoult.com/assets/angular-spheremap.png"></p>
 <p>This is very simple to render by setting the following options to <code>rpict</code>, and
 by setting a square (e.g. 1024 x 1024 px) output resolution:</p>
 <pre><code>-vta -vv 360 -vh 360
@@ -72,7 +67,7 @@ can minimise any distortion in the VR. However, it does mean that you are
 rendering six views instead of one, and can take a lot longer. However, as it is
 a simple perspective view, you can benefit from doing a partial render / patch
 render instead of rendering absolutely everything if you make a small change.</p>
-<p><img alt="An example of a cubemap rendered with Radiance" src="radiance-cubemap-example.png"></p>
+<p><img alt="An example of a cubemap rendered with Radiance" src="https://thinkmoult.com/assets/radiance-cubemap-example.png"></p>
 <p>Each view is a perfect square, and is usually a power of 2, such as 1024x1024.
 Each view covers a vertical and horizontal field of view of 90 degrees, so that
 they combine to create a 360 image. This means that the following options can be
@@ -93,10 +88,10 @@ can turn around anyway, but the front view is usually what is presented first,
 and so it might be sensible to set it to a visually interesting direction.</p>
 <p>It may be that you have a different position or view direction and view up
 vector. You will have to calculate these yourself. However, if you use Blender,
-you can use this script in my <a href="../basic-rendering-tutorial-radiance/article.md">beginner Radiance
+you can use this script in my <a href="https://thinkmoult.com/assets/../basic-rendering-tutorial-radiance/article.md">beginner Radiance
 tutorial</a> to calculate the
 <code>-vu</code> and <code>-vd</code> options.</p>
-<p><img alt="An example of 6 cameras set up in Blender" src="blender-cubemap-cameras.png"></p>
+<p><img alt="An example of 6 cameras set up in Blender" src="https://thinkmoult.com/assets/blender-cubemap-cameras.png"></p>
 <p>Once the views are rendered, you may need to rotate with <code>protate</code> or <code>pflip</code> if
 your VR software requires you to. These are pretty straightforward to apply.</p>
 <p>To ensure visual consistency, the views need to be adjusted to the same exposure
@@ -136,7 +131,7 @@ As another example, this'll give you a 3x2 strip of tiles:</p>
 be represented in a single 2x1 width x height aspect ratio image, with the
 expense of having distortion towards the poles.</p>
 <p><img alt="An example of an equirectangular projection in
-Radiance" src="equirectangular-projection.png"></p>
+Radiance" src="https://thinkmoult.com/assets/equirectangular-projection.png"></p>
 <p>One approach to creating an equirectangular projection is to first render a
 sphere map, and then use a tool like <code>imagemagick</code> to convert the distortion.
 You can read up more about <a href="https://www.imagemagick.org/Usage/distorts/#circular_distorts">circular distortions</a> to see the full set of options. In short, the following will convert from sphere to equirectangular, known as a <em>DePolar</em> distortion:</p>
@@ -150,7 +145,7 @@ equirectangular projection. However, <a href="http://markjstock.org/">Mark J. St
 file</a>
 that allows us to do just that. I have modified it slightly to produce a single
 360 image, instead of a stereoscopic pair, which I'll talk about later. So
-first, please <a href="2d360.cal">download this 2d360.cal file</a>.</p>
+first, please <a href="https://thinkmoult.com/assets/2d360.cal">download this 2d360.cal file</a>.</p>
 <p>Because we will use this <code>.cal</code> file to influence how to calculate each pixel,
 we will need to render our image in a slightly different way. But first, let's
 save our output settings into <code>saved.opt</code> from <code>rad</code>:</p>
@@ -169,7 +164,7 @@ distance between your eyes and is usually 0.055m and 0.07m for most people.</p>
 out more views. For the equirectangular projection, Mark J. Stock's original
 <code>.cal</code> file does the work for you by creating an over-under stereoscopic view.
 This is a 1:1 output image with the left image on the top and the right image on
-the bottom. You can <a href="3d360.cal">download 3d360.cal</a> here. Running <code>3d360.cal</code>
+the bottom. You can <a href="https://thinkmoult.com/assets/3d360.cal">download 3d360.cal</a> here. Running <code>3d360.cal</code>
 needs a bit more work. Take note that the output resolution is square, and it
 specifies a few more variables, such as <code>IPD</code>, <code>EX</code>, and <code>EZ</code> which you can read
 what they mean in the <code>.cal</code> file. Here's the command:</p>

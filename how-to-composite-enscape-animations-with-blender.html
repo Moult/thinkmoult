@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>How to composite Enscape animations with Blender</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-02-25</p>
     </header>
@@ -25,7 +20,7 @@
 <p><a href="https://enscape3d.com/">Enscape</a> is a game-engine style rendering engine that has plugins available for Revit, SketchUp, Rhino, and ArchiCAD. It is a proprietary, simple program that allows you to view your models. Although it is very easy to use, it lacks the functionality and flexibility that other tools such as <a href="https://www.blender.org/2-8/#eevee">Blender's Eevee</a> (extremely powerful, free, and open-source), Unity (offers free versions), and Unreal Engine allow.</p>
 <p>One of the functions that Enscape has is the ability to set camera keyframes and export a short animation of your building model. This is standard keyframing and keyframe interpolation that is seen in all animation software, with the limitation that you can only keyframe the camera, the field of view, and the time of day. This means that should you want to create a more bespoke animation, it is simply not possible to do in Enscape and you should use other tools.</p>
 <p>However, it is possible to composite over the underlying Enscape-animated footage. Stock standard 2D compositing is possible just like with any other footage, and so is camera / motion tracking, if you are keen to spend time tracking markers and solving the camera motion. However, Enscape does have an option to export out an XML file saving the camera positions. It is possible for us to recreate the camera movements in any other software.</p>
-<p><img alt="Enscape can export camera paths to an XML file" src="enscape-save-path-xml.png"></p>
+<p><img alt="Enscape can export camera paths to an XML file" src="https://thinkmoult.com/assets/enscape-save-path-xml.png"></p>
 <p>This XML data looks a little like this for an animation that shows 5 keyframes. Take note how the frames are measured in seconds, not frames, and that the time of day is recorded in terms of "hour", and the field of view is recorded in radians.</p>
 <pre><code>&lt;?xml version=&quot;1.0&quot; ?&gt;
 &lt;VideoPath version=&quot;1&quot; easingInOut=&quot;1&quot; shakyCam=&quot;0&quot;&gt;
@@ -55,9 +50,9 @@
 </code></pre>
 <p>The data is almost enough to recreate a camera path. First, we also need the field of view which is sometimes not explicit in the XML, but you can find it out from your settings.
  It is given in degrees in the UI.</p>
-<p><img alt="Enscape viewer showing the field of view" src="enscape-fov.png"></p>
+<p><img alt="Enscape viewer showing the field of view" src="https://thinkmoult.com/assets/enscape-fov.png"></p>
 <p>Finally you will also need the camera resolution and the frames per second to convert seconds to frame. This can be found in the Enscape settings.</p>
-<p><img alt="Enscape settings showing resolution and FPS" src="enscape-fps.png"></p>
+<p><img alt="Enscape settings showing resolution and FPS" src="https://thinkmoult.com/assets/enscape-fps.png"></p>
 <p>Those settings can be set in your camera object and rendering settings in your favourite 3D software. The next step is to actually translate the camera position and directions to your 3D software. Here, I demonstrate how to do it in Blender with a script.</p>
 <p>There are actually three pieces of information required to explicitly define a camera location and rotation. First, you need the position coordinates, which we have, then we either need rotation degrees along each axis, which we don't have, or a camera direction and a camera up vector to help define an axis. Unfortunately, Enscape only gives us two: the camera position, and the camera direction vector. We don't know which way is up, so theoretically the camera could still rotate among an infinite number of possibilities and still be correct.</p>
 <p>The good news is that it seems to follow the same system that Blender uses for the camera "track to" solver. So apart from your camera object in Blender named <code>Camera</code>, you will also need to create an empty, named <code>Target</code> which we will use to set as the "target" for the camera to point to. This is the python script that you can run inside Blender to import the XML data into your camera and target object. Be sure to delete any existing keyframes for the object or it might get confused. Also check that the FPS is correct (the default is 30).</p>
@@ -83,10 +78,10 @@ for keyframe in root[0]:
     cam.keyframe_insert(data_path = 'location', frame = frame, index = -1)
     target.keyframe_insert(data_path = 'location', frame = frame, index = -1)
 </code></pre>
-<p>Run the script and that's it! Your camera will now follow the path of the enscape camera. The coordinates are such that the project base point is set to be the origin. If you want, you can now export your project as an IFC, and <a href="../how-to-view-bim-ifc-files-linux/article.md">view your IFC using Blender</a>.</p>
+<p>Run the script and that's it! Your camera will now follow the path of the enscape camera. The coordinates are such that the project base point is set to be the origin. If you want, you can now export your project as an IFC, and <a href="https://thinkmoult.com/assets/../how-to-view-bim-ifc-files-linux/article.md">view your IFC using Blender</a>.</p>
 <p>You can additionally check if the camera is correct by <a href="https://docs.blender.org/manual/en/latest/editors/3dview/properties/background_images.html">setting a video underlay in your Blender camera</a>.</p>
 <p>You will then quickly notice that your camera is correct on the keyframes, but the interpolation may not match exactly. By default, Enscape does an "EaseInOut" easing, but doesn't reveal exactly what interpolation it uses. I have found that it is roughly equivalent to a bezier curve without any handles. That is, you can go to the graph editor for the camera object, set your scale origins to be individual origins, then scale all keyframes down to 0.</p>
-<p><img alt="Bezier interpolation without handles in the Blender graph animation editor" src="blender-graph.png"></p>
+<p><img alt="Bezier interpolation without handles in the Blender graph animation editor" src="https://thinkmoult.com/assets/blender-graph.png"></p>
 <p>You can now render and composite roughly camera tracked scenes on top of the Enscape footage.</p>
     </article>
     <section>

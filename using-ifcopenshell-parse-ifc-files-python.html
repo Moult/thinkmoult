@@ -11,19 +11,14 @@
 <body>
     <header>
         <h1>Using IfcOpenShell to parse IFC files with Python</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-02-12</p>
     </header>
     <article>
 
 <p>IFC is the ISO standard format for storing BIM data. IfcOpenShell is a project that has a Python library that allows you to parse IFC files. To start off with, you will need to <a href="http://www.ifcopenshell.org/python.html">download and install IfcOpenShell python</a>. There is currently no API documentation for IfcOpenShell, but it isn't hard to work out given that it derives mostly from the IFC specification.</p>
-<p>While parsing IFC files, if you would like to view IFC files using open-source viewers that are available on Linux, Windows, and Macs, I would recommend reading <a href="../how-to-view-bim-ifc-files-linux/article.md">how to view BIM IFC files on Linux</a>. These viewers are open-source and are relatively strict, as opposed to commercial viewers like Revit which do a very poor job of parsing IFCs correctly, or viewers like Solibri which are very lenient with their parsing and promote badly structured IFCs.</p>
+<p>While parsing IFC files, if you would like to view IFC files using open-source viewers that are available on Linux, Windows, and Macs, I would recommend reading <a href="https://thinkmoult.com/assets/../how-to-view-bim-ifc-files-linux/article.md">how to view BIM IFC files on Linux</a>. These viewers are open-source and are relatively strict, as opposed to commercial viewers like Revit which do a very poor job of parsing IFCs correctly, or viewers like Solibri which are very lenient with their parsing and promote badly structured IFCs.</p>
 <p>The examples below use 2X3, as right now is it assumed that most IFC files floating out there are 2X3, but the principles still apply to IFC4. As of writing, IfcOpenShell determines IFC2X3 or IFC4 parsing based on a compile-time flag, which by default is set to IFC2X3. If you wish to use IFC4, you will need to compile IfcOpenShell with <code>USE_IFC4=Y</code>.</p>
 <p>Let's start with loading an IFC file:</p>
 <pre><code>import ifcopenshell
@@ -88,9 +83,9 @@ for definition in wall.IsDefinedBy:
 local_coordinates = wall.ObjectPlacement.RelativePlacement.Location[0]
 </code></pre>
 <p>Finally, you can also get the actual geometric representation of an IFC element. Just like placements, <a href="http://standards.buildingsmart.org/IFC/RELEASE/IFC2x3/TC1/HTML/ifcrepresentationresource/lexical/ifcrepresentation.htm">IFC representations are complex</a>. There are many types, and an IFC element may have multiple representations in different contexts. This is beyond the scope of the quick demonstration. In this example, we will not go into detail, but simply deal with a typical extruded object from an axis, which is a very common type of object as shown below.</p>
-<p><img alt="A profile which is extruded along an axis" src="IfcExtrudedAreaSolid-Layout1.gif"></p>
+<p><img alt="A profile which is extruded along an axis" src="https://thinkmoult.com/assets/IfcExtrudedAreaSolid-Layout1.gif"></p>
 <p>We will also see how to access the underlying profile which is used in the extrusion, as shown below.</p>
-<p><img alt="In this scenario, we deal with an OuterCurve, which is a closed, filled curve" src="IfcArbitraryProfileDef-Layout1.gif"></p>
+<p><img alt="In this scenario, we deal with an OuterCurve, which is a closed, filled curve" src="https://thinkmoult.com/assets/IfcArbitraryProfileDef-Layout1.gif"></p>
 <p>This code will access the relevant geometry data:</p>
 <pre><code>geometry = wall.Representation.Representations[0].Items[0] # An IfcExtrudedAreaSolid in this example
 print(geometry.Position.Location[0]) # The centroid of the wall, so if the wall axis goes from (0, 0, 0) to (4, 0, 0) it will be (2, 0, 0)
@@ -100,7 +95,7 @@ print(geometry.SweptArea) # A closed and filled area curve that can be extruded 
 print(geometry.SweptArea.OuterCurve.Points) # the list of points that are in the polyline
 </code></pre>
 <p>The points (i.e. <code>geometry.SweptArea.OuterCurve.Points</code>) give coordinates relative to <code>geometry.Position.Location[0]</code>.</p>
-<p><img alt="Points are given relative to the profile location" src="IfcProfileDef-Layout1.gif"></p>
+<p><img alt="Points are given relative to the profile location" src="https://thinkmoult.com/assets/IfcProfileDef-Layout1.gif"></p>
 <p>Geometry is quite delicate, and I would discourage attempting to be bold and edit it by hand unless you want a headache. There are plenty of tools out there that can help you do this, or to visualise the geometry.</p>
 <p>For more examples, you can see an example of <a href="https://github.com/IfcOpenShell/IfcOpenShell/blob/master/src/ifcopenshell-python/ifcopenshell/geom/app.py">IfcOpenShell in use to build a simple viewer here</a>.</p>
 <p>And so ends this short introduction. If you are interested in helping push IFC, I recommend downloading <a href="https://www.freecadweb.org/">FreeCAD</a> and help writing code to make it the best open-source BIM authoring tool out there!</p>

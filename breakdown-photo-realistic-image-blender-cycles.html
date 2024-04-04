@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Breakdown of a photo-realistic image in Blender Cycles</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2018-02-05</p>
     </header>
@@ -30,13 +25,13 @@ below. You can see incredible features that we take for granted such as
 the viscous bulging of the asphalt as it hits the kerb, dead eucalyptus
 leaves, a groove between two concrete blocks, and so on. It's a slightly
 over-exposed shot, hence we have an unnaturally bright grass.</p>
-<p><a href="20180125_183312.jpg"><img alt="Source image" src="20180125_183312-1024x576.jpg"></a></p>
+<p><a href="https://thinkmoult.com/assets/20180125_183312.jpg"><img alt="Source image" src="https://thinkmoult.com/assets/20180125_183312-1024x576.jpg"></a></p>
 <p>The resultant 3D equivalent is below, all modeled, textured, and
 rendered in Blender. I've thrown in a glossy
 <a href="https://en.wikipedia.org/wiki/Blender_(software)#Suzanne">Suzanne</a> and
 sphere, as well as a creative oil slick on the asphalt. You can click on
 the images to see a high-resolution version.</p>
-<p><a href="render-large.png"><img alt="Rendered image" src="render-large-1024x576.png"></a></p>
+<p><a href="https://thinkmoult.com/assets/render-large.png"><img alt="Rendered image" src="https://thinkmoult.com/assets/render-large-1024x576.png"></a></p>
 <p>The modeling itself is ridiculously easy. Excluding the particle systems
 and dummy meshes, the road and kerb adds up to 5 polygons. The split in
 the middle of the kerb is because I suspect the kerb rose in level a
@@ -55,7 +50,7 @@ dumb planes, and only the leaves actually have a texture applied. The
 leaf texture was not a photo, and instead was from a <a href="http://www.jennybarron.co.uk/eucalyptus.html">beautiful
 eucalyptus leaf painting</a>
 by a talented artist.</p>
-<p><img alt="OpenGL render" src="render-viewport-1024x576.png"></p>
+<p><img alt="OpenGL render" src="https://thinkmoult.com/assets/render-viewport-1024x576.png"></p>
 <p>The basic texture layer adds the first layer of realism. These are all
 pretty standard, such as using this <a href="https://www.textures.com/download/asphaltcloseups0065/12434">seamless asphalt
 texture</a>. I
@@ -70,26 +65,26 @@ actually does represent deposition of dirt and therefore a contrast
 between the sun-bleached material and the darkened dirty material. There
 is no specular map in this case, though there usually is for roads. The
 map is shown below.</p>
-<p><img alt="Road dirt map" src="road-edge-small.png"></p>
+<p><img alt="Road dirt map" src="https://thinkmoult.com/assets/road-edge-small.png"></p>
 <p>To show the contrast between the effect a dirt map applies and a flat
 texture, I've attached a work in progress screenshot below. You can see
 the road which has a dirt map applied in contrast to the very fake
 looking kerb.</p>
-<p><img alt="Work in progress screenshot" src="2018-01-27-235622_735x859_scrot.png"></p>
+<p><img alt="Work in progress screenshot" src="https://thinkmoult.com/assets/2018-01-27-235622_735x859_scrot.png"></p>
 <p>The particle systems are what really give this scene a bit of life.
 There are 5 particle systems in total: dead eucalyptus leaves, mulch,
 long weedy Bermuda grass, short Bermuda grass, and dead grass fragments.
 They are all weight-painted to place them on the scene, with a noise
 texture to add colour variation to represent patchiness. An example of
 the weight paint for mulch, and dead grass is seen below.</p>
-<p><img alt="Mulch weight paint" src="mulch_small.png"></p>
+<p><img alt="Mulch weight paint" src="https://thinkmoult.com/assets/mulch_small.png"></p>
 <p>This gives a particle distribution which can be seen in the AO-pass
 below.</p>
-<p><a href="render-ao.png"><img alt="AO pass" src="render-ao-1024x576.png"></a></p>
+<p><a href="https://thinkmoult.com/assets/render-ao.png"><img alt="AO pass" src="https://thinkmoult.com/assets/render-ao-1024x576.png"></a></p>
 <p>That's pretty much it! During compositing there was an AO pass
 multiplied, colour correction applied, a sharpen filter, as well as a
 slight lens distortion just for fun. A fully sized render takes about 10
-minutes on my <a href="../brand-new-gentoo-desktop-computer/article.md">Gentoo
+minutes on my <a href="https://thinkmoult.com/assets/../brand-new-gentoo-desktop-computer/article.md">Gentoo
 machine</a>.</p>
     </article>
     <section>

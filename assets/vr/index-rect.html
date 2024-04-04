@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Radiance Living Room Demo VR</title>
+        <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+        <script src="aframe-stereo-component.js.min.js"></script>
+    </head>
+    <body>
+        <a-scene>
+            <!--
+            <a-sky src="pano.jpg" rotation="0 -130 0"></a-sky>
+            -->
+
+      <a-entity camera look-controls position="0 0 0" stereocam="eye:left;"></a-entity>
+      <a-sky id="sky1" src="pano/left.jpg" stereo="eye:left"></a-sky>
+      <a-sky id="sky2" src="pano/right.jpg" stereo="eye:right"></a-sky>
+        </a-scene>
+    </body>
+</html>
+
+
+      

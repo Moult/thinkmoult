@@ -1,0 +1,76 @@
+/* vertical ##############################*/
+.vertical {
+	background: #1a1a1a;
+	width: 220px;
+	height: 100%;
+	margin: 0 auto;
+	}
+	
+.vertical .carousel {
+	width: 220px;
+	height: 423px;
+	margin: 0 auto;
+	position: relative;
+	padding: 100px 0;
+	}
+	
+.vertical .carousel_container {
+	width: 220px; /* 3x220 + 3x1px margin */
+	height: 423px;
+	overflow: hidden;
+	/*padding: 0 50px;*/
+	position: relative;
+	}
+	
+.vertical ul  { 
+	height: 1980px;
+	width: 220px;
+}
+	
+.vertical ul li {
+	width: 220px;
+	height: 140px;
+	display: block;
+	float: left;
+	margin-right: 1px;
+	margin-bottom: 1px;
+	position: relative
+	}
+	
+.vertical ul li a {
+	width: 220px;
+	height: 140px;
+	background: #CCC;
+	display: block;
+	color: #fff;
+	}
+	
+.vertical ul li .caption {
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: none;
+	}
+	
+	
+.carousel_up, .carousel_down {
+	position: absolute;
+	width: 51px;
+	height: 26px;
+	display: block;
+	text-indent: -9999px;
+	}
+	
+.carousel_up { 
+	top: 20px; left:85px;
+	background: url(../images/up.png) top left;
+	}
+.carousel_down { 
+	bottom: 20px; left:85px;
+	background: url(../images/down.png) top left;
+	}
+.carousel_up:hover, .carousel_down:hover {
+	background-position: bottom left;
+	}
+	
+.disable { display: none; }

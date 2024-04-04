@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Worldwide GPS tracks with OpenStreetMaps for urban design analysis</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2018-07-03</p>
     </header>
@@ -43,11 +38,11 @@ this is a great graphic and can immediately pinpoint activity. It also
 is <a href="https://medium.com/strava-engineering/the-global-heatmap-now-6x-hotter-23fc01d301de">a fantastic feat of
 engineering</a>,
 processing 5 terabytes of raw input data. That's big data!</p>
-<p><img alt="Strava heatmap example" src="strava-example.jpg"></p>
+<p><img alt="Strava heatmap example" src="https://thinkmoult.com/assets/strava-example.jpg"></p>
 <p>Of course, just recently Strava decided to stop showing this public
 heatmap at high zoom levels and locked it behind a paywall. Thankfully,
 there are alternatives.</p>
-<p>In <a href="../openstreetmaps-open-source-maps-application/article.md">a previous
+<p>In <a href="https://thinkmoult.com/assets/../openstreetmaps-open-source-maps-application/article.md">a previous
 post</a>,
 I introduced an open-data initiative known as
 <a href="https://openstreetmaps.org/">OpenStreetMaps</a>. Strava is largely based
@@ -59,14 +54,14 @@ purposes, such as mapping new routes and calibrating the map), and we
 can use this open data in lieu of the proprietary product offered by
 Strava. Below, we see the world's GPS tracks from the perspective of OSM
 <a href="http://neis-one.org/">visualised by Pascal Neis</a>.</p>
-<p><img alt="OSM GPX tracks" src="2018-07-03-214004_948x500_scrot.png"></p>
+<p><img alt="OSM GPX tracks" src="https://thinkmoult.com/assets/2018-07-03-214004_948x500_scrot.png"></p>
 <p>Before I get into the specifics of getting GPS data, I'd like to show
 you what data is in a GPS track. Here's some GPS tracks visualised with
 <a href="https://josm.openstreetmap.de/">JOSM</a>. We can see things like speed,
 direction, and sometimes, elevation, if it is recorded. See those red
 segments of the line? Those are traffic lights!</p>
 <p><img alt="GPS track velocity visualised with
-JOSM" src="2018-07-03-214640_553x705_scrot.png"></p>
+JOSM" src="https://thinkmoult.com/assets/2018-07-03-214640_553x705_scrot.png"></p>
 <p>OSM has an <a href="https://wiki.openstreetmap.org/wiki/API_v0.6">API</a> and
 <a href="https://wiki.openstreetmap.org/wiki/Planet.gpx">Planet GPS extract</a>
 available to download GPS data. The Planet GPX is rather unwieldy, and
@@ -82,16 +77,16 @@ means just under 4 million GPS points. Here's a heat map visualisation
 of it I made using QGIS (but JOSM also has a heat map visualisation
 feature). You won't need huge supercomputers processing the data,
 either.</p>
-<p><img alt="Sydney, Australia GPS activity heat map" src="sydney-gps-heat-map.png"></p>
+<p><img alt="Sydney, Australia GPS activity heat map" src="https://thinkmoult.com/assets/sydney-gps-heat-map.png"></p>
 <p>Here's another of Manhattan, New York.</p>
 <p><img alt="Manhattan, New York, GPS activity heat
-map" src="manhattan-new-york-heat-map.png"></p>
+map" src="https://thinkmoult.com/assets/manhattan-new-york-heat-map.png"></p>
 <p>We can couple this visualisation with other OSM data such as all public
 transport nodes. In this case, railway tracks, bus routes, ferry routes,
 cycling routes, train stations, and bus stops are shown. This is also
 created with QGIS.</p>
 <p><img alt="Sydney public transport GPS
-analysis" src="sydney-public-transport-gps-analysis.png"></p>
+analysis" src="https://thinkmoult.com/assets/sydney-public-transport-gps-analysis.png"></p>
 <p>There are a few pros and cons to using this GPS data. The pro is that
 it's more general purpose: it's not only used by runners and cyclists,
 it's used by regular people (well, GIS geeks) doing everyday things like

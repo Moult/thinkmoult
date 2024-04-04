@@ -11,12 +11,7 @@
 <body>
     <header>
         <h1>Photorealistic rendering with Radiance</h1>
-        <nav>
-            <ul>
-                <li><a href="https://thinkmoult.com/">Homepage</a></li>
-                <li><a href="https://thinkmoult.com/atom-feed.html">Atom feed</a></li>
-            </ul>
-        </nav>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2019-05-04</p>
     </header>
@@ -25,7 +20,7 @@
 <p><a href="https://www.radiance-online.org/">Radiance</a> is the world's leading lighting simulation toolkit. It is used by
 lighting engineers internationally when they want to predict how a space will be
 lit, either through natural or artificial lighting. It is also unique in its
-quest for "photometrically correct" rendering (see a <a href="../a-comparison-between-radiance-and-other-rendering-engines/article.md">comparison of Radiance and
+quest for "photometrically correct" rendering (see a <a href="https://thinkmoult.com/assets/../a-comparison-between-radiance-and-other-rendering-engines/article.md">comparison of Radiance and
 other rendering
 engines</a>
 here).</p>
@@ -47,7 +42,7 @@ economical to create scientifically accurate, unreal renders.</p>
 <h2>Living room renders with Radiance</h2>
 <p>The scene used is my living room at home in Sydney, Australia. Let's start with
 some images.</p>
-<p><img alt="A luminance render of my work desk at night" src="radiance-work-desk-night.png"></p>
+<p><img alt="A luminance render of my work desk at night" src="https://thinkmoult.com/assets/radiance-work-desk-night.png"></p>
 <p>This is a luminance render of the work desk lit only by a cheap artificial desk
 lamp from IKEA. It is adjusted with human exposure adjustment, so there is a
 slight desaturation and ability to see the depths of the room.</p>
@@ -60,10 +55,10 @@ than the glare, I can only give a qualitative statement where I claim that the
 real life scene and the render look quite similar.</p>
 <p>Let's see how it compares to a photo.</p>
 <p><img alt="A greyscale comparison of the render and a
-photo" src="radiance-work-desk-photo-comparison.jpg"></p>
+photo" src="https://thinkmoult.com/assets/radiance-work-desk-photo-comparison.jpg"></p>
 <p>For completeness, here is a colour version.</p>
 <p><img alt="A colour comparison of the render and a
-photo" src="radiance-work-desk-photo-comparison-c.jpg"></p>
+photo" src="https://thinkmoult.com/assets/radiance-work-desk-photo-comparison-c.jpg"></p>
 <p>This comparison of three images represents a greyscale version of the original
 luminance render on the left. On the right is a photograph of the actual room
 taken with a phone camera set on automatic. Naturally, the photograph has the
@@ -77,9 +72,9 @@ clipping of the computer screen).</p>
 <p>For qualitative results, which is the purpose of this render, it is suffice to
 say that they look rather similar. Here is another night time shot that shows
 more of the room.</p>
-<p><img alt="A luminance night time render of the entire room" src="radiance-room-night.png"></p>
+<p><img alt="A luminance night time render of the entire room" src="https://thinkmoult.com/assets/radiance-room-night.png"></p>
 <p>Let's see it in the daytime.</p>
-<p><img alt="A luminance render of my living room" src="radiance-room-day.png"></p>
+<p><img alt="A luminance render of my living room" src="https://thinkmoult.com/assets/radiance-room-day.png"></p>
 <p>This daytime render shows the entirety of the living room taken from behind the
 desk with human exposure adjustment. There is a variety of entourage in the
 scene, as well as a glimpse of the backyard outside, turf grass, perimeter
@@ -94,22 +89,22 @@ position. However, it is enough to qualitatively admit that they are quite
 similar. No extra manipulation (apart from the greyscale filter) was done on
 either the render or the photo.</p>
 <p><img alt="A greyscale comparison of the living room render and a
-photo" src="radiance-room-photo-comparison.jpg"></p>
+photo" src="https://thinkmoult.com/assets/radiance-room-photo-comparison.jpg"></p>
 <p>For completeness, here is a colour version.</p>
 <p><img alt="A colour comparison of the living room render and a
-photo" src="radiance-room-photo-comparison-c.jpg"></p>
+photo" src="https://thinkmoult.com/assets/radiance-room-photo-comparison-c.jpg"></p>
 <p>To bring some numerics to this primarily qualitative exercise, this falsecolour
 luminance render shows the range of values seen in the render.</p>
 <p><img alt="A falsecolour luminance render of the living
-room" src="radiance-room-falsecolor.png"></p>
+room" src="https://thinkmoult.com/assets/radiance-room-falsecolor.png"></p>
 <p>Similarly, a falsecolour illuminance render is shown to give an idea of the
 range of values.</p>
 <p><img alt="A falsecolour illuminance render of the living
-room" src="radiance-room-i-falsecolor.jpg"></p>
+room" src="https://thinkmoult.com/assets/radiance-room-i-falsecolor.jpg"></p>
 <p>To complete the set of images, here is the work desk again, this time rendered
 in the day time.</p>
 <p><img alt="A luminance daytime render of my living room work
-desk" src="radiance-work-desk-day.png"></p>
+desk" src="https://thinkmoult.com/assets/radiance-work-desk-day.png"></p>
 <p>As a bonus, a panoramic VR environment of the room is supplied that uses WebVR
 and can be viewed on any computer or phone. If you have a form of cardboard VR
 goggles, you can view the scene using them.</p>
@@ -157,7 +152,7 @@ objects.</p>
 <li>The planter bed seen to the right and all of its groundcover plants</li>
 <li>The backyard with turf, fencing, and trees</li>
 </ul>
-<p><img alt="WIP image of the entire scene" src="living-room-overview.png"></p>
+<p><img alt="WIP image of the entire scene" src="https://thinkmoult.com/assets/living-room-overview.png"></p>
 <p>Splitting the assets meant that should a portion of the scene change, the entire
 octree didn't need to be recompiled. The scene was then further split into:</p>
 <ul>
@@ -165,7 +160,7 @@ octree didn't need to be recompiled. The scene was then further split into:</p>
 <li>Individual instances of plants</li>
 <li>Individual patches of turf</li>
 </ul>
-<p>The assets were organised into atomic directories following a <a href="../proposed-radiance-filesystem-hierarchy-standard/article.md">proposed Radiance
+<p>The assets were organised into atomic directories following a <a href="https://thinkmoult.com/assets/../proposed-radiance-filesystem-hierarchy-standard/article.md">proposed Radiance
 Filesystem Hierarchy
 Standard</a>. This
 allowed the scene to include many objects without being overly complex in its
@@ -177,30 +172,30 @@ succinct, intuitive, human description of all elements that are present in the
 scene.</p>
 <h2>Mesh modeling and objects</h2>
 <p>The meshes were included in Radiance using <code>mesh</code> objects. This is described in
-my <a href="../basic-rendering-tutorial-radiance/article.md">beginners tutorial to
+my <a href="https://thinkmoult.com/assets/../basic-rendering-tutorial-radiance/article.md">beginners tutorial to
 Radiance</a>. This by itself is
 enough to immediately create a lot of realism in the scene.</p>
 <p>Here's a wireframe view of the scene. Relatively standard CG modeling practices
 are used here. Examples include maximising quad meshes to improve mesh topology,
 and using bevels to give realistic edges.</p>
-<p><img alt="A wireframe OpenGL render of the scene" src="blender-wip-1.png"></p>
+<p><img alt="A wireframe OpenGL render of the scene" src="https://thinkmoult.com/assets/blender-wip-1.png"></p>
 <p>Let's take a look at the wireframes of some of the more detailed aspects of the
 scene. This gives an idea of the level of detail in modeling required.</p>
 <p><img alt="Shoes and GPO outlets in the distance are given the same level of detail as
-nearby objects" src="blender-wip-2.png"></p>
-<p><img alt="A softbody simulated cloth, along with wires and beveled keyboard" src="blender-wip-3.png"></p>
-<p><img alt="Glints from screws, bevels, and beads give slight hints of detail for realism" src="blender-wip-4.png"></p>
+nearby objects" src="https://thinkmoult.com/assets/blender-wip-2.png"></p>
+<p><img alt="A softbody simulated cloth, along with wires and beveled keyboard" src="https://thinkmoult.com/assets/blender-wip-3.png"></p>
+<p><img alt="Glints from screws, bevels, and beads give slight hints of detail for realism" src="https://thinkmoult.com/assets/blender-wip-4.png"></p>
 <h2>Materials and textures</h2>
 <p>In order to record materials, every real life object was brought outside into
 bright clear sunlight, and measured using the <code>macbethcal</code> method. I've detailed
-how to <a href="../use-macbethcal-to-calibrate-textures/article.md">calibrate textures using
+how to <a href="https://thinkmoult.com/assets/../use-macbethcal-to-calibrate-textures/article.md">calibrate textures using
 <code>macbethcal</code></a> in another
 post, but essentially this involves a RAW photograph of the material sample
 together with
 a colour checker chart. The average RGB of the diffuse material is then measured
 after running <code>macbethcal</code>, and any CG diffuse texture map then is scaled to
 that measured RGB. Specular and roughness values were guessed based on sensible
-values, with help from <a href="../radiance-specularity-and-roughness-value-examples/article.md">examples of specular and roughness in
+values, with help from <a href="https://thinkmoult.com/assets/../radiance-specularity-and-roughness-value-examples/article.md">examples of specular and roughness in
 Radiance</a>.</p>
 <p>Some materials could not be brought outside, such as the carpet or wall. However
 carpet or wall close to a window in ideal conditions can still be measured using
@@ -225,7 +220,7 @@ verifies that the bulb behaves as expected. You can see the <code>.ies</code> sp
 relative to the luminaire in the picture below. The bulb itself, although not
 seen in the render, contains glow materials.</p>
 <p><img alt="A sphere representing the lamp's IES data placed inside the
-luminaire" src="ies-sphere-lamp.png"></p>
+luminaire" src="https://thinkmoult.com/assets/ies-sphere-lamp.png"></p>
 <p>The computer monitor is also technically an artifical light source. The good
 news is that all computer monitors are roughly the same in terms of brightness,
 and that Greg Ward has already measured a VDU (visual display unit) in the past,
@@ -240,7 +235,7 @@ geolocation and a solar disc for the sun. As such the primary lighting is
 provided by the sky, but the scaled HDRI environment helps add a bit of
 variation within the ballpark values, but does not significantly adversely
 affect the simulation.</p>
-<p><img alt="HDRI envmap with a sky portion replaced by a CIE sky" src="hdri-envmap-cie.jpg"></p>
+<p><img alt="HDRI envmap with a sky portion replaced by a CIE sky" src="https://thinkmoult.com/assets/hdri-envmap-cie.jpg"></p>
 <p>Any surrounding context that was expected to actually affect the simulation was
 modeled, and therefore the HDRI image was limited to subtle background effects.</p>
 <h2>Vegetation particles</h2>
@@ -251,29 +246,29 @@ the method of growing and placing objects in a render, usually used for
 vegetation, is well established.</p>
 <p>Radiance does not have any particle distribution tools, but it does support
 instancing. Therefore in the case of the backyard grass, a script was written to
-copy a patch of grass up to 50 times in an area. I describe more about <a href="../creating-grass-and-plants-in-radiance/article.md">how to
+copy a patch of grass up to 50 times in an area. I describe more about <a href="https://thinkmoult.com/assets/../creating-grass-and-plants-in-radiance/article.md">how to
 create vegetation in
 Radiance</a> in another post.
 You can see the script generated
 <a href="https://bin.sevenstrokes.net/living-room/grass.rad"><code>grass.rad</code></a> which sets out
 the instances for each species of grass.</p>
 <p><img alt="Grass and bush as textured planes vs modeled grass and
-bush" src="bush-texture-vs-model.jpg"></p>
+bush" src="https://thinkmoult.com/assets/bush-texture-vs-model.jpg"></p>
 <p>Instances were deleted where they were not visible from the point of view of the
 camera.</p>
-<p><img alt="Grassy patches that form the back yard" src="blender-wip-5.png"></p>
+<p><img alt="Grassy patches that form the back yard" src="https://thinkmoult.com/assets/blender-wip-5.png"></p>
 <p>Whereas the grass leaves were fully modeled (but not textured), the herbacious
 vegetation in the planter bed was only semi modeled (but fully textured). Each
 fern frond, leaf, or stem, was merely an alpha mapped plane. This was done to
 optimise the rendering time.</p>
-<p><img alt="Alpha mapped planes arranged to create a planter bed" src="blender-wip-6.png"></p>
+<p><img alt="Alpha mapped planes arranged to create a planter bed" src="https://thinkmoult.com/assets/blender-wip-6.png"></p>
 <h2>Vegetation photogrammetry</h2>
 <p>Photogrammetry with Poisson reconstruction is generally not the right tool to
 scan moving, thin, homogenous surfaces. This can be seen in the bulbous
 backfaces in the mesh reconstruction of these ferns in the planter bed.</p>
 <p><img alt="Poisson reconstruction unable to reconstruct thin
-shapes" src="failed-poisson-reconstruction.png"></p>
-<p>Perhaps another reconstruction technique, such as my proposed <a href="../point-cloud-mesh-reconstruction-with-metaballs/article.md">point cloud mesh
+shapes" src="https://thinkmoult.com/assets/failed-poisson-reconstruction.png"></p>
+<p>Perhaps another reconstruction technique, such as my proposed <a href="https://thinkmoult.com/assets/../point-cloud-mesh-reconstruction-with-metaballs/article.md">point cloud mesh
 reconstruction using metaballs</a>, may be more successful, but were not used in
 this render.</p>
 <p>From a distance, mesh reconstructions may still be viable. Often, a UV
@@ -282,8 +277,8 @@ much harder to calibrate, as it is a messy collage of photos. For a bush, where
 you generally only care if the leaf is within the ballpark of correct values,
 and you are only seeing it from a distance, it is acceptable to use this
 technique.</p>
-<p><img alt="A scanned bush mesh" src="photogrammetrically-scanned-bush.png"></p>
-<p><img alt="A generated UV map from a scanned bush" src="bush-uv-map.png"></p>
+<p><img alt="A scanned bush mesh" src="https://thinkmoult.com/assets/photogrammetrically-scanned-bush.png"></p>
+<p><img alt="A generated UV map from a scanned bush" src="https://thinkmoult.com/assets/bush-uv-map.png"></p>
 <p>This type of scanned entourage offers much more realism than the alternative
 technique of alpha mapped planes for far away vegetation.</p>
 <h2>Alpha mapped trees</h2>
@@ -298,7 +293,7 @@ scientific accuracy, as long as they exist. Therefore the tree was placed in the
 horizontal plane, to represent the canopy of the tree, and to cast the shadows.
 If viewed from another angle, this would look absolutely ridiculous, but for the
 purposes of simulating from this camera angle, it does what it needs to.</p>
-<p><img alt="A view of the alpha mapped plane trees" src="alpha-mapped-trees.png"></p>
+<p><img alt="A view of the alpha mapped plane trees" src="https://thinkmoult.com/assets/alpha-mapped-trees.png"></p>
 <h2>Rigid body simulation placed bricks</h2>
 <p>A nearly invisible part of the render is a pile of bricks in the backyard. I
 don't actually have a pile of bricks in my backyard, but they do show that any
@@ -306,23 +301,23 @@ regular CG technique is still applicable, so long as it can be baked into a
 mesh. In this case, a rigid body simulation was used to drop them and have them
 pile naturally.</p>
 <p><img alt="A pile of bricks, that you can hardly see in the actual
-render" src="rigid-body-bricks.png"></p>
+render" src="https://thinkmoult.com/assets/rigid-body-bricks.png"></p>
 <h2>Panoramic 360 VR</h2>
 <p>A static, panoramic 360 VR was created from this render. This means that you
 cannot move around in the space, but you can look around 360 degrees, just like
 Google StreetView. This is a old trick that has been around for a long time, but
 Radiance has been around longer than that, and so it is not too intuitive how to
 achieve this.</p>
-<p>I've written a tutorial on <a href="../create-360-vr-panoramas-with-radiance/article.md">how to create 360 VRs with Radiance</a> that covers all
+<p>I've written a tutorial on <a href="https://thinkmoult.com/assets/../create-360-vr-panoramas-with-radiance/article.md">how to create 360 VRs with Radiance</a> that covers all
 the steps required. The <code>scene.rif</code> includes commented out sections that
 describe how to create a 360 VR using the three techniques described in the
 tutorial (angular map, cube map, and equirectangular map). The equirectangular
 map is the preferred approach.</p>
-<p><img alt="A 360 panoramic VR environment of the room" src="radiance-vr.jpg"></p>
+<p><img alt="A 360 panoramic VR environment of the room" src="https://thinkmoult.com/assets/radiance-vr.jpg"></p>
 <p>After rendering out the panoramic image, it needs to be displayed in a real time
 viewer. Nowadays, there are plenty of open source solutions that provide this
 function. I have used <a href="https://aframe.io/">A-Frame</a>, which is a WebVR script
-that runs in your browser. You can <a href="vr/">view a demo of the Radiance VR</a>. If you
+that runs in your browser. You can <a href="https://thinkmoult.com/assets/vr/">view a demo of the Radiance VR</a>. If you
 have cardboard VR goggles, which you can buy as a cheap flatpack online, you can
 put your phone in and move your head around to see the scene.</p>
 <h2>Full inspection of the sources</h2>
