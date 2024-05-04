@@ -82,6 +82,7 @@ for keyframe in root[0]:
 <p>You can additionally check if the camera is correct by <a href="https://docs.blender.org/manual/en/latest/editors/3dview/properties/background_images.html">setting a video underlay in your Blender camera</a>.</p>
 <p>You will then quickly notice that your camera is correct on the keyframes, but the interpolation may not match exactly. By default, Enscape does an "EaseInOut" easing, but doesn't reveal exactly what interpolation it uses. I have found that it is roughly equivalent to a bezier curve without any handles. That is, you can go to the graph editor for the camera object, set your scale origins to be individual origins, then scale all keyframes down to 0.</p>
 <p><img alt="Bezier interpolation without handles in the Blender graph animation editor" src="https://thinkmoult.com/assets/blender-graph.png"></p>
+<p>Alternatively, you can use <a href="https://blenderartists.org/t/blender-camera-animation-to-enscape-video-path-python-script/1526696">this script</a> to do the opposite: to plan out a camera path in Blender then load it into Enscape.</p>
 <p>You can now render and composite roughly camera tracked scenes on top of the Enscape footage.</p>
     </article>
     <section>
