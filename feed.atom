@@ -2,15 +2,15 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-05-04T15:36:15</updated>
+    <updated>2024-05-04T15:39:22</updated>
     <author>
         <name>Dion Moult</name>
     </author>
     <id>https://thinkmoult.com/</id>
     <entry>
         <title>Open source architecture, engineering, and construction chatroom</title>
-        <link href="https://thinkmoult.com/architecture-irc-channel-on-freenode.html" />
-        <id>https://thinkmoult.com/architecture-irc-channel-on-freenode.html</id>
+        <link href="https://thinkmoult.com/open-source-architecture-engineering-construction-chatroom.html" />
+        <id>https://thinkmoult.com/open-source-architecture-engineering-construction-chatroom.html</id>
         <updated>2024-05-04</updated>
         <summary>Find, network and chat with other architects online in the Open Source Architecture Matrix chatroom and IRC channel. - for the full article please visit the website.</summary>
     </entry>
