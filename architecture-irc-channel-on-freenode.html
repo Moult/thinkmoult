@@ -4,58 +4,83 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Dion Moult" />
-    <meta name="description" content="Find, network and chat with other architects online in the architecture IRC channel hosted by the Freenode IRC network on the channel ##architect.">
-    <title>Architecture IRC channel on Freenode</title>
+    <meta name="description" content="Find, network and chat with other architects online in the Open Source Architecture Matrix chatroom and IRC channel.">
+    <title>Open source architecture, engineering, and construction chatroom</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <header>
-        <h1>Architecture IRC channel on Freenode</h1>
+        <h1>Open source architecture, engineering, and construction chatroom</h1>
         <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
-        <p class="date">2013-10-05</p>
+        <p class="date">2024-05-04</p>
     </header>
     <article>
 
-<p>Most of my readers will know that despite the majority of my blog posts
-being about technical content, I actually study architecture. The
-crossover between these two fields from my experience seems to be rather
-minimal. The computer geeks know a little about buildings, but not
-enough to do much about it. Similarly, the architecture folks dabble
-with computers, creating fields such as algorithmic architecture and
-parametric design. This dabbling rarely turns into anything serious from
-either party, and it's quite hard to find an online community of those
-who are interested in both. I hope to change that with the new
-architecture IRC channel on freenode.</p>
-<p>I recall lurking with the hopes of meeting another architect in
-#architect for a while. Occasionally someone would come but never stay,
-and the original channel founder left and hasn't been back for a year or
-so. For this reason I have now registered ##architect (the double hash
-prefix due to Freenode's channel rules) and will lurk yet again. I hope
-by writing this blog post other architects might notice and pop in.</p>
-<h2>What is IRC and how do I join the architecture IRC channel?</h2>
-<p>I realise that many architects might not be so familiar with what IRC
-is. IRC can be thought of as an online chat room divided into channels,
-which represent common topics of discussion. These channels are grouped
-into networks, which are simply organisations that provide these
-channels. So the full access details you need are as such:</p>
-<p><strong>Network:</strong> Freenode<br>
-<strong>Channel:</strong> ##architect</p>
-<p>Just like you need a program such as Skype in order to chat with others
-using Skype, you will need an IRC program to chat with others on IRC. I
-recommend using <a href="http://quassel-irc.org/">downloading Quassel</a> - it
-works on Windows, Mac and Linux.</p>
-<p>If you don't want to use a program, you can easily chat using the
-<a href="http://webchat.freenode.net/">online Freenode webchat service</a>. It's
-super easy to get started, just type in a nickname for yourself and put
-##architect in the channel box, and press connect.</p>
-<p>Finally, don't worry if nobody seems to be around, just stick around and
-we'll respond when we're back at a computer.</p>
-<p>See you in the architecture IRC channel!</p>
-<p><strong>Edit: some people have popped up but leave quite quickly. Small IRC
-communities are frequently inactive but need people to stick around for
-it to grow. Please consider waiting a few hours, or just connecting
-frequently and when somebody else is also around we'll have a chat.</strong></p>
+<p>The architecture, engineering, and construction industry does not have a large
+online chatroom culture, unlike the traditional open source software
+communities. Whereas thousands of open source enthusiasts would connect
+traditionally to chatroom protocols like IRC to discuss technical topics about
+software 24/7, these terms are largely foreign to the AEC crowd. </p>
+<p>Nowadays, more people are familiar with chatrooms like Slack, Discord, or
+Microsoft Teams. The culture across these chatroom platforms are very
+different, and it would be a shame to have a future where the culture of IRC
+chatrooms didn't exist or weren't available for the AEC industry.</p>
+<h2>What is IRC?</h2>
+<p>IRC is an online chatroom system. Just like there are many email providers out
+there, there are many chatroom providers, providing rooms (called channels)
+where you can chat about various topics. It is usually community moderated and
+managed. It is heavily used by open source enthusiasts, with popular providers
+being Freenode, and now, <a href="https://libera.chat/">Libera.Chat</a>.</p>
+<p>It is very old and very simple - these are strengths, not weaknesses for those
+who enjoy the "KISS" principle or love no-frills, text-heavy interfaces. Don't
+expect emojis, image attachments, video calls, games, or other gimmicks.</p>
+<p>That said, IRC is not for everyone. It's downright scary to many, especially
+those brought up in graphical environments in the AEC industry.</p>
+<h2>Growing a small community</h2>
+<p>I used to lurk in the hopes of meeting another architect in the <code>#architect</code>
+IRC channel hosted by Freenode. Occasionally someone would come but never stay,
+and the original channel founder left and hasn't been back for a year or so.
+In October 2013, I registered <code>##architect</code> (the double hash prefix due to
+Freenode's channel rules) and lurked yet again. I wrote a blog post, and
+hoped other architects might notice and pop in.</p>
+<p>A few trickled in but this never really grew. In 2019, the Open Source
+Architecture community was launched (OSArch), and along with it a forum. The
+channel was renamed to <code>#osarch</code> and the patronage grew to about 20 people or
+so.</p>
+<p>Growth of an organic community is a bit difficult to measure. It's not really
+about the number of people, but about the quality of contribution. There are a
+number of channels which exhibit behaviours like people joining and leaving as
+if it were a free helpdesk, or only asking for help but never helping in
+return.</p>
+<p>In 2021, the Freenode IRC server experienced <a href="https://en.wikipedia.org/wiki/Freenode#Ownership_change_and_conflict">a community
+schism</a>.
+We re-evaluated which chatroom system we would support, and ended up migrating
+from the IRC system to another open source chatroom system called Matrix. In
+contrast, Matrix is a lot more complex than IRC, but also a lot more friendly.
+It offers all the modern features of emojis, images, and more that people might
+expect.</p>
+<p>This was a great decision. One of the biggest advantages of Matrix is that it
+retains your message history. In IRC, if you left the chatroom then joined
+again, you would not be able to scroll up and see your older messages. The
+beauty of open source protocols is that they can generally be connected to one
+another. For example, we also migrated from Freenode to Libera.Chat and
+supported both Matrix and IRC concurrently. This allowed users to choose what
+they preferred - a modern, rich interface, or a simple, no-frills interface.</p>
+<p>In August 2023, the main community-hosted bridge joining IRC and Matrix was
+shutdown. This was unfortunate and meant until we were able to provide our own
+bridge, users had to choose between IRC or Matrix. Matrix won :) It wasn't
+until mid-2024 that a new bridge was setup.</p>
+<p>The user count grew to well over 200 users. But more importantly, I can speak
+from experience that the culture that has emerged is one very reminiscent of
+traditional IRC chatrooms - helpful, community-driven conversation, (not
+helpdesk support or heavily corporate-moderated), and full of life 24/7.</p>
+<h2>How do I join and begin chatting?</h2>
+<p>The easiest way to join is to launch the chatroom at
+<a href="https://osarch.org/chat">OSArch/Chat</a>.</p>
+<p>I recommend installing <a href="https://element.io/">Element</a> on your phone or computer
+to chat using Matrix. If you want to use IRC instead, I like using
+<a href="https://weechat.org/">Weechat</a>.</p>
     </article>
     <section>
 	<h2>Comments</h2>

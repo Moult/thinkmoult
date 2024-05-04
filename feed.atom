@@ -2,11 +2,18 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-05-04T13:57:56</updated>
+    <updated>2024-05-04T15:36:15</updated>
     <author>
         <name>Dion Moult</name>
     </author>
     <id>https://thinkmoult.com/</id>
+    <entry>
+        <title>Open source architecture, engineering, and construction chatroom</title>
+        <link href="https://thinkmoult.com/architecture-irc-channel-on-freenode.html" />
+        <id>https://thinkmoult.com/architecture-irc-channel-on-freenode.html</id>
+        <updated>2024-05-04</updated>
+        <summary>Find, network and chat with other architects online in the Open Source Architecture Matrix chatroom and IRC channel. - for the full article please visit the website.</summary>
+    </entry>
     <entry>
         <title>NetHack damage calculator</title>
         <link href="https://thinkmoult.com/nethack-damage-calculator.html" />
@@ -482,13 +489,6 @@
         <id>https://thinkmoult.com/architecture-graduate-exhibition-university-of-sydney.html</id>
         <updated>2013-11-23</updated>
         <summary>Read the behind the scenes of the ANALOGUE Architecture Graduate Exhibition by the University of Sydney 2013. - for the full article please visit the website.</summary>
-    </entry>
-    <entry>
-        <title>Architecture IRC channel on Freenode</title>
-        <link href="https://thinkmoult.com/architecture-irc-channel-on-freenode.html" />
-        <id>https://thinkmoult.com/architecture-irc-channel-on-freenode.html</id>
-        <updated>2013-10-05</updated>
-        <summary>Find, network and chat with other architects online in the architecture IRC channel hosted by the Freenode IRC network on the channel ##architect. - for the full article please visit the website.</summary>
     </entry>
     <entry>
         <title>Sydney revue coming up from the architecture faculty!</title>
