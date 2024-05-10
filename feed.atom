@@ -2,667 +2,810 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-05-04T15:39:22</updated>
+    <updated>2024-05-10T11:27:29</updated>
     <author>
         <name>Dion Moult</name>
     </author>
     <id>https://thinkmoult.com/</id>
     <entry>
         <title>Open source architecture, engineering, and construction chatroom</title>
+
         <link href="https://thinkmoult.com/open-source-architecture-engineering-construction-chatroom.html" />
         <id>https://thinkmoult.com/open-source-architecture-engineering-construction-chatroom.html</id>
         <updated>2024-05-04</updated>
-        <summary>Find, network and chat with other architects online in the Open Source Architecture Matrix chatroom and IRC channel. - for the full article please visit the website.</summary>
+        <summary>Find, network and chat with other architects online in the Open Source Architecture Matrix chatroom and IRC channel. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Which IFC class should I use?</title>
+        <link href="https://blenderbim.org/search-ifc-class.html" />
+        <id>Which IFC class should I use?</id>
+                <updated>2024-04-06</updated>
+        <summary>Physical objects in an IFC file must be categorised to a class of object, which has implications on what properties are expected to be found on the object. This tool lets you type what type of object you have, and it will try and find the right IFC class for you. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Technical demonstrations of Native IFC authoring with free software - buildingSMART UK+I</title>
+        <link href="https://www.youtube.com/watch?v=Ooh05WF__80" />
+        <id>Technical demonstrations of Native IFC authoring with free software - buildingSMART UK+I</id>
+                <updated>2023-12-08</updated>
+        <summary>Practical demonstrations of native IFC authoring already used on live projects with the free software BlenderBIM Add-on presented at a buildingSMART UK+I meetup in 2023. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>IFC show and tell</title>
+        <link href="https://www.youtube.com/watch?v=h2Rv9iu7yDk" />
+        <id>IFC show and tell</id>
+                <updated>2023-11-09</updated>
+        <summary>A minor update to &quot;Introduction to OpenBIM, Native IFC, and Open Source AEC&quot; presented to BIMForum US. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>NetHack damage calculator</title>
+
         <link href="https://thinkmoult.com/nethack-damage-calculator.html" />
         <id>https://thinkmoult.com/nethack-damage-calculator.html</id>
         <updated>2023-06-21</updated>
-        <summary>This calculator for the game NetHack helps compare damage outputs from weapons, spells, and wands. It&#x27;s shown in both graph and table form. - for the full article please visit the website.</summary>
+        <summary>This calculator for the game NetHack helps compare damage outputs from weapons, spells, and wands. It&#x27;s shown in both graph and table form. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>NetHack: an illustrated guide to the Mazes of Menace</title>
+
         <link href="https://thinkmoult.com/nethack-illustrated-guide-mazes-of-menace.html" />
         <id>https://thinkmoult.com/nethack-illustrated-guide-mazes-of-menace.html</id>
         <updated>2022-12-28</updated>
-        <summary>A visual guide to NetHack, describing the stages of the game illustrated with AI generated imagery. - for the full article please visit the website.</summary>
+        <summary>A visual guide to NetHack, describing the stages of the game illustrated with AI generated imagery. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>How do colours work in IFC?</title>
+        <link href="https://community.osarch.org/discussion/comment/13744/#Comment_13744" />
+        <id>How do colours work in IFC?</id>
+                <updated>2022-11-18</updated>
+        <summary>A detailed explanation of how colours work in IFC. Colours seem deceptively simple, but are often confused with physical materials. Colours may be used for simple shading, rendering, and light simulation. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Understanding textures and shaders in IFC, X3D, and glTF</title>
+        <link href="https://community.osarch.org/discussion/877/understanding-how-textures-and-shaders-work-in-ifc" />
+        <id>Understanding textures and shaders in IFC, X3D, and glTF</id>
+                <updated>2022-01-31</updated>
+        <summary>I analyse how IFC4 has implemented shaders and textures based on X3D, and propose a series of backward compatible changes for IFC4X3 to modernise and simplify shader definitions in line with X3D4 and glTF. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Introduction to OpenBIM, Native IFC, and Open Source AEC</title>
+        <link href="https://www.youtube.com/watch?v=h2Rv9iu7yDk" />
+        <id>Introduction to OpenBIM, Native IFC, and Open Source AEC</id>
+                <updated>2021-07-24</updated>
+        <summary>This introduction to OpenBIM, Native IFC, and Open Source AEC was given as a keynote speech at the CAAD Futures conference in 2021. CAAD Futures is a biannual international conference on computational architecture founded in 1985. This introduction to Native IFC covers all the basic concepts, code, libraries, and tools to get started building your own Open Source AEC tools. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Free / libre &amp; Open Source software in AEC, and how it impacts OpenBIM - buildingSMART Summit 2020</title>
+        <link href="https://www.youtube.com/watch?v=DK4zmfkp_pw" />
+        <id>Free / libre &amp; Open Source software in AEC, and how it impacts OpenBIM - buildingSMART Summit 2020</id>
+                <updated>2020-10-28</updated>
+        <summary>Open source and OpenBIM complement each other, helping empower the users and processes of the Architecture, Engineering, and Construction industry. This presentation talks about the history of free software in the AEC industry, and the work done by the OSArch.org community to bring OpenBIM into our digitally enabled future. This talk was presented at the buildingSMART Summit 2020 under the technology section. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Effective altruism and living a net-positive life</title>
+
         <link href="https://thinkmoult.com/effective-altruism-living-net-positive-life.html" />
         <id>https://thinkmoult.com/effective-altruism-living-net-positive-life.html</id>
         <updated>2019-08-02</updated>
-        <summary>I describe how average individuals can impact the world in a positive way in all aspects of their living, all under a budget of 200 dollars a month. The net-positive lifestyle uses concepts of biocapacity, ecological accounting, and effective altruism. - for the full article please visit the website.</summary>
+        <summary>I describe how average individuals can impact the world in a positive way in all aspects of their living, all under a budget of 200 dollars a month. The net-positive lifestyle uses concepts of biocapacity, ecological accounting, and effective altruism. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>IFC Coordinate Reference Systems and Revit</title>
+
         <link href="https://thinkmoult.com/ifc-coordinate-reference-systems-and-revit.html" />
         <id>https://thinkmoult.com/ifc-coordinate-reference-systems-and-revit.html</id>
         <updated>2019-05-21</updated>
-        <summary>BIM projects have to specify Coordinate Reference Systems and their relationship to surveyed points and project origins in order to reliably geolocate geometry. I describe how this works with IFC, and the current state of compatibility with Revit. - for the full article please visit the website.</summary>
+        <summary>BIM projects have to specify Coordinate Reference Systems and their relationship to surveyed points and project origins in order to reliably geolocate geometry. I describe how this works with IFC, and the current state of compatibility with Revit. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Point cloud mesh reconstruction with metaballs</title>
+
         <link href="https://thinkmoult.com/point-cloud-mesh-reconstruction-with-metaballs.html" />
         <id>https://thinkmoult.com/point-cloud-mesh-reconstruction-with-metaballs.html</id>
         <updated>2019-05-15</updated>
-        <summary>3D scanning results in a point cloud which often needs to be converted into a closed mesh surface. In this article I propose a new technique of mesh reconstruction using metaballs. - for the full article please visit the website.</summary>
+        <summary>3D scanning results in a point cloud which often needs to be converted into a closed mesh surface. In this article I propose a new technique of mesh reconstruction using metaballs. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Robotic wire cutting toolpath generation with Blender</title>
+
         <link href="https://thinkmoult.com/robotic-wire-cutting-toolpath-generation-with-blender.html" />
         <id>https://thinkmoult.com/robotic-wire-cutting-toolpath-generation-with-blender.html</id>
         <updated>2019-05-06</updated>
-        <summary>Most toolpath generation focuses on minimising material wastage, tool wear, and robot movements. This article describes an alternative approach that uses the U/V direction of a surface, its edge loops, and edge rings, to intuitively describe a toolpath. - for the full article please visit the website.</summary>
+        <summary>Most toolpath generation focuses on minimising material wastage, tool wear, and robot movements. This article describes an alternative approach that uses the U/V direction of a surface, its edge loops, and edge rings, to intuitively describe a toolpath. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Photorealistic rendering with Radiance</title>
+
         <link href="https://thinkmoult.com/photorealistic-rendering-with-radiance.html" />
         <id>https://thinkmoult.com/photorealistic-rendering-with-radiance.html</id>
         <updated>2019-05-04</updated>
-        <summary>Radiance is rarely used for photorealistic rendering. This case study of rendering my living room demonstrates that it is possible to be both aesthetically believable and scientifically accurate. - for the full article please visit the website.</summary>
+        <summary>Radiance is rarely used for photorealistic rendering. This case study of rendering my living room demonstrates that it is possible to be both aesthetically believable and scientifically accurate. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Creating grass and plants in Radiance</title>
+
         <link href="https://thinkmoult.com/creating-grass-and-plants-in-radiance.html" />
         <id>https://thinkmoult.com/creating-grass-and-plants-in-radiance.html</id>
         <updated>2019-05-01</updated>
-        <summary>Radiance is seldom used for rendering detailed vegetation such as grass and plants. I introduce how to use common CG techniques to still achieve photorealistic grass in Radiance. - for the full article please visit the website.</summary>
+        <summary>Radiance is seldom used for rendering detailed vegetation such as grass and plants. I introduce how to use common CG techniques to still achieve photorealistic grass in Radiance. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Ten Smiles, an Android app to remind you to smile</title>
+
         <link href="https://thinkmoult.com/ten-smiles-android-app-to-remind-you-to-smile.html" />
         <id>https://thinkmoult.com/ten-smiles-android-app-to-remind-you-to-smile.html</id>
         <updated>2019-04-26</updated>
-        <summary>Ten Smiles is a small, free, Android app that reminds you to smile 10 times each day. I wrote it for fun a few years ago. - for the full article please visit the website.</summary>
+        <summary>Ten Smiles is a small, free, Android app that reminds you to smile 10 times each day. I wrote it for fun a few years ago. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to bulk convert PDFs to DXF or DWG</title>
+
         <link href="https://thinkmoult.com/how-to-bulk-convert-pdf-to-dxf-or-dwg.html" />
         <id>https://thinkmoult.com/how-to-bulk-convert-pdf-to-dxf-or-dwg.html</id>
         <updated>2019-04-02</updated>
-        <summary>Inkscape and pstoedit can be used to convert between PDF, EPS, DXF, and DWG on the command line. This is very useful when bulk file conversions need to be done. - for the full article please visit the website.</summary>
+        <summary>Inkscape and pstoedit can be used to convert between PDF, EPS, DXF, and DWG on the command line. This is very useful when bulk file conversions need to be done. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>The ethical implications of OpenBIM</title>
+
         <link href="https://thinkmoult.com/ethical-implications-of-openbim.html" />
         <id>https://thinkmoult.com/ethical-implications-of-openbim.html</id>
         <updated>2019-03-25</updated>
-        <summary>OpenBIM is an initiative to promote the use of open data in the architecture, engineering and construction industry. I describe how using OpenBIM has positive ethical implications. - for the full article please visit the website.</summary>
+        <summary>OpenBIM is an initiative to promote the use of open data in the architecture, engineering and construction industry. I describe how using OpenBIM has positive ethical implications. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Free intervals sheet music</title>
+
         <link href="https://thinkmoult.com/free-intervals-sheet-music.html" />
         <id>https://thinkmoult.com/free-intervals-sheet-music.html</id>
         <updated>2019-03-21</updated>
-        <summary>Intervals are a fundamental concept in learning music. This free downloadable sheet music helps give examples and illustrates the relationships between notes. - for the full article please visit the website.</summary>
+        <summary>Intervals are a fundamental concept in learning music. This free downloadable sheet music helps give examples and illustrates the relationships between notes. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Why Radiance needs a free 3D model repository</title>
+
         <link href="https://thinkmoult.com/radiance-free-3d-model-repository.html" />
         <id>https://thinkmoult.com/radiance-free-3d-model-repository.html</id>
         <updated>2019-03-17</updated>
-        <summary>The Radiance free 3D model repository is the world&#x27;s first photometrically accurate model repository, with a focus on both correctness and aesthetics. It is completely open-source and free to mirror and redistribute. You can download models as an OBJ, along with material and light definitions. - for the full article please visit the website.</summary>
+        <summary>The Radiance free 3D model repository is the world&#x27;s first photometrically accurate model repository, with a focus on both correctness and aesthetics. It is completely open-source and free to mirror and redistribute. You can download models as an OBJ, along with material and light definitions. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>The five fundamental facets of ethical software</title>
+
         <link href="https://thinkmoult.com/five-fundamental-facets-of-ethical-software.html" />
         <id>https://thinkmoult.com/five-fundamental-facets-of-ethical-software.html</id>
         <updated>2019-03-15</updated>
-        <summary>Technology is increasingly trending towards proprietary forms, which have negative impacts on society. I describe the 5 fundamental ingredients to keep software honest, and prioritise people over profit. - for the full article please visit the website.</summary>
+        <summary>Technology is increasingly trending towards proprietary forms, which have negative impacts on society. I describe the 5 fundamental ingredients to keep software honest, and prioritise people over profit. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to create better IFC files with Revit</title>
+
         <link href="https://thinkmoult.com/how-to-create-better-ifc-files-with-revit.html" />
         <id>https://thinkmoult.com/how-to-create-better-ifc-files-with-revit.html</id>
         <updated>2019-03-12</updated>
-        <summary>This is an introduction to the fundamental concepts of IFC files and explains how to improve data exports from Autodesk Revit to IFC. Out of the box, Revit IFC support is very limited, but it can be mitigated using an open-source plugin and understanding these undocumented quirks. - for the full article please visit the website.</summary>
+        <summary>This is an introduction to the fundamental concepts of IFC files and explains how to improve data exports from Autodesk Revit to IFC. Out of the box, Revit IFC support is very limited, but it can be mitigated using an open-source plugin and understanding these undocumented quirks. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>A comparison between Radiance and other rendering engines</title>
+
         <link href="https://thinkmoult.com/a-comparison-between-radiance-and-other-rendering-engines.html" />
         <id>https://thinkmoult.com/a-comparison-between-radiance-and-other-rendering-engines.html</id>
         <updated>2019-03-06</updated>
-        <summary>This posts compares Radiance with modern rendering engines, such as Renderman and Autodesk Insight. Radiance is seen as the gold standard for light simulation, but more modern engines are becoming more physically based and claim photorealistic results at a fraction of the time. Why should we use one over the other? - for the full article please visit the website.</summary>
+        <summary>This posts compares Radiance with modern rendering engines, such as Renderman and Autodesk Insight. Radiance is seen as the gold standard for light simulation, but more modern engines are becoming more physically based and claim photorealistic results at a fraction of the time. Why should we use one over the other? - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to composite Enscape animations with Blender</title>
+
         <link href="https://thinkmoult.com/how-to-composite-enscape-animations-with-blender.html" />
         <id>https://thinkmoult.com/how-to-composite-enscape-animations-with-blender.html</id>
         <updated>2019-02-25</updated>
-        <summary>Enscape provides real-time rendering with integration with BIM tools such as Revit, ArchiCAD, and Sketchup. However, it has a limited set of animation tools. Blender can be used to import Enscape camera animation keyframes and composite new animations on top of the Enscape flythrough. - for the full article please visit the website.</summary>
+        <summary>Enscape provides real-time rendering with integration with BIM tools such as Revit, ArchiCAD, and Sketchup. However, it has a limited set of animation tools. Blender can be used to import Enscape camera animation keyframes and composite new animations on top of the Enscape flythrough. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>A proposed Radiance Filesystem Hierarchy Standard</title>
+
         <link href="https://thinkmoult.com/proposed-radiance-filesystem-hierarchy-standard.html" />
         <id>https://thinkmoult.com/proposed-radiance-filesystem-hierarchy-standard.html</id>
         <updated>2019-02-17</updated>
-        <summary>The proposed Radiance Filesystem Hierarchy Standard (RFHS) is a proposed standard on how to organise files for 3D models, HDR textures, Radiance materials, IES lights, and so on in a Radiance project. This allows Radiance assets to be easily distributed and reused across different proejcts. - for the full article please visit the website.</summary>
+        <summary>The proposed Radiance Filesystem Hierarchy Standard (RFHS) is a proposed standard on how to organise files for 3D models, HDR textures, Radiance materials, IES lights, and so on in a Radiance project. This allows Radiance assets to be easily distributed and reused across different proejcts. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Using IfcOpenShell to parse IFC files with Python</title>
+
         <link href="https://thinkmoult.com/using-ifcopenshell-parse-ifc-files-python.html" />
         <id>https://thinkmoult.com/using-ifcopenshell-parse-ifc-files-python.html</id>
         <updated>2019-02-12</updated>
-        <summary>IFC is the ISO standard format for storing BIM data. IfcOpenShell allows you to use Python to query and parse IFC files to extract and analyse data. As there is no API documentation as of writing, these code examples give an introduction demo to how to read IFC files. - for the full article please visit the website.</summary>
+        <summary>IFC is the ISO standard format for storing BIM data. IfcOpenShell allows you to use Python to query and parse IFC files to extract and analyse data. As there is no API documentation as of writing, these code examples give an introduction demo to how to read IFC files. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Free major and minor arpeggios for piano sheet music</title>
+
         <link href="https://thinkmoult.com/free-major-and-minor-arpeggios-for-piano-sheet-music.html" />
         <id>https://thinkmoult.com/free-major-and-minor-arpeggios-for-piano-sheet-music.html</id>
         <updated>2019-01-31</updated>
-        <summary>Download free piano sheet music for major and minor arpeggios for all keys. Includes fingering annotation and typeset in LaTeX, exported in PDF format. - for the full article please visit the website.</summary>
+        <summary>Download free piano sheet music for major and minor arpeggios for all keys. Includes fingering annotation and typeset in LaTeX, exported in PDF format. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Embed Peertube videos on your website</title>
+
         <link href="https://thinkmoult.com/embed-peertube-video-on-your-website.html" />
         <id>https://thinkmoult.com/embed-peertube-video-on-your-website.html</id>
         <updated>2019-01-19</updated>
-        <summary>Peertube videos can be embedded directly on your website using an iframe with no Javascript required. This short example demonstrates how. Peertube is a distributed peer-to-peer network of video sharing websites. - for the full article please visit the website.</summary>
+        <summary>Peertube videos can be embedded directly on your website using an iframe with no Javascript required. This short example demonstrates how. Peertube is a distributed peer-to-peer network of video sharing websites. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to view BIM IFC files on Linux</title>
+
         <link href="https://thinkmoult.com/how-to-view-bim-ifc-files-linux.html" />
         <id>https://thinkmoult.com/how-to-view-bim-ifc-files-linux.html</id>
         <updated>2019-01-12</updated>
-        <summary>BIM IFC (Industry Foundation Classes) files can be viewed and parsed on Linux in a few ways. I describe how to open IFC files with FreeCAD, IfcPlusPlus, and IfcOpenShell. - for the full article please visit the website.</summary>
+        <summary>BIM IFC (Industry Foundation Classes) files can be viewed and parsed on Linux in a few ways. I describe how to open IFC files with FreeCAD, IfcPlusPlus, and IfcOpenShell. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to install Blender and The GIMP on Android</title>
+
         <link href="https://thinkmoult.com/how-to-install-blender-gimp-android.html" />
         <id>https://thinkmoult.com/how-to-install-blender-gimp-android.html</id>
         <updated>2019-01-10</updated>
-        <summary>How to install and run Blender and the GIMP on Android phones using Gentoo Linux. This runs Blender and The GIMP as a native app with full desktop functionality. This also demonstrates two desktop environments: Fluxbox and E17 and shows running Midori as a browser. - for the full article please visit the website.</summary>
+        <summary>How to install and run Blender and the GIMP on Android phones using Gentoo Linux. This runs Blender and The GIMP as a native app with full desktop functionality. This also demonstrates two desktop environments: Fluxbox and E17 and shows running Midori as a browser. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Create 360 VR panoramas with Radiance</title>
+
         <link href="https://thinkmoult.com/create-360-vr-panoramas-with-radiance.html" />
         <id>https://thinkmoult.com/create-360-vr-panoramas-with-radiance.html</id>
         <updated>2019-01-05</updated>
-        <summary>How to use the Radiance rendering engine to render out different types of 360 panoramas for virtual reality. Create cube maps, equirectangular panoramas, sphere maps, fisheye views, and other environment maps. - for the full article please visit the website.</summary>
+        <summary>How to use the Radiance rendering engine to render out different types of 360 panoramas for virtual reality. Create cube maps, equirectangular panoramas, sphere maps, fisheye views, and other environment maps. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Use macbethcal to calibrate textures</title>
+
         <link href="https://thinkmoult.com/use-macbethcal-to-calibrate-textures.html" />
         <id>https://thinkmoult.com/use-macbethcal-to-calibrate-textures.html</id>
         <updated>2018-12-30</updated>
-        <summary>Use macbethcal to calibrate image textures that are used in a Radiance render with a colour chart. This helps to make sure that they represent the true colours of the real-life object. - for the full article please visit the website.</summary>
+        <summary>Use macbethcal to calibrate image textures that are used in a Radiance render with a colour chart. This helps to make sure that they represent the true colours of the real-life object. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Free Buddhist vector logos</title>
+
         <link href="https://thinkmoult.com/free-buddhist-vector-logos.html" />
         <id>https://thinkmoult.com/free-buddhist-vector-logos.html</id>
         <updated>2018-12-29</updated>
-        <summary>I&#x27;ve created three free Buddhist related vector logos for any use. They are created using Inkscape, a free and open source vector graphics program. - for the full article please visit the website.</summary>
+        <summary>I&#x27;ve created three free Buddhist related vector logos for any use. They are created using Inkscape, a free and open source vector graphics program. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Radiance specularity and roughness value examples</title>
+
         <link href="https://thinkmoult.com/radiance-specularity-and-roughness-value-examples.html" />
         <id>https://thinkmoult.com/radiance-specularity-and-roughness-value-examples.html</id>
         <updated>2018-12-27</updated>
-        <summary>Radiance specularity and roughness values are hard to measure without special equipment. This article describes measurement techniques and rules of thumb, along with benchmark images to understand specularity and roughness. These images help give an intuitive understanding of material properties. - for the full article please visit the website.</summary>
+        <summary>Radiance specularity and roughness values are hard to measure without special equipment. This article describes measurement techniques and rules of thumb, along with benchmark images to understand specularity and roughness. These images help give an intuitive understanding of material properties. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Map of the Great North Walk: Sydney to Newcastle</title>
+
         <link href="https://thinkmoult.com/map-of-the-great-north-walk-sydney-to-newcastle.html" />
         <id>https://thinkmoult.com/map-of-the-great-north-walk-sydney-to-newcastle.html</id>
         <updated>2018-12-25</updated>
-        <summary>The Great North Walk is a 250km trail that goes from Sydney to Newcastle. I&#x27;ve created a free online map you can use to guide yourself from start to finish, and download a GeoJSON or GPX file to use in your GPS devices. - for the full article please visit the website.</summary>
+        <summary>The Great North Walk is a 250km trail that goes from Sydney to Newcastle. I&#x27;ve created a free online map you can use to guide yourself from start to finish, and download a GeoJSON or GPX file to use in your GPS devices. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>thinkMoult Atom / RSS feed</title>
+
         <link href="https://thinkmoult.com/atom-feed.html" />
         <id>https://thinkmoult.com/atom-feed.html</id>
         <updated>2018-12-15</updated>
-        <summary>Subscribe to Dion Moult&#x27;s blog and online articles using Atom / RSS. - for the full article please visit the website.</summary>
+        <summary>Subscribe to Dion Moult&#x27;s blog and online articles using Atom / RSS. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Free 3D lamp model</title>
+
         <link href="https://thinkmoult.com/free-3d-lamp-model.html" />
         <id>https://thinkmoult.com/free-3d-lamp-model.html</id>
         <updated>2018-12-13</updated>
-        <summary>Download a free 3D model of a lamp in OBJ format and Blender format for use in renderings and architectural visualisation. - for the full article please visit the website.</summary>
+        <summary>Download a free 3D model of a lamp in OBJ format and Blender format for use in renderings and architectural visualisation. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Why Revit is shit</title>
+
         <link href="https://thinkmoult.com/why-revit-is-shit.html" />
         <id>https://thinkmoult.com/why-revit-is-shit.html</id>
         <updated>2018-12-11</updated>
-        <summary>Revit is a proprietary software package developed by Autodesk, an industry monopoly that consistently underdelivers when architects, engineers, and builders attempt to execute a BIM project. With OpenBIM still yet to mature, here is a list of criticisms of the software&#x27;s limitations. - for the full article please visit the website.</summary>
+        <summary>Revit is a proprietary software package developed by Autodesk, an industry monopoly that consistently underdelivers when architects, engineers, and builders attempt to execute a BIM project. With OpenBIM still yet to mature, here is a list of criticisms of the software&#x27;s limitations. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Robotic stereotomy with stone diamond wire-cutting</title>
+
         <link href="https://thinkmoult.com/robotic-stereotomy-stone-diamond-wire-cutting.html" />
         <id>https://thinkmoult.com/robotic-stereotomy-stone-diamond-wire-cutting.html</id>
         <updated>2018-11-21</updated>
-        <summary>Stereotomy in stone cutting can result in material wastage, and when assembled, tend to not be able to cantilever well. This new technique cuts a wave-joint in a block with a diamond wire that allows stone to interlock and cantilever with minimal material wastage. - for the full article please visit the website.</summary>
+        <summary>Stereotomy in stone cutting can result in material wastage, and when assembled, tend to not be able to cantilever well. This new technique cuts a wave-joint in a block with a diamond wire that allows stone to interlock and cantilever with minimal material wastage. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Panblog, a new, minimal, plaintext blog system</title>
+
         <link href="https://thinkmoult.com/panblog-new-minimal-plaintext-blog-system.html" />
         <id>https://thinkmoult.com/panblog-new-minimal-plaintext-blog-system.html</id>
         <updated>2018-10-28</updated>
-        <summary>Panblog is a minimalist blog system. You write articles in Markdown with metadata in YAML, and Pandoc converts your articles to HTML. The entire system of Panblog is a 73 line Makefile and 14 line lua filter, excluding HTML and Atom feed templates. - for the full article please visit the website.</summary>
+        <summary>Panblog is a minimalist blog system. You write articles in Markdown with metadata in YAML, and Pandoc converts your articles to HTML. The entire system of Panblog is a 73 line Makefile and 14 line lua filter, excluding HTML and Atom feed templates. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Medical animations and surgical visualisation with MedFilm</title>
+
         <link href="https://thinkmoult.com/medical-animations-surgical-visualisation-medfilm.html" />
         <id>https://thinkmoult.com/medical-animations-surgical-visualisation-medfilm.html</id>
         <updated>2018-10-07</updated>
-        <summary>MedFilm offers educational films for patients to learn about surgical procedures. Learn about anatomy, how to prepare for your procedure, what you will experience and the process during surgery, and advice for post-operation recovery. Available in multiple languages and on a subscription basis for clinics. - for the full article please visit the website.</summary>
+        <summary>MedFilm offers educational films for patients to learn about surgical procedures. Learn about anatomy, how to prepare for your procedure, what you will experience and the process during surgery, and advice for post-operation recovery. Available in multiple languages and on a subscription basis for clinics. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Worldwide GPS tracks with OpenStreetMaps for urban design analysis</title>
+
         <link href="https://thinkmoult.com/worldwide-gps-tracks-openstreetmaps-urban-design-analysis.html" />
         <id>https://thinkmoult.com/worldwide-gps-tracks-openstreetmaps-urban-design-analysis.html</id>
         <updated>2018-07-03</updated>
-        <summary>OpenStreetMaps GPS data can be used to generate heat maps of GPS activity in cities around the world for free. This allows architects, urban planners, and city enthusiasts to analyse how the city works and make more informed decisions for the built environment. - for the full article please visit the website.</summary>
+        <summary>OpenStreetMaps GPS data can be used to generate heat maps of GPS activity in cities around the world for free. This allows architects, urban planners, and city enthusiasts to analyse how the city works and make more informed decisions for the built environment. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Edmondson Park - a retail and residential development by Frasers and HDR</title>
+
         <link href="https://thinkmoult.com/edmondson-park-retail-residential-development-frasers-hdr.html" />
         <id>https://thinkmoult.com/edmondson-park-retail-residential-development-frasers-hdr.html</id>
         <updated>2018-06-24</updated>
-        <summary>30km away from the Sydney city centre in the suburb of Edmondson Park, HDR has designed Ed Square: a diverse urban neighbourhood of restaurants; shopping, entertainment; playgrounds and parklands; adjacent to the Edmondson Park train station and all within walking distance from your own front door. - for the full article please visit the website.</summary>
+        <summary>30km away from the Sydney city centre in the suburb of Edmondson Park, HDR has designed Ed Square: a diverse urban neighbourhood of restaurants; shopping, entertainment; playgrounds and parklands; adjacent to the Edmondson Park train station and all within walking distance from your own front door. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>OpenStreetMaps - an open-source Maps application</title>
+
         <link href="https://thinkmoult.com/openstreetmaps-open-source-maps-application.html" />
         <id>https://thinkmoult.com/openstreetmaps-open-source-maps-application.html</id>
         <updated>2018-06-19</updated>
-        <summary>Learn about OpenStreetMaps, the open-source and Wikipedia-inspired mapping application instead of proprietary maps like Google Maps. Learn about the depth of map detail, specialised cycling, snow, and water maps, and humanitarian mapping initiatives to help relief workers during natural disasters. - for the full article please visit the website.</summary>
+        <summary>Learn about OpenStreetMaps, the open-source and Wikipedia-inspired mapping application instead of proprietary maps like Google Maps. Learn about the depth of map detail, specialised cycling, snow, and water maps, and humanitarian mapping initiatives to help relief workers during natural disasters. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Deleting Facebook, and a reflection on digital privacy</title>
+
         <link href="https://thinkmoult.com/deleting-facebook-reflection-digital-privacy.html" />
         <id>https://thinkmoult.com/deleting-facebook-reflection-digital-privacy.html</id>
         <updated>2018-04-02</updated>
-        <summary>Deleting Facebook in the wake of the Cambridge Analytica files is not because Facebook is tracking our data. In fact, our data is being tracked by almost all organisations across the internet to varying extents. People should have an awareness that there are both public and private outlets for expression online. - for the full article please visit the website.</summary>
+        <summary>Deleting Facebook in the wake of the Cambridge Analytica files is not because Facebook is tracking our data. In fact, our data is being tracked by almost all organisations across the internet to varying extents. People should have an awareness that there are both public and private outlets for expression online. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to download the Australian BioNet Database</title>
+
         <link href="https://thinkmoult.com/how-download-australian-bionet-database.html" />
         <id>https://thinkmoult.com/how-download-australian-bionet-database.html</id>
         <updated>2018-03-27</updated>
-        <summary>Use Python to extract a region of species data from the Australian NSW BioNet flora and fauna database. This script uses the public API. The data is given in both JSON and CSV formats and can be used in GIS software like QGIS. - for the full article please visit the website.</summary>
+        <summary>Use Python to extract a region of species data from the Australian NSW BioNet flora and fauna database. This script uses the public API. The data is given in both JSON and CSV formats and can be used in GIS software like QGIS. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Improving human rights through secure messaging</title>
+
         <link href="https://thinkmoult.com/improving-human-rights-through-secure-messaging.html" />
         <id>https://thinkmoult.com/improving-human-rights-through-secure-messaging.html</id>
         <updated>2018-03-19</updated>
-        <summary>The instant messaging app you use has an impact on human rights worldwide. Discover the links between digital privacy, human rights, and why it matters whether you use Facebook Messenger or WhatsApp, even though they&#x27;re owned by the same company. Use Signal, an open-source, free, and end-to-end encrypted messaging app. - for the full article please visit the website.</summary>
+        <summary>The instant messaging app you use has an impact on human rights worldwide. Discover the links between digital privacy, human rights, and why it matters whether you use Facebook Messenger or WhatsApp, even though they&#x27;re owned by the same company. Use Signal, an open-source, free, and end-to-end encrypted messaging app. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>A history of rendering engines and modern trends</title>
+
         <link href="https://thinkmoult.com/history-rendering-engines-modern-trends.html" />
         <id>https://thinkmoult.com/history-rendering-engines-modern-trends.html</id>
         <updated>2018-03-13</updated>
-        <summary>Discover the history behind how 3D rendering came to be, from flat shading, specular highlights, the phong shader, to ray-tracing engines and real-time rendering trends. Discover how scientifically validated rendering helps architects get closer to rapid prototyping and visualisation of designs. - for the full article please visit the website.</summary>
+        <summary>Discover the history behind how 3D rendering came to be, from flat shading, specular highlights, the phong shader, to ray-tracing engines and real-time rendering trends. Discover how scientifically validated rendering helps architects get closer to rapid prototyping and visualisation of designs. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Clean meshes automatically in Blender with Python</title>
+
         <link href="https://thinkmoult.com/clean-meshes-automatically-blender-python.html" />
         <id>https://thinkmoult.com/clean-meshes-automatically-blender-python.html</id>
         <updated>2018-03-06</updated>
-        <summary>Use Blender and Python scripts to automatically clean up and process meshes for easier modelling. Weld vertices, replace triangles with quad faces, and recalculate surface normals. Script can run headlessly on a server. - for the full article please visit the website.</summary>
+        <summary>Use Blender and Python scripts to automatically clean up and process meshes for easier modelling. Weld vertices, replace triangles with quad faces, and recalculate surface normals. Script can run headlessly on a server. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Australian electrical infrastructure maps</title>
+
         <link href="https://thinkmoult.com/australian-electrical-infrastructure-maps.html" />
         <id>https://thinkmoult.com/australian-electrical-infrastructure-maps.html</id>
         <updated>2018-02-26</updated>
-        <summary>See maps of Australia&#x27;s electrical infrastructure, covering all major power stations, electrical transmission lines, and substations. See generation capacities of all renewable and non-renewable power plants and a brief description of energy generation within the NSW and Sydney region. - for the full article please visit the website.</summary>
+        <summary>See maps of Australia&#x27;s electrical infrastructure, covering all major power stations, electrical transmission lines, and substations. See generation capacities of all renewable and non-renewable power plants and a brief description of energy generation within the NSW and Sydney region. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Show who modified an element last in Revit</title>
+
         <link href="https://thinkmoult.com/show-who-modified-element-last-revit.html" />
         <id>https://thinkmoult.com/show-who-modified-element-last-revit.html</id>
         <updated>2018-02-19</updated>
-        <summary>Find out who created or last modified an element in Revit. Use macros to instantly query any element or even find the editing history of view templates or sheets. No plugins or paid applications required. - for the full article please visit the website.</summary>
+        <summary>Find out who created or last modified an element in Revit. Use macros to instantly query any element or even find the editing history of view templates or sheets. No plugins or paid applications required. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Digital privacy is important, even though you think it doesn&#x27;t impact you</title>
+
         <link href="https://thinkmoult.com/digital-privacy-important-you-think-doesnt-impact-you.html" />
         <id>https://thinkmoult.com/digital-privacy-important-you-think-doesnt-impact-you.html</id>
         <updated>2018-02-13</updated>
-        <summary>Most people share sensitive information online without even realising it. People think that privacy doesn&#x27;t impact them and that tracking ads are benign. We discuss our hypocritical ideas about privacy online and how we can help raise awareness about political oppression. - for the full article please visit the website.</summary>
+        <summary>Most people share sensitive information online without even realising it. People think that privacy doesn&#x27;t impact them and that tracking ads are benign. We discuss our hypocritical ideas about privacy online and how we can help raise awareness about political oppression. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Breakdown of a photo-realistic image in Blender Cycles</title>
+
         <link href="https://thinkmoult.com/breakdown-photo-realistic-image-blender-cycles.html" />
         <id>https://thinkmoult.com/breakdown-photo-realistic-image-blender-cycles.html</id>
         <updated>2018-02-05</updated>
-        <summary>This article demonstrates how particles and a few texture maps can easily add realism to any scene. - for the full article please visit the website.</summary>
+        <summary>This article demonstrates how particles and a few texture maps can easily add realism to any scene. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to obfuscate and protect BIM IFC files</title>
+
         <link href="https://thinkmoult.com/obfuscate-protect-bim-ifc-files.html" />
         <id>https://thinkmoult.com/obfuscate-protect-bim-ifc-files.html</id>
         <updated>2018-01-28</updated>
-        <summary>Learn how to protect and obfuscate BIM IFC files from Revit and ArchiCAD by hiding proprietary company data. Hide material information, custom property sets, and IFC element attributes. - for the full article please visit the website.</summary>
+        <summary>Learn how to protect and obfuscate BIM IFC files from Revit and ArchiCAD by hiding proprietary company data. Hide material information, custom property sets, and IFC element attributes. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Gentoo Linux blogs on Planet Larry</title>
+
         <link href="https://thinkmoult.com/gentoo-linux-blogs-planet-larry.html" />
         <id>https://thinkmoult.com/gentoo-linux-blogs-planet-larry.html</id>
         <updated>2018-01-23</updated>
-        <summary>Similar to Planet Gentoo, Planet Larry is a feed aggregator of blog posts by Gentoo Linux user blogs. If you run Gentoo Linux, and write a blog, you can add your blog to the feed. Content can be anything, not necessarily related to Gentoo Linux. - for the full article please visit the website.</summary>
+        <summary>Similar to Planet Gentoo, Planet Larry is a feed aggregator of blog posts by Gentoo Linux user blogs. If you run Gentoo Linux, and write a blog, you can add your blog to the feed. Content can be anything, not necessarily related to Gentoo Linux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>2018 New years resolutions</title>
+
         <link href="https://thinkmoult.com/2018-new-years-resolutions.html" />
         <id>https://thinkmoult.com/2018-new-years-resolutions.html</id>
         <updated>2018-01-17</updated>
-        <summary>2018 resolutions include blogging more, diversifying investments, consuming ethically, improving digital security, and laying the foundation for long-term livelihood. - for the full article please visit the website.</summary>
+        <summary>2018 resolutions include blogging more, diversifying investments, consuming ethically, improving digital security, and laying the foundation for long-term livelihood. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Basic rendering tutorial with Radiance</title>
+
         <link href="https://thinkmoult.com/basic-rendering-tutorial-radiance.html" />
         <id>https://thinkmoult.com/basic-rendering-tutorial-radiance.html</id>
         <updated>2018-01-14</updated>
-        <summary>Learn how to render basic shapes using with Radiance. Radiance is a validated lighting simulation software that allows you to create physically correct images. This tutorial guides you on doing your first render directly with Radiance, instead of using other third-party interfaces. - for the full article please visit the website.</summary>
+        <summary>Learn how to render basic shapes using with Radiance. Radiance is a validated lighting simulation software that allows you to create physically correct images. This tutorial guides you on doing your first render directly with Radiance, instead of using other third-party interfaces. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Brand new Gentoo desktop computer</title>
+
         <link href="https://thinkmoult.com/brand-new-gentoo-desktop-computer.html" />
         <id>https://thinkmoult.com/brand-new-gentoo-desktop-computer.html</id>
         <updated>2018-01-05</updated>
-        <summary>I bought a custom desktop computer pre-loaded with Linux in Australia, from LinuxNow.com.au, and am so far very happy with my purchase. - for the full article please visit the website.</summary>
+        <summary>I bought a custom desktop computer pre-loaded with Linux in Australia, from LinuxNow.com.au, and am so far very happy with my purchase. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Stitching high resolution photos from NSW SIX Maps</title>
+
         <link href="https://thinkmoult.com/stitching-high-resolution-photos-nsw-six-maps.html" />
         <id>https://thinkmoult.com/stitching-high-resolution-photos-nsw-six-maps.html</id>
         <updated>2017-12-30</updated>
-        <summary>Save high resolution satellite photos automatically from NSW GIS SIX Maps directly in your browser for free, without manually merging up to 10,000 pixels. - for the full article please visit the website.</summary>
+        <summary>Save high resolution satellite photos automatically from NSW GIS SIX Maps directly in your browser for free, without manually merging up to 10,000 pixels. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>LearnMusicSheets - download PDFs of music sheet exercises</title>
+
         <link href="https://thinkmoult.com/learnmusicsheets-pdfs-music-exercises.html" />
         <id>https://thinkmoult.com/learnmusicsheets-pdfs-music-exercises.html</id>
         <updated>2017-12-14</updated>
-        <summary>Download PDF music scores and exercises with LearnMusicSheets. Beautifully notated scales, arpeggios, and manuscript for piano with no copyright notices. - for the full article please visit the website.</summary>
+        <summary>Download PDF music scores and exercises with LearnMusicSheets. Beautifully notated scales, arpeggios, and manuscript for piano with no copyright notices. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Practical Abhidhamma Course for Theravāda Buddhists</title>
+
         <link href="https://thinkmoult.com/practical-abhidhamma-course-theravada-buddhists.html" />
         <id>https://thinkmoult.com/practical-abhidhamma-course-theravada-buddhists.html</id>
         <updated>2016-02-18</updated>
-        <summary>A 200-page introduction to the Abhidhamma for Theravada Buddhists. Apply the Abhidhamma in your daily life. Free online book for download with minimal Pali. - for the full article please visit the website.</summary>
+        <summary>A 200-page introduction to the Abhidhamma for Theravada Buddhists. Apply the Abhidhamma in your daily life. Free online book for download with minimal Pali. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Space architecture - a history of space station designs</title>
+
         <link href="https://thinkmoult.com/space-architecture-history-space-station-design.html" />
         <id>https://thinkmoult.com/space-architecture-history-space-station-design.html</id>
         <updated>2015-02-28</updated>
-        <summary>This article explores space architecture and their different priorities of human comfort in space stations and other isolated environments. - for the full article please visit the website.</summary>
+        <summary>This article explores space architecture and their different priorities of human comfort in space stations and other isolated environments. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Clean code, and how to write it</title>
+
         <link href="https://thinkmoult.com/clean-code-write.html" />
         <id>https://thinkmoult.com/clean-code-write.html</id>
         <updated>2015-02-10</updated>
-        <summary>Learn how to write good clean code for beginners: covering basics such as clean syntax, architectural practices, and workflow. - for the full article please visit the website.</summary>
+        <summary>Learn how to write good clean code for beginners: covering basics such as clean syntax, architectural practices, and workflow. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Blender artwork: something&#x27;s not quite right</title>
+
         <link href="https://thinkmoult.com/blender-artwork-somethings-not-quite-right.html" />
         <id>https://thinkmoult.com/blender-artwork-somethings-not-quite-right.html</id>
         <updated>2015-02-03</updated>
-        <summary>A few test renders I had produced recently, including a hand, a forest, bubbles, and flowers. - for the full article please visit the website.</summary>
+        <summary>A few test renders I had produced recently, including a hand, a forest, bubbles, and flowers. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Competitive weight loss with WeightRace.net</title>
+
         <link href="https://thinkmoult.com/competitive-weight-loss-weightrace-net.html" />
         <id>https://thinkmoult.com/competitive-weight-loss-weightrace-net.html</id>
         <updated>2015-01-20</updated>
-        <summary>Lose weight in a friendly competition using the online application weightrace.net. - for the full article please visit the website.</summary>
+        <summary>Lose weight in a friendly competition using the online application weightrace.net. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Use Behat to recover your legacy web app</title>
+
         <link href="https://thinkmoult.com/use-behat-recover-legacy-web-app.html" />
         <id>https://thinkmoult.com/use-behat-recover-legacy-web-app.html</id>
         <updated>2014-10-06</updated>
-        <summary>Learn how to salvage your legacy web application using Behat&#x27;s automated testing with a simple 7 line code patch to your new or existing test suite. - for the full article please visit the website.</summary>
+        <summary>Learn how to salvage your legacy web application using Behat&#x27;s automated testing with a simple 7 line code patch to your new or existing test suite. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Architectural visualisation renders with Blender</title>
+
         <link href="https://thinkmoult.com/architectural-visualisation-renders-blender.html" />
         <id>https://thinkmoult.com/architectural-visualisation-renders-blender.html</id>
         <updated>2014-05-29</updated>
-        <summary>I show an exterior and interior render of a university project, the highly unrealistic centre for profligate steel welders. Modeled in Blender and rendered in Cycles. - for the full article please visit the website.</summary>
+        <summary>I show an exterior and interior render of a university project, the highly unrealistic centre for profligate steel welders. Modeled in Blender and rendered in Cycles. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Building REST APIs with auto-discoverable auto-tested code</title>
+
         <link href="https://thinkmoult.com/build-rest-api-auto-discover-test-code.html" />
         <id>https://thinkmoult.com/build-rest-api-auto-discover-test-code.html</id>
         <updated>2014-03-10</updated>
-        <summary>Learn how to combine RMM with TDD to ensure that your REST API is auto-discoverable and auto-testable with fully updated documentation at all times. - for the full article please visit the website.</summary>
+        <summary>Learn how to combine RMM with TDD to ensure that your REST API is auto-discoverable and auto-testable with fully updated documentation at all times. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>A short and simple beginners look at Markdown</title>
+
         <link href="https://thinkmoult.com/short-simple-beginners-look-markdown.html" />
         <id>https://thinkmoult.com/short-simple-beginners-look-markdown.html</id>
         <updated>2014-02-24</updated>
-        <summary> - for the full article please visit the website.</summary>
+        <summary>Markdown is a simple way to denote text formatting and links without the need for a rich text editor online. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Using Sahi, Mink and Behat to test HTML5 drag and drop file uploads</title>
+
         <link href="https://thinkmoult.com/using-sahi-mink-behat-test-html5-drag-drop-file-uploads.html" />
         <id>https://thinkmoult.com/using-sahi-mink-behat-test-html5-drag-drop-file-uploads.html</id>
         <updated>2014-02-24</updated>
-        <summary>Fully automate testing HTML5 drag and drop file upload scripts using Behat and Mink through the Sahi driver. Files can be specified in base64 format. - for the full article please visit the website.</summary>
+        <summary>Fully automate testing HTML5 drag and drop file upload scripts using Behat and Mink through the Sahi driver. Files can be specified in base64 format. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Eight rotary phones - an art installation</title>
+
         <link href="https://thinkmoult.com/eight-rotary-phones-art-installation.html" />
         <id>https://thinkmoult.com/eight-rotary-phones-art-installation.html</id>
         <updated>2014-01-23</updated>
-        <summary>The University of Sydney graduation exhibition featured an art installation with an isolated network of eight old-school rotary phones. - for the full article please visit the website.</summary>
+        <summary>The University of Sydney graduation exhibition featured an art installation with an isolated network of eight old-school rotary phones. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Installing Gentoo on Android with chroot</title>
+
         <link href="https://thinkmoult.com/installing-gentoo-android-chroot.html" />
         <id>https://thinkmoult.com/installing-gentoo-android-chroot.html</id>
         <updated>2014-01-03</updated>
-        <summary>Learn how to install Gentoo Linux on your Android phone inside a chroot, along with what quirks to expect after your install is done. - for the full article please visit the website.</summary>
+        <summary>Learn how to install Gentoo Linux on your Android phone inside a chroot, along with what quirks to expect after your install is done. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>USyd Architecture Exhibition website released</title>
+
         <link href="https://thinkmoult.com/usyd-architecture-exhibition-website-released.html" />
         <id>https://thinkmoult.com/usyd-architecture-exhibition-website-released.html</id>
         <updated>2013-12-08</updated>
-        <summary>The official announcement and behind the scenes of the University of Sydney Architecture Graduation Exhibition website. - for the full article please visit the website.</summary>
+        <summary>The official announcement and behind the scenes of the University of Sydney Architecture Graduation Exhibition website. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>vtemplate 1.0.0 released</title>
+
         <link href="https://thinkmoult.com/vtemplate-1-0-0-released.html" />
         <id>https://thinkmoult.com/vtemplate-1-0-0-released.html</id>
         <updated>2013-11-28</updated>
-        <summary>vtemplate is a PHP-based boilerplate setup for starting new web projects which combines various industry standards. Includes frontend tools, BDD, and CI. - for the full article please visit the website.</summary>
+        <summary>vtemplate is a PHP-based boilerplate setup for starting new web projects which combines various industry standards. Includes frontend tools, BDD, and CI. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>The Architecture Graduate Exhibition - University of Sydney</title>
+
         <link href="https://thinkmoult.com/architecture-graduate-exhibition-university-of-sydney.html" />
         <id>https://thinkmoult.com/architecture-graduate-exhibition-university-of-sydney.html</id>
         <updated>2013-11-23</updated>
-        <summary>Read the behind the scenes of the ANALOGUE Architecture Graduate Exhibition by the University of Sydney 2013. - for the full article please visit the website.</summary>
+        <summary>Read the behind the scenes of the ANALOGUE Architecture Graduate Exhibition by the University of Sydney 2013. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Sydney revue coming up from the architecture faculty!</title>
+
         <link href="https://thinkmoult.com/sydney-revue-university-architecture.html" />
         <id>https://thinkmoult.com/sydney-revue-university-architecture.html</id>
         <updated>2013-08-26</updated>
-        <summary>Another Sydney revue presented from the university architecture faculty is showing this year. Buy tickets and visit the show at the Seymour centre. - for the full article please visit the website.</summary>
+        <summary>Another Sydney revue presented from the university architecture faculty is showing this year. Buy tickets and visit the show at the Seymour centre. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Blender panoramic renders howto and demonstration</title>
+
         <link href="https://thinkmoult.com/blender-panoramic-renders.html" />
         <id>https://thinkmoult.com/blender-panoramic-renders.html</id>
         <updated>2013-08-19</updated>
-        <summary>Blender panoramic renders can be done with both Blender Internal and Blender Cycles. Learn what settings to choose and what renders you can create. - for the full article please visit the website.</summary>
+        <summary>Blender panoramic renders can be done with both Blender Internal and Blender Cycles. Learn what settings to choose and what renders you can create. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Motion tracking with Javascript, HTML5 and a webcam</title>
+
         <link href="https://thinkmoult.com/motion-tracking-javascript-webcam.html" />
         <id>https://thinkmoult.com/motion-tracking-javascript-webcam.html</id>
         <updated>2013-08-08</updated>
-        <summary>Learn how to do motion tracking and colour recognition with a webcam, HTML5 canvas, and Javascript. View a demonstration and download the free code sample. - for the full article please visit the website.</summary>
+        <summary>Learn how to do motion tracking and colour recognition with a webcam, HTML5 canvas, and Javascript. View a demonstration and download the free code sample. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Hello SevenStrokes: Building websites ... a little differently</title>
+
         <link href="https://thinkmoult.com/sevenstrokes-building-websites-differently.html" />
         <id>https://thinkmoult.com/sevenstrokes-building-websites-differently.html</id>
         <updated>2013-07-30</updated>
-        <summary>SevenStrokes specialises in web design and development, but with a unique approach that tailor makes websites to your business for the long term. - for the full article please visit the website.</summary>
+        <summary>SevenStrokes specialises in web design and development, but with a unique approach that tailor makes websites to your business for the long term. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>DraftSight: a free and cross-platform alternative to AutoCAD</title>
+
         <link href="https://thinkmoult.com/draftsight-a-free-and-cross-platform-alternative-to-autocad.html" />
         <id>https://thinkmoult.com/draftsight-a-free-and-cross-platform-alternative-to-autocad.html</id>
         <updated>2013-07-21</updated>
-        <summary>There is a general lack of open-source 2D CAD tools out there. In this article I introduce Draftsight, and provide ebuilds to install it on Gentoo Linux. - for the full article please visit the website.</summary>
+        <summary>There is a general lack of open-source 2D CAD tools out there. In this article I introduce Draftsight, and provide ebuilds to install it on Gentoo Linux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>A Beaglebone, a Blender, a Board, and a Swarm</title>
+
         <link href="https://thinkmoult.com/a-beaglebone-a-blender-a-board-and-a-swarm.html" />
         <id>https://thinkmoult.com/a-beaglebone-a-blender-a-board-and-a-swarm.html</id>
         <updated>2013-07-13</updated>
-        <summary>Blender&#x27;s boid simulation and a Beagleboard is used to power a swarm of robots. Robots work together to collect resources from a remote location and deposit them in a central repository. Robots are laser cut and powered by PWM motors. - for the full article please visit the website.</summary>
+        <summary>Blender&#x27;s boid simulation and a Beagleboard is used to power a swarm of robots. Robots work together to collect resources from a remote location and deposit them in a central repository. Robots are laser cut and powered by PWM motors. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>In order to discuss BDD, as a blogger, I need to talk about Behat</title>
+
         <link href="https://thinkmoult.com/in-order-to-discuss-bdd-as-a-blogger-i-need-to-talk-about-behat.html" />
         <id>https://thinkmoult.com/in-order-to-discuss-bdd-as-a-blogger-i-need-to-talk-about-behat.html</id>
         <updated>2013-07-09</updated>
-        <summary>Behat is a behaviour driven development (BDD) tool. I show how to use it to evaluate UI testing. - for the full article please visit the website.</summary>
+        <summary>Behat is a behaviour driven development (BDD) tool. I show how to use it to evaluate UI testing. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>So then I built an oil lamp</title>
+
         <link href="https://thinkmoult.com/so-then-i-built-an-oil-lamp.html" />
         <id>https://thinkmoult.com/so-then-i-built-an-oil-lamp.html</id>
         <updated>2013-07-01</updated>
-        <summary>I learned some carpentry and basic metalwork to build an old-fashioned retractable wick suspended oil lamp. - for the full article please visit the website.</summary>
+        <summary>I learned some carpentry and basic metalwork to build an old-fashioned retractable wick suspended oil lamp. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>The one and only IBM Model M Keyboard</title>
+
         <link href="https://thinkmoult.com/the-one-and-only-ibm-model-m-keyboard.html" />
         <id>https://thinkmoult.com/the-one-and-only-ibm-model-m-keyboard.html</id>
         <updated>2013-06-22</updated>
-        <summary>I found an IBM Model M at the back of a disused wind tunnel. It still works, it&#x27;s still loud, and these are my first opinions on it. - for the full article please visit the website.</summary>
+        <summary>I found an IBM Model M at the back of a disused wind tunnel. It still works, it&#x27;s still loud, and these are my first opinions on it. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Free major and minor scales for piano sheet music</title>
+
         <link href="https://thinkmoult.com/free-major-and-minor-scales-for-piano-sheet-music.html" />
         <id>https://thinkmoult.com/free-major-and-minor-scales-for-piano-sheet-music.html</id>
         <updated>2013-06-15</updated>
-        <summary>Download free piano sheet music for major, minor harmonic, and minor melodic scales for all keys. Includes fingering annotation and typeset in LaTeX, exported in PDF format. - for the full article please visit the website.</summary>
+        <summary>Download free piano sheet music for major, minor harmonic, and minor melodic scales for all keys. Includes fingering annotation and typeset in LaTeX, exported in PDF format. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to have animated wallpapers in KDE</title>
+
         <link href="https://thinkmoult.com/how-to-have-animated-wallpapers-in-kde.html" />
         <id>https://thinkmoult.com/how-to-have-animated-wallpapers-in-kde.html</id>
         <updated>2012-06-20</updated>
-        <summary> - for the full article please visit the website.</summary>
+        <summary>Use mplayer to play a looping, muted, fullscreen video on all desktops underneath all apps as a wallpaper.. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Blender 3D printed Suzanne model</title>
+
         <link href="https://thinkmoult.com/blender-3d-printed-suzanne-model.html" />
         <id>https://thinkmoult.com/blender-3d-printed-suzanne-model.html</id>
         <updated>2012-06-10</updated>
-        <summary>I used a Makerbot to print out a 3D version of Suzanne, the monkey head mascot from Blender. - for the full article please visit the website.</summary>
+        <summary>I used a Makerbot to print out a 3D version of Suzanne, the monkey head mascot from Blender. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Merge PDFs into 2 per page, 3 per page, etc (n per page)</title>
+
         <link href="https://thinkmoult.com/merge-pdfs-into-2-per-page-3-per-page-etc-n-per-page.html" />
         <id>https://thinkmoult.com/merge-pdfs-into-2-per-page-3-per-page-etc-n-per-page.html</id>
         <updated>2011-12-05</updated>
-        <summary>How to use Linux and pdfnup to convert Powerpoint presentations into 2 or 3 slides per page. This also works if you want to relayout any generic PDF into an N per page layout. - for the full article please visit the website.</summary>
+        <summary>How to use Linux and pdfnup to convert Powerpoint presentations into 2 or 3 slides per page. This also works if you want to relayout any generic PDF into an N per page layout. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Use Klipper to automatically post to a Pastebin</title>
+
         <link href="https://thinkmoult.com/use-klipper-to-automatically-post-to-a-pastebin.html" />
         <id>https://thinkmoult.com/use-klipper-to-automatically-post-to-a-pastebin.html</id>
         <updated>2011-11-26</updated>
-        <summary>How to set up Klipper, the KDE clipboard manager, to automatically post clipboard contents to a pastebin online. This is useful for sending other people debugging information. - for the full article please visit the website.</summary>
+        <summary>How to set up Klipper, the KDE clipboard manager, to automatically post clipboard contents to a pastebin online. This is useful for sending other people debugging information. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to update the Windows wallpaper using batch</title>
+
         <link href="https://thinkmoult.com/how-to-update-the-windows-wallpaper-using-batch.html" />
         <id>https://thinkmoult.com/how-to-update-the-windows-wallpaper-using-batch.html</id>
         <updated>2011-01-22</updated>
-        <summary>Based on a fun idea to send messages to my parents, here&#x27;s a little MS DOS batch script to update the Windows wallpaper. - for the full article please visit the website.</summary>
+        <summary>Based on a fun idea to send messages to my parents, here&#x27;s a little MS DOS batch script to update the Windows wallpaper. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Browse Amarok&#x27;s embedded MySQL database</title>
+
         <link href="https://thinkmoult.com/browse-amaroks-embedded-mysql-database.html" />
         <id>https://thinkmoult.com/browse-amaroks-embedded-mysql-database.html</id>
         <updated>2010-09-01</updated>
-        <summary>Amarok uses a MySQL database to store its music information. This article describes how to access the database directly for analysis and debugging. - for the full article please visit the website.</summary>
+        <summary>Amarok uses a MySQL database to store its music information. This article describes how to access the database directly for analysis and debugging. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Using PlayOnLinux to run applications already installed by vanilla WINE</title>
+
         <link href="https://thinkmoult.com/using-playonlinux-to-run-applications-already-installed-by-vanilla-wine.html" />
         <id>https://thinkmoult.com/using-playonlinux-to-run-applications-already-installed-by-vanilla-wine.html</id>
         <updated>2010-08-26</updated>
-        <summary>Some Windows applications will run better using PlayOnLinux rather than WINE to start it up. Here&#x27;s an example of how to run an application installed with WINE, using PlayOnLinux. - for the full article please visit the website.</summary>
+        <summary>Some Windows applications will run better using PlayOnLinux rather than WINE to start it up. Here&#x27;s an example of how to run an application installed with WINE, using PlayOnLinux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to change the printer LCD display message</title>
+
         <link href="https://thinkmoult.com/how-to-change-the-printer-lcd-display-message.html" />
         <id>https://thinkmoult.com/how-to-change-the-printer-lcd-display-message.html</id>
         <updated>2010-05-08</updated>
-        <summary>How to change a HP Printer&#x27;s default LCD display message by using the HP Printer Job Language. This script uses Perl and does not require any special access rights to run. - for the full article please visit the website.</summary>
+        <summary>How to change a HP Printer&#x27;s default LCD display message by using the HP Printer Job Language. This script uses Perl and does not require any special access rights to run. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Reencode any video to ensure compatibility with Windows Media Player</title>
+
         <link href="https://thinkmoult.com/reencode-any-video-to-ensure-compatibility-with-windows-media-player.html" />
         <id>https://thinkmoult.com/reencode-any-video-to-ensure-compatibility-with-windows-media-player.html</id>
         <updated>2010-04-12</updated>
-        <summary>How to reencode videos with ffmpeg so that they are compatible with Windows Media Player. Windows Media Player has a limited set of codecs and this command will make sure it works. - for the full article please visit the website.</summary>
+        <summary>How to reencode videos with ffmpeg so that they are compatible with Windows Media Player. Windows Media Player has a limited set of codecs and this command will make sure it works. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Rotate a video by 90 degrees with mencoder</title>
+
         <link href="https://thinkmoult.com/rotate-a-video-by-90-degrees-with-mencoder.html" />
         <id>https://thinkmoult.com/rotate-a-video-by-90-degrees-with-mencoder.html</id>
         <updated>2010-04-08</updated>
-        <summary>Explains how to use mencoder to rotate a video, such as a .mov, by 90 degrees clockwise and anticlockwise in Linux. - for the full article please visit the website.</summary>
+        <summary>Explains how to use mencoder to rotate a video, such as a .mov, by 90 degrees clockwise and anticlockwise in Linux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Copy a random set of files from a directory</title>
+
         <link href="https://thinkmoult.com/copy-a-random-set-of-files-from-a-directory.html" />
         <id>https://thinkmoult.com/copy-a-random-set-of-files-from-a-directory.html</id>
         <updated>2010-01-12</updated>
-        <summary>Learn how to copy a random set of files from a directory recursively to another directory in a bash one-liner. - for the full article please visit the website.</summary>
+        <summary>Learn how to copy a random set of files from a directory recursively to another directory in a bash one-liner. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Rip audio from an .FLV file</title>
+
         <link href="https://thinkmoult.com/rip-audio-from-an-flv-file.html" />
         <id>https://thinkmoult.com/rip-audio-from-an-flv-file.html</id>
         <updated>2009-07-24</updated>
-        <summary>This articles describes how to extract the audio from a Flash video file (FLV) into an MP3 format using free tools such as mencoder, with Linux. - for the full article please visit the website.</summary>
+        <summary>This articles describes how to extract the audio from a Flash video file (FLV) into an MP3 format using free tools such as mencoder, with Linux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>How to use MPlayer to play music recursively in a directory</title>
+
         <link href="https://thinkmoult.com/mplayer-play-music-recursively-in-a-directory.html" />
         <id>https://thinkmoult.com/mplayer-play-music-recursively-in-a-directory.html</id>
         <updated>2009-07-22</updated>
-        <summary>Use MPlayer to play music or video files recursively within a directory in Linux. This uses GNU find and the playlist argument in mplayer. - for the full article please visit the website.</summary>
+        <summary>Use MPlayer to play music or video files recursively within a directory in Linux. This uses GNU find and the playlist argument in mplayer. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Ratpoison: an efficient and minimalist WM</title>
+
         <link href="https://thinkmoult.com/ratpoison-an-efficient-and-minimalist-wm.html" />
         <id>https://thinkmoult.com/ratpoison-an-efficient-and-minimalist-wm.html</id>
         <updated>2009-05-13</updated>
-        <summary>Ratpoison is an efficient, minimalist, tiling window manager based off the principles of GNU screen, still under active development. I demonstrate how to change some keybindings to use Vi-keys and the caps lock as a modifier to prevent RSI. - for the full article please visit the website.</summary>
+        <summary>Ratpoison is an efficient, minimalist, tiling window manager based off the principles of GNU screen, still under active development. I demonstrate how to change some keybindings to use Vi-keys and the caps lock as a modifier to prevent RSI. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Speed up Firefox to use less CPU</title>
+
         <link href="https://thinkmoult.com/speed-up-firefox-to-use-less-cpu.html" />
         <id>https://thinkmoult.com/speed-up-firefox-to-use-less-cpu.html</id>
         <updated>2009-02-24</updated>
-        <summary>Firefox has a bug where the tab loading animation can cause excessive CPU usage. You can edit the Firefox interface CSS to remove this element and reduce Firefox&#x27;s CPU usage. - for the full article please visit the website.</summary>
+        <summary>Firefox has a bug where the tab loading animation can cause excessive CPU usage. You can edit the Firefox interface CSS to remove this element and reduce Firefox&#x27;s CPU usage. - for the full content please visit the website.</summary>
     </entry>
 </feed>
