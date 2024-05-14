@@ -78,7 +78,10 @@ as usual. You can add as many servers as you want, but for now let's just add
 <p>Now let's set up a relay. It's pretty clear in the <a href="https://weechat.org/files/doc/weechat/stable/weechat_user.en.html#relay">official WeeChat relay
 documentation</a>
 but let's work through it together.</p>
-<p>To begin with, let's create a ceritificate we can use for TLS:</p>
+<p>To begin with, you need to have a certificate for TLS. There are detailed
+instructions on <a href="https://glowing-bear.org/">Glowing-Bear</a>.</p>
+<p>If you just want your own self signed certificate (which nobody but yourself
+will trust), you can do:</p>
 <pre><code>$ mkdir -p ~/.config/weechat/tls
 $ cd ~/.config/weechat/tls
 $ openssl req -nodes -newkey rsa:2048 -keyout relay.pem -x509 -days 365 -out relay.pem
@@ -91,7 +94,8 @@ load the certificate you generated.</p>
 <p>There are two types of relay protocols WeeChat supports. One is called <code>irc</code>,
 which relays IRC channels. Another is called (confusingly) <code>weechat</code>, which
 relays ... WeeChat itself. Sound confusing? Let's try again.</p>
-<p>WeeChat allows external clients to connect via two protocols in relay plugin:</p>
+<p>WeeChat allows external clients to connect via two protocols in its relay
+plugin:</p>
 <ul>
 <li><code>irc</code>: any IRC client can connect (including WeeChat itself running on
    another computer). It sends IRC information to these clients.</li>
@@ -104,11 +108,11 @@ relay</a>. If this sounds like a
 strange state of affairs, that's because it is. It's a known issue and it's
 being solved. There is <a href="https://specs.weechat.org/specs/2023-005-relay-http-rest-api.html">a new API
 relay</a>. The
-goal with API protocol is to deprecate and replace the "weechat" protocol (<a href="https://github.com/weechat/weechat/issues/2066">see
+goal with API protocol is to deprecate and replace the <code>weechat</code> protocol (<a href="https://github.com/weechat/weechat/issues/2066">see
 issue tracker</a>). You can test
 out the new API relay functionality in WeeChat 4.2.2 onwards.</p>
 <p>But for now, most people aren't on WeeChat 4.2.2 yet, so let's enable both
-relays:</p>
+relay protocols on two different ports:</p>
 <pre><code>/relay add tls.irc 8000
 /relay add weechat 9000
 </code></pre>
@@ -132,6 +136,10 @@ name in the connection password as a prefix. For example, to connect to the
 <a href="https://f-droid.org/packages/com.ubergeek42.WeechatAndroid/">Weechat-Android</a>
 available on F-Droid. It speaks the <code>weechat</code> relay protocol, so just connect
 to <code>YOUR_RELAY_IP_OR_DOMAIN</code> on port <code>9000</code>.</p>
+<p>If you want to connect from a browser on any other device, you can use <a href="https://glowing-bear.org/">Glowing
+Bear</a> (if you have a self signed certificate, either
+self host or use the <a href="http://glowing-bear.org/">insecure</a> version if you really
+don't care, it's a public chatroom anyway).</p>
     </article>
     <section>
 	<h2>Comments</h2>
