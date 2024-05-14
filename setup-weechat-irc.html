@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="How to setup WeeChat to connect to IRC chatrooms and stay online 24/7 with a relay server.">
+    <title>How to setup WeeChat for IRC</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>How to setup WeeChat for IRC</h1>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2024-05-14</p>
+    </header>
+    <article>
+
+<p><a href="https://weechat.org/">WeeChat</a> is an excellent extensible chat client. It
+looks like this:</p>
+<p><img alt="A picture of weechat" src="https://thinkmoult.com/assets/weechat.png"></p>
+<p>Weechat is highly configurable. It's main purpose is to connect to online <a href="https://simple.wikipedia.org/wiki/Internet_Relay_Chat">IRC
+chatrooms</a>. IRC
+chatrooms are one of the last bastions of the democratised, wild early internet
+prior to the proliferation of commercialised walled gardens that most people
+live in nowadays.</p>
+<p>It also connects to other chat protocols like Matrix. If your friends have been
+tempted by emojis, image attachments, and other luxuries, you can still
+participate nominally in their chats.</p>
+<p>One of the features of IRC is that it is ephemeral. When you join a chatroom,
+you will not see any messages that were posted prior to you joining. When you
+leave, you will not receive any messages until you join the chatroom again. So
+when you disconnect, you're really disconnecting! Nobody can contact you.</p>
+<p>If this dosen't appeal to you, there are a number of strategies to retain chat
+history. The easiest option is to configure WeeChat to store chat logs and
+replay those chat logs when you reconnect. You'll still miss messages that
+occur when you're offline, but if you're online almost 24/7, this is not much
+of a concern.</p>
+<pre><code># How many lines of message history to remember
+/set logger.look.backlog_max_number 5000
+
+# How many lines of message history to show when you rejoin
+/set logger.look.backlog 5000
+
+# Remember the message history ... in colour!
+# Otherwise you'll only see text, and not colours that distinguish between different usernames.
+/set logger.file.color_lines on
+</code></pre>
+<p>Even if you set this up, you'll probably have some devices that aren't
+connected all the time. It'll be nice to have all devices share the same
+username and see the same messages at the same time. You'll need to figure out
+how to reliably be online 24/7 from a "server" and to share the same session
+across any "client".</p>
+<p>There are a myriad of solutions to this, including running a
+<a href="https://wiki.znc.in/ZNC">ZNC</a> or <a href="https://github.com/psybnc/psybnc">psyBNC</a>
+bouncer, self-hosting <a href="https://thelounge.chat/">TheLounge</a> as a modern
+interface, or using a service like <a href="https://www.irccloud.com/">IRCCloud</a>.</p>
+<p>In this article, we'll focus on using a WeeChat relay.</p>
+<h2>What is a WeeChat relay?</h2>
+<p>A relay is another client-server solution to keeping you connected 24/7.
+Instead of your IRC client connected directly to an IRC server, it connects
+first to a WeeChat relay on some external server. In turn, the WeeChat relay
+connects to the IRC server.</p>
+<p>You'll need a server. You can get a Virtual Private Server (VPS) for about $5
+dollars per month. It's worth it!</p>
+<h2>How to setup a WeeChat relay</h2>
+<p>The WeeChat relay server is provided by WeeChat itself. After installing
+WeeChat on your server, run it inside <code>tmux</code> and then connect to an IRC server
+as usual. You can add as many servers as you want, but for now let's just add
+<a href="https://libera.chat/">Libera.Chat</a>.</p>
+<pre><code>/server add libera irc.libera.chat
+/set irc.server.libera.autoconnect on
+/set irc.server.libera.autojoin_dynamic on
+/set irc.server.libera.nicks &quot;YourNickname&quot;
+/connect libera
+</code></pre>
+<p>Now let's set up a relay. It's pretty clear in the <a href="https://weechat.org/files/doc/weechat/stable/weechat_user.en.html#relay">official WeeChat relay
+documentation</a>
+but let's work through it together.</p>
+<p>To begin with, let's create a ceritificate we can use for TLS:</p>
+<pre><code>$ mkdir -p ~/.config/weechat/tls
+$ cd ~/.config/weechat/tls
+$ openssl req -nodes -newkey rsa:2048 -keyout relay.pem -x509 -days 365 -out relay.pem
+</code></pre>
+<p>Now back inside WeeChat on your server, setup a password for your relay, and
+load the certificate you generated.</p>
+<pre><code>/set relay.network.password &quot;MY_PASSWORD&quot;
+/relay tlscertkey
+</code></pre>
+<p>There are two types of relay protocols WeeChat supports. One is called <code>irc</code>,
+which relays IRC channels. Another is called (confusingly) <code>weechat</code>, which
+relays ... WeeChat itself. Sound confusing? Let's try again.</p>
+<p>WeeChat allows external clients to connect via two protocols in relay plugin:</p>
+<ul>
+<li><code>irc</code>: any IRC client can connect (including WeeChat itself running on
+   another computer). It sends IRC information to these clients.</li>
+<li><code>weechat</code>: only specific clients that support the <code>weechat</code> protocol can
+   connect. They can see what WeeChat sees and send messages, but not much
+   else. They can't join or leave channels and so on.</li>
+</ul>
+<p>Note that WeeChat itself <a href="https://github.com/weechat/weechat/issues/369">cannot connect to a WeeChat
+relay</a>. If this sounds like a
+strange state of affairs, that's because it is. It's a known issue and it's
+being solved. There is <a href="https://specs.weechat.org/specs/2023-005-relay-http-rest-api.html">a new API
+relay</a>. The
+goal with API protocol is to deprecate and replace the "weechat" protocol (<a href="https://github.com/weechat/weechat/issues/2066">see
+issue tracker</a>). You can test
+out the new API relay functionality in WeeChat 4.2.2 onwards.</p>
+<p>But for now, most people aren't on WeeChat 4.2.2 yet, so let's enable both
+relays:</p>
+<pre><code>/relay add tls.irc 8000
+/relay add weechat 9000
+</code></pre>
+<p>That's it! Your relay is setup!</p>
+<h2>How to connect to a WeeChat relay</h2>
+<p>Now back on your client computer, launch WeeChat. Let's get WeeChat connected
+to the relay by adding a IRC server as usual ... except that the IRC server
+address is the IP or domain name of your relay and uses the 8000 port. To
+specify which server this is actually connecting to, you specify the server
+name in the connection password as a prefix. For example, to connect to the
+<code>libera</code> server we added earlier, we'd prefix the password with <code>libera:</code>.</p>
+<p>Because you generated your own certificate, you can either set the
+<code>tls_fingerprint</code> manually or disable <code>tls_verify</code>.</p>
+<p>Then just connect as usual :)</p>
+<pre><code>/server add libera YOUR_RELAY_IP_OR_DOMAIN/8000
+/set irc.server.libera.password &quot;libera:MY_PASSWORD&quot;
+/set irc.server.libera.tls_verify off
+/connect libera
+</code></pre>
+<p>If you have an Android phone, an excellent client is
+<a href="https://f-droid.org/packages/com.ubergeek42.WeechatAndroid/">Weechat-Android</a>
+available on F-Droid. It speaks the <code>weechat</code> relay protocol, so just connect
+to <code>YOUR_RELAY_IP_OR_DOMAIN</code> on port <code>9000</code>.</p>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>

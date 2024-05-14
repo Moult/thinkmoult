@@ -2,11 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-05-10T11:27:29</updated>
+    <updated>2024-05-14T19:54:18</updated>
     <author>
         <name>Dion Moult</name>
     </author>
     <id>https://thinkmoult.com/</id>
+    <entry>
+        <title>How to setup WeeChat for IRC</title>
+
+        <link href="https://thinkmoult.com/setup-weechat-irc.html" />
+        <id>https://thinkmoult.com/setup-weechat-irc.html</id>
+        <updated>2024-05-14</updated>
+        <summary>How to setup WeeChat to connect to IRC chatrooms and stay online 24/7 with a relay server. - for the full content please visit the website.</summary>
+    </entry>
     <entry>
         <title>Open source architecture, engineering, and construction chatroom</title>
 
