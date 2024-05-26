@@ -18,49 +18,64 @@
     <article>
 
 <p><a href="http://www.nongnu.org/ratpoison/">Ratpoison</a> is a tiling window manager, with
-a focus on removing the need to use your mouse under any circumstances
-whatsoever. It's extremely efficient and minimalist.  For those new to tiling
-window managers, this is in contrast to most window management systems where
-windows "float" and overlap one another, and you have the options to maximise,
-restore, and minimise windows to control their sizes. In contrast, windows do
-not overlap in a tiling window manager. Instead, they tile. An easy way to
-visualise this it by thinking of a table. A table can have rows and columns
-split up into as weird a configuration you can think of, but there is only one
-value per cell, and that value cannot overlap another cell. You can resize your
-cells, switch values from one cell to another, split, remove and merge cells.
-Not only that, but you can do this using naught but your keyboard. It's time to
-push that rodent away from your computer and appreciate the keys you already
-have to input information to your computer.  But why, you say, would I enjoy
-having to design a complex table layout for a simple task? For a number of
-reasons. Firstly, it's damned fast.  It's so fast you can split em, switch em,
-merge em, and focus on what matters most: your work ... not moving around
-windows so that you get a good look at them. Secondly, it uses up all your
-screen space. No wasting space on window borders, taskbars, panels, etc. Every
-single bit of your screen is showing useful information, and nothing more. This
-is often referred to as "efficient use of screen real estate". Thirdly, it's a
-minimal WM. This means it starts up quick, doesn't have many dependencies, and
-is lightweight on your system space and resources. Take a quick peek at this
-screenshot to show ratpoison in use:</p>
+a focus on removing the need to use your mouse (get it?) under any
+circumstances whatsoever. It's extremely efficient and minimalist.</p>
+<p>For those new to tiling window managers, there are generally two paradigms to
+displaying software on your screen. The most famous method is known as a
+"floating" window, where you have floating, rectangular panels, each of which
+contain the interface of different software. These rectangles can overlap, and
+have options to maximise, resize, restore, and minimise, often coupled with a
+task bar which shows all the windows you have open and features to launch new
+windows.</p>
+<p>There is an alternative to floating window management! It's called <strong>tiling
+window management</strong>. Imagine carving up your monitor into tiles, and each tile
+contains the interface of each software.</p>
+<p>Similar to a table in a spreadsheet, a table can have rows and columns split up
+into as weird a configuration you can think of, but there is only one value per
+cell, and that value cannot overlap another cell. You can resize your tiles,
+switch values from one tile to another, split, remove and merge tiles.</p>
+<p>There are <a href="https://wiki.archlinux.org/title/Comparison_of_tiling_window_managers">a lot of tiling window
+managers</a>
+out there, but I'd like to focus today on <strong>Ratpoison</strong>.</p>
 <p><img alt="A screenshot of ratpoison in use in 2009 showing KDE graphical apps and command line apps" src="https://thinkmoult.com/assets/2009-02-09-005748_1280x800_scrot.png"></p>
-<p>As you can see, ratpoison is basically shortcut driven. You use the keyboard to
-do everything: open new applications, close applications, resize windows, move
-windows ... well, pretty much everything. The problem with this is that the
-default ratpoison bindings, whilst it may be familiar to those who use GNU
-screen, may not be the most ergonomic.  The solution to achieving a wonderful
-system is to use a combination of .ratpoisonrc settings and xmodmap settings.
-Here is a nifty guide that should get you started with some usable keybindings.</p>
+<p>Ratpoison shares all the benefits of other tiling window managers:</p>
+<ul>
+<li>Your screen real estate is dedicated purely to showing content, not decoration.</li>
+<li>The location of that content is predictable and consistent.</li>
+<li>Generally lightweight, as any additional content (notification trays, status
+   bars, menus) are usually explicitly configured and added by yourself.</li>
+</ul>
+<p>Ratpoison's premise (again, like most tiling window managers), is that you
+should be able to control your window placement purely using keyboard
+shortcuts. You use the keyboard to do everything: open new applications, close
+applications, resize tiles, move tiles, and so on.</p>
+<p>There are two things which set Ratpoison apart:</p>
+<ol>
+<li><strong>Ratpoison is bare bones.</strong> It does what it's meant to do, and that's it.
+    Other tiling window managers might offer more candy, but ratpoison chooses
+    its friends.</li>
+<li><strong>Ratpoison is modeled after GNU screen</strong>. This makes it easy for those
+    already familiar with terminal management to use their graphical
+    environment in a similar manner. tmux users will be happy too.</li>
+</ol>
+<p>Just like GNU Screen, Ratpoison uses a "command key" to prefix any commands
+that are sent to it. For example, if you want to split a tile, you first press
+the command key, then press the <code>S</code> hotkey to split. This helps distinguish
+between regular hotkeys that your software is listening to, and Ratpoison
+hotkeys.</p>
 <h2>My Ratpoison setup.</h2>
-<p>I've customised by Ratpoison setup somewhat, and here's how it works. Feel free
-to view these images directly for the full resolution.</p>
+<p>The problem with this is that the default ratpoison bindings, whilst it may be
+familiar to those who use GNU screen, may not be the most ergonomic. I'm a fan
+of Vi-keys, so if you are too, here's a setup using a combination of
+.ratpoisonrc settings and xmodmap settings.</p>
 <p><img alt="A blank ratpoison setup with polybar" src="https://thinkmoult.com/assets/34d112c93d51ad5c.png"></p>
-<p>Ratpoison uses a "command key" to prefix any commands that are sent to it. By
-default, this is set to <code>Ctrl-T</code>. This hand-stretching combination isn't the
-most comfortable sequence and can get tiring after a while. So the first thing
-I do is remove my <code>Caps Lock</code> key (nobody ever uses it anyway) and change it to
-an imaginary key called <code>F13</code>. This way all I have to do is shift my left pinky
-slightly to the left when I want to do something. This makes using Ratpoison
-really fast! So create a file called <code>.xmodmaprc</code> in your home directory, and
-put this in it:</p>
+<p>By default, the command key is set to <code>Ctrl-T</code>. This hand-stretching
+combination isn't the most comfortable sequence and can get tiring after a
+while. So the first thing I do is remove my <code>Caps Lock</code> key (nobody ever uses
+it anyway) and change it to an imaginary key called <code>F13</code>. This way all I have
+to do is shift my left pinky slightly to the left when I want to do something.
+This makes using Ratpoison really fast! So create a file called <code>.xmodmaprc</code> in
+your home directory, and put this in it:</p>
 <pre><code>remove lock = Caps_Lock
 keycode 66 = F13
 </code></pre>
@@ -77,28 +92,45 @@ tiles. I find this quite intuitive. I also use the page up and page down keys
 to control the volume. I also use <code>polybar</code>, which is a popular status bar, and
 bind the spacebar to open up a new <code>xterm</code>, which is by far the most common
 program that I launch. Here's the setup:</p>
-<pre><code>escape F13
+<pre><code># Set the imaginary F13 key (i.e. the Caps Lock) as the command key
+escape F13
+
+# Page up/down volume control
 bind Next exec amixer -q set PCM 2- unmute
 bind Prior exec amixer -q set PCM 2+ unmute
+
+# Vi-key navigation
 unbind k
 bind j focusdown
 bind h focusleft
 bind k focusup
 bind l focusright
+
+# Vi-key tile swapping
 bind J exchangedown
 bind H exchangeleft
 bind K exchangeup
 bind L exchangeright
 bind C-k delete
+
+# Create 4 virtual desktops
 exec /usr/bin/rpws init 4 -k
+
+# Set a wallpaper
 exec /usr/bin/fbsetbg /home/dion/Images/Wallpaper.jpg
+
+# Create a status bar at the top
 exec polybar moult
+
+# Set no borders, and a 25px padding at the top for the status bar
 set winname class
 set border 0
 set padding 0 25 0 0
 set bgcolor #333333
 set fgcolor #CCCCCC
 set barborder 0
+
+# The space bar will launch a terminal
 bind space exec xterm
 </code></pre>
 <p>You might notice that <code>rpws</code> and <code>fbsetbg</code> is called. <code>rpws</code> sets up virtual
@@ -124,9 +156,12 @@ definekey top H-bracketright exec mpc prev
 (or whatever modifier) + <code>:</code> then type your command that you would use in your
 <code>.ratpoisonrc</code>. If you want to run a shell command or app, just do <code>F13</code> + <code>!</code>
 then type it in. </p>
-<p>A final trick is to use the <code>tmpwm</code> command inside Ratpoison to temporarily
-switch to another window manager in the few cases where a tiling window manager
-isn't quite the best thing to use. Alternatively, you can also use Xephyr.</p>
+<p>On those rare occasions where you don't want to tile your windows, a final
+trick is to use the <code>tmpwm</code> command inside Ratpoison to temporarily switch to
+another window manager. I use Fluxbox as an alternative minimal window manager
+for this purpose. So for example, you can do <code>:tmpwm fluxbox</code>, then when you're
+done, just quit Fluxbox, and ratpoison will resume.</p>
+<p>Alternatively, you can also use Xephyr.</p>
 <p><img alt="Running Xephyr to run an X server inside your X server. In this case running Fluxbox inside Ratpoison" src="https://thinkmoult.com/assets/99bae9a991ea138c.png"></p>
 <p>Well. Good luck with Ratpoison, and I hope you enjoy using it. I know I have!</p>
     </article>
