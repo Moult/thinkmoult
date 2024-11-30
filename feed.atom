@@ -2,11 +2,19 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-06-19T00:38:41</updated>
+    <updated>2024-11-30T22:04:55</updated>
     <author>
         <name>Dion Moult</name>
     </author>
     <id>https://thinkmoult.com/</id>
+    <entry>
+        <title>Using elinks to browse the web</title>
+
+        <link href="https://thinkmoult.com/using-elinks-browse-web.html" />
+        <id>https://thinkmoult.com/using-elinks-browse-web.html</id>
+        <updated>2024-11-30</updated>
+        <summary>Elinks is the most well maintained, feature-rich command line text browser available today. I demonstrate how you can use it for every day browsing, and where it still falls short. - for the full content please visit the website.</summary>
+    </entry>
     <entry>
         <title>How to setup WeeChat for IRC</title>
 

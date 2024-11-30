@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Dion Moult" />
+    <meta name="description" content="Elinks is the most well maintained, feature-rich command line text browser available today. I demonstrate how you can use it for every day browsing, and where it still falls short.">
+    <title>Using elinks to browse the web</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+    <header>
+        <h1>Using elinks to browse the web</h1>
+        <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
+        <p class="author">Dion Moult</p>
+        <p class="date">2024-11-30</p>
+    </header>
+    <article>
+
+<p>Sometime in the past decade, the web took a wrong turn and has been too embarrassed to turn back.</p>
+<p>Websites changed from being a medium to host static documents into rich, interactive software that doesn't require installation on your computer. With that complexity came a reduction of browser engines and a race to take two steps backwards, one step forward in the replacement of desktop software. If this resonates with you and you still primarily access the internet for the consumption of text-heavy content, this article will describe the state of pure text-based command line browsers in 2024.</p>
+<p>In short, you can practically use text-based browsers in this day and age (I have been regularly doing so myself), so long as you only use them on traditional websites where your main focus is on text content. The moment you want to access a website with lots of images (if you want to look at something graphical), video, or interactive, it's not an option. So if you're reading a news article, searching Wikipedia, reading documentation, browsing a forum, or checking the phone number of a local business website, go for it. If you want to search for videos, do an image search, or access a graphical or interactive app of any kind, use a graphical browser. If you've gone this far, you'll start to be pleasantly surprised by the number of websites that work and offer quite a charming experience. You'll become quite skilled at learning to disregard the boilerplate and unneccessary cruft that plagues modern websites. Unfortunately, you will also be unpleasantly surprised by websites that you expect to be suitably rendered in text (browsing Github repositories and searching issues, visiting a Discourse forum to read posts, or checking out comments on Reddit, etc) only for the experience to be horrific or completely broken. Shame on these web developers.</p>
+<p>The most advanced command line browser is <a href="http://elinks.or.cz/">elinks</a>. I highly advise you also try out <a href="https://lynx.browser.org/">Lynx</a> (the oldest), <a href="https://github.com/acg/w3m">w3m</a> (images in the terminal, cool!), and <a href="http://links.twibright.com/">links</a> (abandoned grandfather of elinks), and when you've convinced yourself that elinks is truly the only option for day-to-day usage, keep reading. If you come across stuff like felinks or links2, they're all dead and elinks is now the fork that matters.</p>
+<p>Let's see what it looks like in action. Here's my very own website, showing a list of articles. Notice the numbers next to each link. This lets me quickly jump to a link.</p>
+<p><img alt="Elinks browsing my website" src="https://thinkmoult.com/assets/elinks-browsing-website.png"></p>
+<p>Here's the <a href="https://community.osarch.org">OSArch forums</a>. Notice the search input field on the top left. Notice how cleanly formatted this webpage is. It uses HTML rewriting with Python to optimise the layout, explained further below:</p>
+<p><img alt="Elinks browsing a forum with custom HTML formatting" src="https://thinkmoult.com/assets/elinks-browsing-forum-with-html-rewriting-hook.png"></p>
+<p>And here's the NetHackWiki, showing an article about a Giant Ant. In this case, link numbering is turned off, and there is nothing but content to focus on:</p>
+<p><img alt="Elinks browsing a text heavy website like a wiki" src="https://thinkmoult.com/assets/elinks-browsing-wikipedia.png"></p>
+<p>Here is the same page but showing ncurses menus for a more graphical experience, tables, and images in red (which if you click on them, will open in your image viewer, feh on my machine).</p>
+<p><img alt="Elinks with tables, menus, and images" src="https://thinkmoult.com/assets/elinks-with-tables-and-menus.png"></p>
+<h2>Features</h2>
+<ul>
+<li>It's still maintained and developed.</li>
+<li>It has tabs. You can create tabs. Reorder tabs. Open links in new tabs. Close tabs.</li>
+<li>You can configure colours and styling.</li>
+<li>It understands a little bit of CSS styling.</li>
+<li>For long-form textarea authoring, you can launch your own text editor.</li>
+<li>It has bookmarks, history, and download manager.</li>
+<li>It has that annoying feature to "remember what I typed into this form"</li>
+<li>You can customise external apps to launch for different mimetypes (e.g. image viewer, video player, etc)</li>
+<li>It has mouse support to "click" on a link or scroll.</li>
+<li>You can "find in page"</li>
+<li>You can navigate with vi-keys (once mapped)</li>
+<li>Can be handled as a remote session, so when launching a link from another app (e.g mutt, newsboat, etc) it'll open it as a new tab in an existing elinks session</li>
+<li>Closing and reopening remembers the tabs from your last session</li>
+<li>It supports URL rewriting, such that typing "ddg foobar" auto searches DuckDuckGo (Lite) with the keyword foobar. Do need to type out full URLs.</li>
+<li>It supports HTML rewriting. Is your favourite website coded by a web developer who doesn't understand the importance of semantic HTML? You can pattern match URLs and auto manipulate HTML output to fix their broken website, client-side. Scary.</li>
+<li>It can be scripted with a variety of bindings, including Python and ECMAScript.</li>
+<li>If you do come across a website that is so utterly broken, you're a hotkey away from opening it in a more "modern" browser.</li>
+</ul>
+<p>The best place to familiarise yourself with elinks is to read the <a href="http://elinks.or.cz/documentation/manual.html">Elinks documentation</a>, as well as <a href="https://xteddy.org/elinks/">Thomas Adam's tips</a> and <a href="http://www.calmar.ws/elinks/">Calmar's tips</a>.</p>
+<p>I've tweaked my elinks to have Vi-key bindings, support external browser, and view images, videos, and SVGs. This guide assumes you use a similar configuration to mine (otherwise, hotkeys and such will differ). At the bottom of this article, you'll see my ELinks configuration.</p>
+<h2>Navigation and browsing</h2>
+<p>Use <code>o</code> to go to a new website in the current tab, or <code>t</code> to open a new tab. URL completion is awesome, so get familiar with "URI rewriting". When you press <code>o</code>, type in <code>ddg thinkmoult</code> to search for "thinkmoult" on DuckDuckGo.</p>
+<p>If you frequent sites, type <code>s</code> to launch your bookmarks, then <code>S</code> to search your bookmarks. You can quickly clear the form by doing <code>&lt;Esc&gt;l</code> to clear, then press <code>g</code> to visit the bookmark.</p>
+<p>To navigate via single row/column scrolling, use hjkl vi-keys. Very often, you'll want to scroll multiple lines at a time, so use JK for this. HL is reserved to quickly go forwards and backwards in history.</p>
+<p>Alternatively, use <Up> and <Down> to jump to the next link. The "active" link will be highlighted. Press <Enter> to visit the link. You can also use <code>O</code> to open that link in a new tab. You can use <code>c</code> to close a tab. To undo a closed tab, see <a href="https://github.com/rkd77/elinks/issues/309">this issue</a>.</p>
+<p>Instead of cycling manually through links, in practice you will use <code>.</code> to toggle link numbering. Type the number to jump to the link. Toggling link numbering decreases readability of text, so it's better to toggle it than leave it permanently on.</p>
+<p><Up> and <Down> will also jump to form fields. Use <Enter> to enter text into an input field. If it's a large text-area, use <code>Ctrl-t</code> to launch vim to edit it.</p>
+<p>On a long page where you want to jump between multiple points in the page, you can set "marks" to remember your position and jump between them. Type <code>ma</code> to set a mark called <code>a</code>, then use <code>'a</code> to jump to that mark. Once you go to a page you like, press <code>a</code> to add it to your bookmarks.</p>
+<p>When you inevitably reach a broken webpage, press <code>E</code> and select the <code>firefox</code> option to open the current page in Firefox. Send an angrily worded email to the webmaster.</p>
+<p>Since elinks supports the mouse, you can also use the mouse to scroll, click on links, and even right click to open things in new tabs, and if you press <Esc> you can navigate through the toolbar menus.</p>
+<h2>Styles and colours</h2>
+<p>Websites store information about how their content should be represented using CSS. This defines colours, spacing, fonts, and so on. Nowadays because developers sometimes don't know when to stop, they also define interactivity, animations, and content itself.</p>
+<p>I'm strongly of the opinion that the web should've been designed in manner where the remote server was only capable of delivering semantic HTML, and the concept of how things should look like (i.e. the CSS) should be purely client driven. With elinks, you can somewhat experience this blissful state of affairs.</p>
+<p>Elinks supports a non-CSS styled colour display: this is where all document (i.e. website) colours are determined by you. You don't have a lot of choice, given it's just text, but your <code>elinks.conf</code> can set <code>document.colors.*</code> to set things like the background colour, image colour, link colours, link number colours, text colours, and that's about it. Despite its limitation, it forms a great fallback when the website just has terrible colour choices and you just need things to be readable.</p>
+<p>Alternatively, you can use CSS to style the website. Elinks will download and parse the CSS provided by the website. However, Elinks can also load a local CSS file that overrides the server-side CSS. Nice! Here's the contents of my <code>default.css</code>:</p>
+<pre><code>body {
+    background-color: #1a1a1a;
+    color: #ddd;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #96f06e !important;
+}
+a {
+    color: #6ec8fa !important;
+    font-weight: bold !important;
+}
+</code></pre>
+<p>Notice the aggressive use of <code>!important</code>. This way you can have your own colours for code blocks, pre blocks, and other truly semantic tags.</p>
+<p>Elinks offers the <code>%</code> hotkey to toggle between three style modes:</p>
+<ul>
+<li>Non-CSS styles, using colours from <code>document.colors.*</code></li>
+<li>CSS styles, including local CSS</li>
+<li>CSS styles, including local CSS, but this time ignoring background CSS colours, since this is a very common source of unreadable text.</li>
+</ul>
+<h2>JavaScript / EMCAScript</h2>
+<p>There is theoretical support. This alas is just theoretical and basically expect websites that rely on JavaScript to break.</p>
+<h2>Hooks and HTML rewriting with Python scripting</h2>
+<p>This is an advanced, but very powerful feature. Simply create a <code>hooks.py</code> (or <code>hooks.lua</code> or <code>hooks.js</code>) in <code>~/.config/elinks/</code>. This allows you to hook into events and override the behaviour. For example, the <code>pre_format_html_hook</code> will take HTML and let you pre-process it before rendering it. If a website you frequent has garbage HTML, you can fix it.</p>
+<p>Python has a neat library called BeautifulSoup which makes HTML manipulation really easy. Imagine if you could write a quick config file that takes a tag selector query (e.g. <code>table.itemlist</code>) and auto apply some "cleaning" function from a library of cleaning functions to make it more readable. Check out <a href="https://hellricer.github.io/2019/05/29/elinks-with-beautifulsoup.html">this great article</a> which provides a neat framework that does this. It makes "fixing" nasty HTML a breeze.</p>
+<h2>Elinks configuration</h2>
+<p>In <code>.config/elinks/elinks.conf</code>, feel free to use this as a starting point.</p>
+<pre><code># Vi-like navigation
+bind &quot;main&quot; &quot;h&quot; = &quot;scroll-left&quot;
+bind &quot;main&quot; &quot;j&quot; = &quot;scroll-down&quot;
+bind &quot;main&quot; &quot;k&quot; = &quot;scroll-up&quot;
+bind &quot;main&quot; &quot;l&quot; = &quot;scroll-right&quot;
+
+bind &quot;main&quot; &quot;H&quot; = &quot;history-move-back&quot;
+bind &quot;main&quot; &quot;J&quot; = &quot;move-half-page-down&quot;
+bind &quot;main&quot; &quot;K&quot; = &quot;move-half-page-up&quot;
+bind &quot;main&quot; &quot;L&quot; = &quot;history-move-forward&quot;
+
+bind &quot;main&quot; &quot;Ctrl-d&quot; = &quot;move-half-page-down&quot;
+bind &quot;main&quot; &quot;Ctrl-u&quot; = &quot;move-half-page-up&quot;
+
+# Visit a new website (it'll pop up a fresh dialog to enter in a URL)
+bind &quot;main&quot; &quot;o&quot; = &quot;goto-url&quot;
+# Edit the current URL (it'll pop up a dialog with the existing URL)
+bind &quot;main&quot; &quot;e&quot; = &quot;goto-url-current&quot;
+# Reload webpage
+bind &quot;main&quot; &quot;r&quot; = &quot;reload&quot;
+# When a link is active, you can open it in a tab (or in the background)
+bind &quot;main&quot; &quot;O&quot; = &quot;open-link-in-new-tab&quot;
+bind &quot;main&quot; &quot;T&quot; = &quot;open-link-in-new-tab-in-background&quot;
+
+# I never got this to work. Use the default &lt; and &gt; to change tabs.
+bind &quot;main&quot; &quot;Ctrl-Tab&quot; = &quot;tab-next&quot;
+bind &quot;main&quot; &quot;Shift-Ctrl-Tab&quot; = &quot;tab-prev&quot;
+# Use [] to reorder tabs
+bind &quot;main&quot; &quot;]&quot; = &quot;tab-move-right&quot;
+bind &quot;main&quot; &quot;[&quot; = &quot;tab-move-left&quot;
+# c to close tabs
+bind &quot;main&quot; &quot;c&quot; = &quot;tab-close&quot;
+
+# ?
+bind &quot;main&quot; &quot;u&quot; = &quot; *scripting-function*&quot;
+
+# Retain my current hand-written config, and only make changes as necessary if
+# you change things through the UI.
+set config.comments = 0
+set config.saving_style = 3
+set config.saving_style_w = 1
+# set document.browse.links.numbering = 1
+set document.colors.background = &quot;#1a1a1a&quot; # Close to black
+set document.colors.image = &quot;#fa6982&quot; # Pink
+set document.colors.link = &quot;#6ec8fa&quot; # Blue
+set document.colors.link_number = &quot;#dc6ea5&quot; # Faded pink
+set document.colors.text = &quot;#eeeeee&quot;
+set document.colors.use_document_colors = 2
+set document.colors.use_link_number_color = 1
+set document.colors.vlink = &quot;#117ebb&quot;
+# CSS is nice. My CSS is nice. Your CSS is not nice.
+set document.css.enable = 1
+set document.css.import = 0
+set document.css.stylesheet = &quot;default.css&quot;
+set document.html.link_display = 0
+set document.html.wrap_nbsp = 0
+set document.plain.compress_empty_lines = 1
+
+# Do something with the current website in an external app.
+bind &quot;main&quot; &quot;E&quot; = &quot;tab-external-command&quot;
+# The &quot;firefox&quot; option will open the current page in firefox.
+set document.uri_passing.firefox.command = &quot;firefox-bin %c&quot;
+# The &quot;xclip&quot; option will copy the current URL to the clipboard.
+set document.uri_passing.xclip.command = &quot;echo %c | xclip -selection c&quot;
+
+# Just give up on JavaScript.
+# set ecmascript.enable = 0
+
+# Enable dumb and smart URI rewriting (so &quot;ddg foo&quot; searches DuckDuckGo for foo)
+set protocol.rewrite.enable-dumb = 1
+set protocol.rewrite.enable-smart = 1
+
+# These colours are a lot more readable
+set terminal.xterm-256color.block_cursor = 1
+set terminal.xterm-256color.colors = 4
+set terminal.xterm-256color.italic = 1
+set terminal.xterm-256color.m11_hack = 1
+set terminal.xterm-256color.strike = 1
+set terminal.xterm-256color.transparency = 1
+set terminal.xterm-256color.type = 1
+set terminal.xterm-256color.underline = 1
+set terminal.xterm-256color.utf_8_io = 1
+set ui.colors.color.desktop.background = &quot;black&quot;
+set ui.colors.color.desktop.text = &quot;red&quot;
+set ui.colors.color.mainmenu.normal.background = &quot;white&quot;
+set ui.colors.color.status.status-bar.background = &quot;#96f06e&quot;
+set ui.colors.color.status.status-text.background = &quot;#96f06e&quot;
+set ui.colors.color.tabs.normal.background = &quot;#333333&quot;
+set ui.colors.color.tabs.normal.text = &quot;#eeeeee&quot;
+set ui.colors.color.tabs.selected.background = &quot;#96f06e&quot;
+set ui.colors.color.tabs.selected.text = &quot;black&quot;
+set ui.colors.color.tabs.separator.background = &quot;#222222&quot;
+set ui.colors.color.tabs.separator.text = &quot;#333333&quot;
+set ui.colors.color.title.title-bar.background = &quot;black&quot;
+set ui.colors.color.title.title-bar.text = &quot;black&quot;
+set ui.colors.color.title.title-text.background = &quot;black&quot;
+set ui.colors.color.title.title-text.text = &quot;#dc6ea5&quot;
+set ui.language = &quot;System&quot;
+
+# Save tabs when quitting and restore when starting
+set ui.sessions.auto_restore = 1
+set ui.sessions.auto_save = 1
+
+# Immediately jump to redirect links
+set document.browse.show_refresh_link = 0
+set document.browse.minimum_refresh_time = 0
+
+# Define custom handlers (image, video, pdf, svg) for extensions
+set mime.handler.image.unix-xwin.program = &quot;feh %u&quot;
+set mime.handler.video.unix-xwin.program = &quot;mplayer -loop 0 %u&quot;
+set mime.handler.pdf.unix-xwin.program = &quot;wget -O /home/dion/tmp/tmp.pdf %u &amp;&amp; mupdf /home/dion/tmp/tmp.pdf&quot;
+set mime.handler.svg.unix-xwin.program = &quot;firefox-bin %u&quot;
+
+# Define extensions we will handle
+set mime.extension.webm = &quot;video/webm&quot;
+set mime.type.video.webm = &quot;video&quot;
+
+set mime.extension.mp4 = &quot;video/mp4&quot;
+set mime.type.video.mp4 = &quot;video&quot;
+
+set mime.type.image.jpg = &quot;image&quot;
+set mime.type.image.jpeg = &quot;image&quot;
+set mime.type.image.png = &quot;image&quot;
+
+set mime.extension.pdf = &quot;application/pdf&quot;
+set mime.type.application.pdf = &quot;pdf&quot;
+
+set mime.extension.svg = &quot;image/svg+xml&quot;
+set mime.type.image.xml+svg = &quot;svg&quot;
+set mime.type.image.svg+xml = &quot;svg&quot;
+
+# Download to this folder
+set document.download.directory = &quot;/home/dion/tmp/&quot;
+</code></pre>
+    </article>
+    <section>
+	<h2>Comments</h2>
+	<p>
+	    If you have any comments, please send them to <a href="mailto:dion@thinkmoult.com">dion@thinkmoult.com</a>.
+	</p>
+    </section>
+    <footer>
+    	<h3>License</h3>
+    	<p>
+	    This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>, unless explicitly mentioned in the article.
+    	</p>
+    </footer>
+</body>
+</html>
