@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-12-02T17:34:20</updated>
+    <updated>2024-12-03T09:30:12</updated>
     <author>
         <name>Dion Moult</name>
     </author>
@@ -513,7 +513,7 @@
         <summary>A 200-page introduction to the Abhidhamma for Theravada Buddhists. Apply the Abhidhamma in your daily life. Free online book for download with minimal Pali. - for the full content please visit the website.</summary>
     </entry>
     <entry>
-        <title>Space architecture - a history of space station designs</title>
+        <title>A history of design and human factors in Space Stations</title>
 
         <link href="https://thinkmoult.com/space-architecture-history-space-station-design.html" />
         <id>https://thinkmoult.com/space-architecture-history-space-station-design.html</id>
@@ -743,14 +743,6 @@
         <id>https://thinkmoult.com/how-to-update-the-windows-wallpaper-using-batch.html</id>
         <updated>2011-01-22</updated>
         <summary>Based on a fun idea to send messages to my parents, here&#x27;s a little MS DOS batch script to update the Windows wallpaper. - for the full content please visit the website.</summary>
-    </entry>
-    <entry>
-        <title>Browse Amarok&#x27;s embedded MySQL database</title>
-
-        <link href="https://thinkmoult.com/browse-amaroks-embedded-mysql-database.html" />
-        <id>https://thinkmoult.com/browse-amaroks-embedded-mysql-database.html</id>
-        <updated>2010-09-01</updated>
-        <summary>Amarok uses a MySQL database to store its music information. This article describes how to access the database directly for analysis and debugging. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Using PlayOnLinux to run applications already installed by vanilla WINE</title>
