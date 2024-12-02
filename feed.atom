@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-11-30T22:04:55</updated>
+    <updated>2024-12-02T17:34:20</updated>
     <author>
         <name>Dion Moult</name>
     </author>
@@ -33,7 +33,7 @@
     </entry>
     <entry>
         <title>Which IFC class should I use?</title>
-        <link href="https://blenderbim.org/search-ifc-class.html" />
+        <link href="https://bonsaibim.org/search-ifc-class.html" />
         <id>Which IFC class should I use?</id>
                 <updated>2024-04-06</updated>
         <summary>Physical objects in an IFC file must be categorised to a class of object, which has implications on what properties are expected to be found on the object. This tool lets you type what type of object you have, and it will try and find the right IFC class for you. - for the full content please visit the website.</summary>
@@ -815,13 +815,5 @@
         <id>https://thinkmoult.com/ratpoison-an-efficient-and-minimalist-wm.html</id>
         <updated>2009-05-13</updated>
         <summary>Ratpoison is an efficient, minimalist, tiling window manager based off the principles of GNU screen, still under active development. I demonstrate how to change some keybindings to use Vi-keys and the caps lock as a modifier to prevent RSI. - for the full content please visit the website.</summary>
-    </entry>
-    <entry>
-        <title>Speed up Firefox to use less CPU</title>
-
-        <link href="https://thinkmoult.com/speed-up-firefox-to-use-less-cpu.html" />
-        <id>https://thinkmoult.com/speed-up-firefox-to-use-less-cpu.html</id>
-        <updated>2009-02-24</updated>
-        <summary>Firefox has a bug where the tab loading animation can cause excessive CPU usage. You can edit the Firefox interface CSS to remove this element and reduce Firefox&#x27;s CPU usage. - for the full content please visit the website.</summary>
     </entry>
 </feed>
