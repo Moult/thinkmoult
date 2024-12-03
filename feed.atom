@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <title>thinkMoult</title>
     <link href="https://thinkmoult.com/" />
-    <updated>2024-12-03T09:30:12</updated>
+    <updated>2024-12-03T12:25:25</updated>
     <author>
         <name>Dion Moult</name>
     </author>
@@ -74,6 +74,13 @@
         <id>How do colours work in IFC?</id>
                 <updated>2022-11-18</updated>
         <summary>A detailed explanation of how colours work in IFC. Colours seem deceptively simple, but are often confused with physical materials. Colours may be used for simple shading, rendering, and light simulation. - for the full content please visit the website.</summary>
+    </entry>
+    <entry>
+        <title>Native OpenBIM and the rise of Open Source in AEC</title>
+        <link href="https://aecmag.com/collaboration/native-openbim-and-the-rise-of-open-source-in-aec/" />
+        <id>Native OpenBIM and the rise of Open Source in AEC</id>
+                <updated>2022-07-11</updated>
+        <summary>A description of the limitations behind translated OpenBIM, and how native OpenBIM with free software is changing the industry. - for the full content please visit the website.</summary>
     </entry>
     <entry>
         <title>Understanding textures and shaders in IFC, X3D, and glTF</title>
@@ -465,14 +472,6 @@
         <summary>Similar to Planet Gentoo, Planet Larry is a feed aggregator of blog posts by Gentoo Linux user blogs. If you run Gentoo Linux, and write a blog, you can add your blog to the feed. Content can be anything, not necessarily related to Gentoo Linux. - for the full content please visit the website.</summary>
     </entry>
     <entry>
-        <title>2018 New years resolutions</title>
-
-        <link href="https://thinkmoult.com/2018-new-years-resolutions.html" />
-        <id>https://thinkmoult.com/2018-new-years-resolutions.html</id>
-        <updated>2018-01-17</updated>
-        <summary>2018 resolutions include blogging more, diversifying investments, consuming ethically, improving digital security, and laying the foundation for long-term livelihood. - for the full content please visit the website.</summary>
-    </entry>
-    <entry>
         <title>Basic rendering tutorial with Radiance</title>
 
         <link href="https://thinkmoult.com/basic-rendering-tutorial-radiance.html" />
@@ -497,14 +496,6 @@
         <summary>Save high resolution satellite photos automatically from NSW GIS SIX Maps directly in your browser for free, without manually merging up to 10,000 pixels. - for the full content please visit the website.</summary>
     </entry>
     <entry>
-        <title>LearnMusicSheets - download PDFs of music sheet exercises</title>
-
-        <link href="https://thinkmoult.com/learnmusicsheets-pdfs-music-exercises.html" />
-        <id>https://thinkmoult.com/learnmusicsheets-pdfs-music-exercises.html</id>
-        <updated>2017-12-14</updated>
-        <summary>Download PDF music scores and exercises with LearnMusicSheets. Beautifully notated scales, arpeggios, and manuscript for piano with no copyright notices. - for the full content please visit the website.</summary>
-    </entry>
-    <entry>
         <title>Practical Abhidhamma Course for Theravāda Buddhists</title>
 
         <link href="https://thinkmoult.com/practical-abhidhamma-course-theravada-buddhists.html" />
@@ -521,7 +512,7 @@
         <summary>This article explores space architecture and their different priorities of human comfort in space stations and other isolated environments. - for the full content please visit the website.</summary>
     </entry>
     <entry>
-        <title>Clean code, and how to write it</title>
+        <title>Learn how to write good code</title>
 
         <link href="https://thinkmoult.com/clean-code-write.html" />
         <id>https://thinkmoult.com/clean-code-write.html</id>

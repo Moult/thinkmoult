@@ -5,39 +5,492 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="Dion Moult" />
     <meta name="description" content="Learn how to write good clean code for beginners: covering basics such as clean syntax, architectural practices, and workflow.">
-    <title>Clean code, and how to write it</title>
+    <title>Learn how to write good code</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <header>
-        <h1>Clean code, and how to write it</h1>
+        <h1>Learn how to write good code</h1>
         <nav><a href="https://thinkmoult.com/articles.html"><img src="gifs/back.gif" alt="Back" class="gif" /> Back to articles</a></nav>
         <p class="author">Dion Moult</p>
         <p class="date">2015-02-10</p>
     </header>
     <article>
 
-<p>Note: the article was originally circulated on #cleancode and #kohana
-on Freenode and is now recorded here as an archive. It seems very useful
-as something to link people to on IRC when they have questions, so feel
-free to share as well.</p>
-<p>At <a href="https://sevenstrokes.net/">SevenStrokes</a>, we practice Clean Code.
-Although code speaks louder than words, at the moment my public
-repositories are heavily outdated. What isn't as outdated, however, is a
-short introductory guide I wrote on Clean Code for the internal use of
-SevenStrokes. Although it is a guide which focuses on the basics, it
-does make some assumptions on the reader having some knowledge about
-programming. You'll notice that the examples are primarily written in
-PHP, but are applicable in all languages.</p>
-<p><img alt="Clean code
-architectures" src="https://sevenstrokes.net/images/usecase_architecture.svg"></p>
-<p>The article answers the question of why good code matters, what is good
-code, and covers the three pillars of good code: syntax, architecture,
-and workflow. It shows coding examples of how to write good code,
-introduces you to the more abstract architectural jargon, and different
-tools and processes out there.</p>
-<p>Without further ado, please click to read: <a href="https://sevenstrokes.net/learn-how-write-good-code">SevenStrokes: Learn how to
-write Good Code</a>.</p>
+<p>I am writing this as a short starter guide to those interested in writing good code. Although I hope for it to stand as an article in its own right, it is by no means comprehensive. At the end, there is a further reading list for those interested.</p>
+<h2>Contents</h2>
+<ol>
+<li>Why does good code matter?</li>
+<li>What is good code?</li>
+<li>Understandable syntax</li>
+<li>Understandable architecture</li>
+<li>Understandable workflow</li>
+<li>Code examples</li>
+<li>Handling legacy projects</li>
+<li>Further reading</li>
+</ol>
+<h2>Why does good code matter?</h2>
+<p>As a programmer, you have probably experienced bad code. Bad code tends to grow over time as your software becomes more complex, and causes three big problems:</p>
+<ol>
+<li>It can be difficult to integrate new features as you are worried about compatibility with the existing system.</li>
+<li>Time is spent fixing old code, which have developed mysterious bugs that are hard to reproduce and to fix.</li>
+<li>You may have forgotten what a lot of the code does, and so you may be afraid that touching it will break the system.</li>
+</ol>
+<p>These three problems will give any developer a headache, but it can cost the business much more! Slower development costs time and money, unpredictable integration periods make it harder to make sales promises, and quirky bugs can make your customers lose faith.</p>
+<p>Bad code is also a very difficult problem to solve. This is because existing developers are afraid that changes will worsen the system, new developers take too long to train, and every day the system accumulates more bad code. The accumulation of bad code accelerates the three big problems stated above, until there is no option but to heavily refactor or start from scratch. The business is held hostage by the state of the code, and often we just give up and decide to start from scratch.</p>
+<p>Although starting from scratch is an attractive option, it is expensive, difficult to manage alongside your legacy version for customers, and is merely a short-term solution. Give it a few more years, and you'll notice bad code creeping in yet again, and the cycle will repeat itself.</p>
+<p>Thankfully, there is a way to prevent bad code. This article is going to show you the principles of writing code in a clean, maintainable, and understandable manner that'll make you happier as a developer, and save your company time and money.</p>
+<h2>What is good code?</h2>
+<p><strong>Good code is understandable code.</strong> End of story. Understandable code is easier to maintain, easier for new developers to learn, easier to debug, faster to find what you're looking for, and most importantly: helps that the programmers writing the code actually understand business objectives.</p>
+<p>Although simple to describe, understandable code is hard to write. This is because there are three diverse aspects of how to write understandable code. Only by implementing all three aspects simultaneously will you be able to write understandable code. These three aspects are:</p>
+<ol>
+<li><strong>Syntax</strong> - These are the <em>concrete details</em> of how to write each line of code in an understandable manner. This helps solve day-to-day frustrations when reading code. Syntax covers topics such as variable naming, code conventions, and refactoring strategies.</li>
+<li><strong>Architecture</strong> - These are the <em>abstract concepts</em> of how to organise large portions of code. This helps improve system flexibility. Architecture includes topics such as design patterns, file structures, and dependency flow.</li>
+<li><strong>Workflow</strong> - These are the <em>managerial techniques</em> of how to coordinate within a team, deliver consistently, and ensure that code is aligned with business interests. Workflow includes topics such as collaboration tools, TDD/BDD, and automation.</li>
+</ol>
+<p>These three aspects are perhaps best approached in that order, and get progressively more complex.</p>
+<p>Let's get started.</p>
+<h2>Understandable syntax</h2>
+<p>Good syntax is understandable syntax. Understandable syntax normally doesn't look like code. Code is cryptic and unnatural to follow. Instead, understandable syntax should look like English. English is easier to read, is easier to talk and reason verbally, and most importantly, it can encourage the developer to understand business requirements.</p>
+<p>If your code is starting to look less cryptic and more like English, that's a good sign. I will now run through a list of bite-sized tips which will make it easier to write code like English. Each tip will be accompanied by a short code example showing the tip in action, like below:</p>
+<pre><code class="language-php">if ($user-&gt;has_registered())
+    return $user-&gt;registration_code;
+else
+    throw new Exception\Authorisation;
+</code></pre>
+<h3>Stick to a formatting convention</h3>
+<p>Conventions are good. It doesn't matter what you pick, as long as you stick to them. Standardised code is easier to read and skim over. If you can't tell who wrote the code, you know you're doing it right.</p>
+<pre><code class="language-php">class Formatter
+{
+    public function format_code($code)
+    {
+        $this-&gt;remove_camel_case($code);
+        $this-&gt;replace_tabs_with_spaces($code);
+        // ...
+        return $code;
+    }
+}
+</code></pre>
+<h3>Avoid writing needless comments</h3>
+<p>Comments in general are bad. If your code needs a comment to explain it, you've probably written confusing code. Comments get outdated easily, and their truthfulness cannot be validated. Even worse are comments for the sake of comments which just add clutter to the code. A much better solution is to refactor the code until it is more understandable.</p>
+<p>If you absolutely have to write a comment, write about "why" rather than "what".</p>
+<pre><code class="language-php">$emailer-&gt;send($html_message);
+</code></pre>
+<p>... is better than ...</p>
+<pre><code class="language-php">/**
+ * Send an email
+ *
+ * A long time ago in a galaxy far far away...
+ */
+$em-&gt;process_msg($str);
+</code></pre>
+<h3>Prefix boolean variables</h3>
+<p>If you have a boolean, prefix it with <code>has_</code>, <code>is_</code>, or <code>should_</code> or similar so that it is obvious that it is a boolean.</p>
+<pre><code class="language-php">$has_registered = TRUE;
+$is_valid = FALSE;
+$should_display_profile = TRUE;
+</code></pre>
+<h3>Name numeric variables in a way that suggests they are numeric</h3>
+<p>It is also possible to connote numeric variables through good naming:</p>
+<pre><code class="language-php">$total_comments = 50;
+$elapsed_seconds = 42;
+$unix_timestamp = time();
+</code></pre>
+<h3>Use plural names to name lists</h3>
+<p>Taking care to use singular and plural words helps connote multiple items:</p>
+<pre><code class="language-php">$new_posts = array(...);
+$post-&gt;message = '...';
+$post-&gt;comments = array(...);
+</code></pre>
+<h3>Use consistent terminology</h3>
+<p>Just like a legal document, things are clearer if certain words are chosen specifically and given clear definitions. If you have a <code>$photo</code>, don't refer to it as an <code>$image</code> later on. Use words that are unambiguous.</p>
+<pre><code class="language-php">$photo-&gt;file_path;
+$directory-&gt;total_files;
+$avatar_url;
+</code></pre>
+<h3>Avoid meaningless words as names</h3>
+<p>Certain phrases are a bit useless, like <code>process_data</code>, or <code>x</code>. Try to describe what they actually are. Iterator variables are an exception.</p>
+<pre><code class="language-php">$article-&gt;calculate_human_time_duration();
+$article-&gt;format_comments();
+$article-&gt;remove_swear_words();
+</code></pre>
+<h3>Make sure names are pronounceable</h3>
+<p>Pronounceable names can be talked about easily. Don't abbreviate unnecessarily.</p>
+<pre><code class="language-php">$message;
+$handler;
+$text;
+</code></pre>
+<h3>Name according to type of object</h3>
+<p>Names can differentiate between names of system entities and names of libraries. Here are some system entities:</p>
+<pre><code class="language-php">$user;
+$photo;
+$message;
+</code></pre>
+<p>Here are some libraries:</p>
+<pre><code class="language-php">$validator-&gt;validate();
+$emailer-&gt;send();
+$photoshopper-&gt;crop();
+</code></pre>
+<h3>Function names should always begin with a verb</h3>
+<p>Functions should always be verbs, or verb-noun combinations.</p>
+<pre><code class="language-php">get_message();
+download_image();
+$user-&gt;authorise();
+</code></pre>
+<h3>No getters and setters for the sake of it</h3>
+<p>Just writing getters and setters out of habit? See if you really need it.</p>
+<pre><code class="language-php">$api = new Api($oauth_token);
+$api-&gt;oauth_token;
+</code></pre>
+<h3>Refactor into functions as soon as you can</h3>
+<p>The smallest unit of code organisation is a function. Once you've written a few lines of code that do a task, group that into a single function. Don't delay. Functions are the first step to writing code that looks like English. If a function is doing more than one task, your function should be split up into more functions. Keep on creating functions until you can't create any more.</p>
+<pre><code class="language-php">interface Validator
+{
+    public function setup(array $data);
+    public function set_not_empty_rule($key);
+    public function set_email_rule($key);
+    public function is_valid();
+    public function get_error_keys();
+}
+</code></pre>
+<h3>Make function names connote return type</h3>
+<p>Functions generally either process or retrieve things. If they are doing both, they are doing too many things. What functions retrieve can be described by the function name.</p>
+<pre><code class="language-php">$user-&gt;create(); // NULL
+$user-&gt;get_username(); // String
+$user-&gt;get_total_likes(); // Integer
+$user-&gt;get_posts(); // Array
+$user-&gt;has_validated(); // Boolean
+$article-&gt;get_user(); // User
+</code></pre>
+<h3>Make function parameter orders obvious</h3>
+<p>Try to make it obvious what the parameters and their order is from the function name. Also keep order consistent, so if you usually ask for <code>$user_id</code> as the first parameter, keep it as the first parameter in future function definitions.</p>
+<pre><code class="language-php">$database-&gt;update_user_email($user_id, $email);
+$database-&gt;update_user_first_name($user_id, $first_name);
+$user-&gt;get_name_and_address() // return array($name, $address);
+</code></pre>
+<h3>Minimise function parameters</h3>
+<p>More than four function parameters may be a sign of an overly complex function. Instead consider having an array or object as a parameter. Especially avoid using multiple booleans in function parameters, as <code>$library-&gt;get_books('id', TRUE, FALSE, FALSE, TRUE)</code> is incredibly confusing.</p>
+<pre><code class="language-php">$library-&gt;get_books($filter_options);
+$library-&gt;get_books(array($this, 'is_new_book'));
+</code></pre>
+<h3>Avoid negative boolean functions</h3>
+<p>Don't name a function <code>is_not_foo</code>, because using a "not" operator results in a double negative. Double negatives get very hard to understand especially in complex if statements.</p>
+<pre><code class="language-php">if ( ! ($this-&gt;is_registered() AND $this-&gt;is_verified())
+    OR ! $this-&gt;is_guest())
+    return;
+</code></pre>
+<h3>Make sure function code does what the function says it does</h3>
+<p>If you're reading a function named <code>get_user</code>, and you see it also logging a user in and registering that user, that function is clearly doing much more than getting a user. Split that function into smaller more specific functions.</p>
+<pre><code class="language-php">if ( ! $user-&gt;exists())
+    return $user-&gt;generate();
+</code></pre>
+<h3>Try to name classes after meaningful business objects</h3>
+<p>We all know that classes are best named as nouns. However also keep in the back of your mind that the OOP paradigm was aimed at better representing the real-world. So name your classes after actual real things in your business, rather than abstract programming concepts.</p>
+<pre><code class="language-php">$invoice = new Invoice;
+$recipient = new Recipient;
+$registrant = new Registrant;
+</code></pre>
+<h3>Refactoring into classes</h3>
+<p>A class is technically a group of functions. But which functions do you put in which classes? A class contains functions that share state. If you have two groups of states, then you probably have two classes.</p>
+<pre><code class="language-php">class Formatter { ... }
+class Emailer { ... }
+class Validator { ... }
+</code></pre>
+<h3>Order functions according to how they are used</h3>
+<p>If a series of functions are used in a particular order, define them in that order so that those reading the definitions find it easier to understand. For example, you wouldn't define the constructor at the end, right? Also, keep public API functions at the top of the code, and leave private details at the bottom.</p>
+<pre><code class="language-php">interface Emailer
+{
+    public function setup(Transport $transport);
+    public function set_to_emails(array $to_emails);
+    public function set_from_emails(array $from_emails);
+    public function queue();
+    public function send();
+}
+</code></pre>
+<h3>Put the most important stuff at the top of the file</h3>
+<p>If your class provides an API, or a public execute function, or important state definitions, keep these at the top of the file. Reduce unnecessary hunting for important information.</p>
+<pre><code class="language-javascript">app.widget.tabs = function() {
+    &quot;use strict&quot;;
+
+    var api = {
+        name: null,
+        init: init,
+        changeTab: changeTab
+        refreshTab: refreshTab
+    };
+
+    function init() { ... }
+    function changeTab() { ... }
+    function refreshTab() { ... }
+
+    return api;
+}();
+</code></pre>
+<h3>Keep code dry</h3>
+<p>DRY stands for Don't Repeat Yourself. This is the number one rule when refactoring. If you find copy pasted or even dead code lying around, be sure to isolate it in a reusable function.</p>
+<pre><code class="language-python">def print_invoice(self):
+    self.net_total = self.convert_cents_to_dollars(self.net_total)
+    self.tax = self.convert_cents_to_dollars(self.tax)
+</code></pre>
+<h3>Limit language tricks</h3>
+<p>Avoid using obscure language tricks that only those familiar with the language would understand. Idiomatic code is fine, but quirks that may cause people to have to refer to the documentation is bad.</p>
+<pre><code class="language-python">b, a = a, b
+</code></pre>
+<h3>Using OOP strategically</h3>
+<p>OOP is great for controlling what dependencies are used by what classes, accurately representing business objects, and making code read naturally like English. When writing OOP, read it out loud to see if it makes sense, and if it's something you could show to a non-programmer to explain what's going on.</p>
+<pre><code class="language-php">$registrant = new Registrant(new $user);
+$registrant-&gt;validate_registration_form();
+$registrant-&gt;send_verification_message();
+$registrant-&gt;register();
+</code></pre>
+<h3>Code summaries</h3>
+<p>If your code contains complex logic, see if you can summarise it in a single function. This'll ideally contain a short poem of code that acts to summarise the complexities of what is happening. Those interested in the details can code dive as necessary.</p>
+<pre><code class="language-python">def run(self, request, response, api):
+    if (self.has_access_token())
+        secret = api.get_secret(request.access_token)
+        api.setup(secret)
+        return response.redirect(api.get_customer_url())
+    else
+        return response.redirect(api.get_authorisation_url())
+</code></pre>
+<h2>Understandable architecture</h2>
+<p>Just as good syntax is understandable syntax, good architecture makes it easy to understand what the system is used for. For example, an online booking system is used for things like adding bookings, removing bookings, and checking for available seats. These individual scenarios that describe what a system is used for are known as usecases.</p>
+<p><strong>Achieving usecases</strong> is vital to the success of the application. Equally vital is the ability to <strong>keep the system flexible to adapt to changing usecases</strong>. We will now briefly walk through a series of abstract concepts on code organisation to help achieve these two needs.</p>
+<h3>What is a usecase?</h3>
+<p>A usecase is a single scenario of how your system may be used. For example, "Register user", "Add to cart", or "Purchase order". A usecase consists of:</p>
+<ol>
+<li>A descriptive name</li>
+<li>Input data that the scenario requires</li>
+<li>A step-by-step description of what happens</li>
+<li>Output data that the scenario will provide</li>
+<li>Any possible exceptional circumstances that may occur</li>
+</ol>
+<p>Let's take a simple "Register user" usecase as an example.</p>
+<pre><code class="language-markup">Name: Register user
+Input: $user-&gt;username, $user-&gt;password
+
+Interactions:
+
+ 1. The user username and password is validated
+ 2. The user is saved
+
+Output: $user-&gt;id
+Exceptions: Validation error
+</code></pre>
+<p>This usecase, once written in code, becomes the single abstract go-to point of what happens in a user registration scenario. Usecases should form the core of your application, and contain only business related logic, rather than technical logic.</p>
+<p>Common design patterns useful for usecase modules include the interactor pattern, facade pattern, and Data-Context-Interactions.</p>
+<h3>What is not a usecase?</h3>
+<p>Anything which is <em>not</em> an abstract description of a usage scenario is not a usecase.</p>
+<p>Notice that the usecase above only uses abstract business terminology. The usecase makes no mention of using a database, or whether data is input via a web browser or desktop application. If it were sending an email, it wouldn't mention the mail transport, and if it were processing an image, it wouldn't mention the image processing libraries used. These are all technical implementation details, and should be separate from the usecase.</p>
+<p>This separation of the abstract, object-oriented code that describes usecases and the concrete technical details allows you to ship the usecase code in one module, and have each implementation detail as separate modules which plug into the usecase module, usually using interface contracts.</p>
+<p>Separating what usecases are and how they are implemented offers you a great amount of flexibility. Imagine if you now had to change your current project's database from MySQL to another, or had to suddenly develop an API for a web app, or switch web servers. Because your database, interface and other details are merely plugins to your usecase module, they are easy to swap out.</p>
+<p>These non-usecase plugins can be split into four categories:</p>
+<ol>
+<li><strong>Data</strong> - plain old simple definitions of different types of data used by the system, such as a user, a category, or an account</li>
+<li><strong>Interfaces</strong> - how your application is consumed, such as through a web interface, a desktop GUI, or a CLI app.</li>
+<li><strong>Repositories</strong> - things which allow you to store and retrieve data, such as databases, flat files, and memory.</li>
+<li><strong>Tools</strong> - libraries that process technical data, such as email, encryption, and image manipulation.</li>
+</ol>
+<p>Each category as a minimum should be split up into a separate module. We will talk briefly about each category, then move on to more general organisation concepts.</p>
+<h3>What are data?</h3>
+<p>Data are simple objects or data types that describe the various types of data used by the system. For example, a user, which might have attributes for username, password, and email. These data types are usually heavily used by usecases, and form a comprehensive dictionary of all the system data.</p>
+<p>These may also include any other data structures you might like to use for passing between usecase and non-usecase modules. These include request and response data structures, which have varying input and output attributes.</p>
+<p>These are extremely simple objects which minimal to no logic. They are purely defining objects with no restrictions or knowledge about their use.</p>
+<pre><code class="language-php">class User
+{
+    public $id;
+    public $username;
+    public $password;
+    public $email;
+}
+</code></pre>
+<h3>What are interfaces?</h3>
+<p>Your application interface, not to be confused with code interface contracts, is how your application is delivered and consumed by the end user. This could be a web page served by a web server, a custom XML RPC protocol, desktop GUI, or CLI.</p>
+<p>This code generally deals with listening for input requests, parsing request data, routing to the correct application module to execute, rendering a response, and deciding the application flow. These different responsibilities suggest further sub modules of code.</p>
+<p>The interface itself doesn't know how the usecase works, but merely decides which to execute, supplies input to each usecase, and reacts to the output.</p>
+<pre><code class="language-markup">Parse request data -&gt; Route to usecase -&gt; Execute usecase -&gt; Generate response
+</code></pre>
+<p>Common design patterns for interfaces include Model-View-Controller, Model-View-Presenter, and Controller-View-Template.</p>
+<h3>What are repositories?</h3>
+<p>Repositories contain code which store and retrieve data. This is usually thought to be database queries, but is not always the case. Data can be stored in files for file uploads or flat file systems, in memory for session data, or even to a third party API, perhaps for CDNs or banking details.</p>
+<p>Repositories are very simple code. They usually contain minimal to no logic, don't worry about formatting for output, or do any fancy processing of any kind.</p>
+<pre><code class="language-php">namespace Repository\User;
+
+interface Register
+{
+    public function does_username_exist($username);
+    public function save_user($username, $password, $email);
+    public function get_saved_user_id();
+}
+</code></pre>
+<p>Common design patterns for repositories include the gateway pattern, and adaptor pattern.</p>
+<h3>What are tools?</h3>
+<p>Tools are other miscellaneous libraries that your application may need. Whereas most applications have an interface and need a repository, what tools are needed are different for each application. For example, one application might need image processing, and another might not.</p>
+<p>However, tools still contain no business logic, and so this means they are normally reusable across applications. Often tools can be taken directly from third party libraries. In fact, many frameworks already include many tools for common tasks.</p>
+<pre><code class="language-php">namespace Tools;
+
+interface Authenticator
+{
+    public function authenticate($id);
+    public function deauthenticate($id);
+    public function get_authenticated_id();
+}
+</code></pre>
+<p>Common design patterns for tools include the adaptor pattern, factories, and singletons.</p>
+<h3>How does this look altogether?</h3>
+<p>As a result, your application should center around <em>usecases</em>, which use a well defined dictionary of <em>data</em>. Every single other technical implementation detail turns into <em>plugins</em> to your usecases. Here's a diagram showing that:</p>
+<p><img alt="" src="https://thinkmoult.com/assets//web/20211127174601im_/https://sevenstrokes.net/images/usecase_architecture.svg"></p>
+<p>Now, let's talk about some generic concepts of code organisation.</p>
+<h3>What are design patterns?</h3>
+<p>Design patterns are solutions of code organisation to common organisation problems. Design patterns also give developers a common vocabulary, so that developers can quickly understand the structures of foreign systems. For example, MVC tackles interface organisation, and suggests that splitting interface markup from application logic is beneficial to maintenance.</p>
+<p>Design patterns target general design problems, and also offer general design solutions. Because they are general, you need to understand them fully before using it in your scenario. Sometimes, it is better not to use any common pattern at all, if your code has evolved naturally otherwise. There are three things you need to know:</p>
+<ol>
+<li><strong>Do not use patterns blindly.</strong> You need to know the history of a design pattern before deciding whether it is appropriate to use.</li>
+<li><strong>There is no one-size-fits all design pattern.</strong> Different parts of your code need different design solutions.</li>
+<li><strong>Don't be afraid to deviate from a design pattern.</strong> As long as you understand the fundamentals of understandable architectures, letting a system evolve into its own pattern is not only normal, it is recommended.</li>
+</ol>
+<p>The best test to see if a design pattern that has emerged is effective is to try and maintain your code. If maintaining and adapting features is a breeze, that's a good sign.</p>
+<h3>What is KISS?</h3>
+<p>KISS stands for Keep It Simple, Stupid! Over-engineering code is just as bad as under-engineering it. Another acronym is YAGNI - You Ain't Gonna Need it! Predicting common engineering separations such as interface and logic is OK, but don't over-think it. The solution is to start with the simplest solution possible, and then let the system naturally evolve of its own accord, of course following these architectural concepts along the way.</p>
+<h3>Avoiding jargon</h3>
+<p>Don't be too attached to jargon. Design terminologies are useful, but can be unintuitive. Use natural terms that are appropriate to your system.</p>
+<h3>Stability and instability</h3>
+<p>Code should be separated in terms of volatility. Separate code that changes frequently from code that changes rarely.</p>
+<h3>Single Responsibility Principle</h3>
+<p>The SRP states that each class should have one, and only one responsibility. This means that code that changes for different reasons, or may be changed by different people, should belong in different classes. For example, UI code is changed for aesthetic reasons by frontend developers, and so should be separate from application logic, which changes for business reasons by backend developers.</p>
+<h3>Open Closed Principle</h3>
+<p>The OCP states that code modules should be open to extension, but closed to modification. This means that to add a new feature, you should be able to do it simply by writing new code that conforms to abstract interface contracts instead of modifying existing code. This makes adding new features much more straightforward, and reduces the potentially negative impact of them. To do this, abstractions that allow for a plugin interface should be made each time we think a customer will need a lot of changes done on a module.</p>
+<h3>Liskov Substitution Principle</h3>
+<p>The LSP states that objects may be replaced by their subtypes without breaking any intended behaviour. This means that when you extend classes, make sure that the extension is a valid one and doesn't have any quirks.</p>
+<h3>Interface Segregation Principle</h3>
+<p>The ISP states that no class should depend on methods that it does not use. This means that that a class depending on another interface should need all the functions available in that interface and not less. This helps prevent against god models and encourages small, client-specific interfaces.</p>
+<h3>Dependency Inversion Principle</h3>
+<p>The DIP states that a class should only depend on abstractions, and not on concrete details. For example, a class in an invoicing system that describes its abstract behavior should not depend on a specific PDF rendering library. This allows high level concepts to stay clean of technical details prone to change.</p>
+<h3>What is dependency injection?</h3>
+<p>Dependency injection allows a target class to have other classes plugged into it. The target class does not hardcode the other classes they depend on. These other classes can then be easily swapped out as a plugin. These classes can be injected via constructors, setter methods, or even an entire other class.</p>
+<h3>Structure files to expose system intent</h3>
+<p>One of the first steps to searching for the code we want to change is to look at the directory and file names. Naming them logically to expose the most important concepts of the system makes the source much easier to navigate. Similarly, try to structure files such that more important ones are higher up the file hierarchy, and thus easier to discover.</p>
+<p>For example, if you see file paths like "Usecase/User/Suspend", it's pretty clear that users can be suspended. A file path like "Modules/Controllers/User" is much less useful.</p>
+<h3>Many small architectures</h3>
+<p>A large system is a difficult system to manage. There is no easy solution to how to architect a large system. Instead, the objective should be to split the system up into as many smaller manageable, isolated modules as possible. Don't be afraid of using many different tailored architectures instead of a single overarching one.</p>
+<h2>Good workflow</h2>
+<p>Good workflow is when developers are using a development environment and development processes that help them understand business requirements, and then ensure the code they produce help achieve a business requirement. First, we will talk about the environment, and then talk about processes.</p>
+<h3>Good development environments</h3>
+<p>A development environment consists of the software tools that developers use to manage their workflow. The following software is a minimum, not a comprehensive list.</p>
+<h3>Version control</h3>
+<p>Version Control Systems, such as Git, Mercurcial, SVN, or CVS are software that keeps track of a log of who changed which lines of code, when the change was made, and why the change was made. Benefits include:</p>
+<ul>
+<li>Easier to collaborate with multiple developers as the system can help merge the work of two separate developers working simultaneously.</li>
+<li>Acts of a backup of the code you delete</li>
+<li>Helps you switch between working on multiple features, as the VCS can keep track of where you were</li>
+<li>Similar to working on multiple features, allows you to work on different versions of the same software. So you can do experimental work in an experimental version while slowly moving code into a more stable version for launch.</li>
+<li>Allows you to find out why a piece of code was written, if you ever get confused.</li>
+<li>Allows you to find out who wrote a piece of code, if you want to ask them why it's written that way</li>
+<li>Allows you to review your changes periodically to make sure that you're not accidentally leaving in unnecessary code</li>
+<li>Makes it easier to "atomically" group code per feature</li>
+<li>Helps when doing code reviews as it offers a structured view of the changed code</li>
+<li>Makes it easier to make snapshots of the code at specific points of time</li>
+<li>Makes it easier to collaborate with new developers joining the project</li>
+<li>May provide access controls to control who can edit which parts of the codebase</li>
+<li>Because deleted code is recoverable, you don't need to leave stray commented code lying around</li>
+<li>Because author information is recorded, you don't need excessive boilerplate credits</li>
+<li>Can generate useful statistics such as developer activity, and which parts of the code are more volatile</li>
+<li>Can be integrated into other code software</li>
+</ul>
+<h3>Issue tracking</h3>
+<p>Issue tracking ensures:</p>
+<ul>
+<li>Developers know what tasks need to be done</li>
+<li>You know who is working on what</li>
+<li>You are aware of progress towards milestones</li>
+<li>It highlights things that are taking longer than they should</li>
+<li>It focuses conversations on specific issues</li>
+</ul>
+<h3>Continuous integration</h3>
+<p>Anything that can be automated, should. This includes building the software, deploying the software, and testing the software. If you are unable to do any of the above in a single step, there is a problem.</p>
+<p>The primary benefit is continuous integration, which allows for a much more rapid build and deploy cycle, meaning more time discussing changing usecases with the customer.</p>
+<h3>Other software</h3>
+<p>Although not necessary for all projects, you may consider:</p>
+<ul>
+<li>Isolated development environments for development, staging and production</li>
+<li>Statistic generators</li>
+<li>Code quality analysers</li>
+<li>Package and/or dependency managers</li>
+</ul>
+<h3>Good coding processes</h3>
+<p>Coding processes are disciplines that developers practice as they write code.</p>
+<h3>Test-Driven-Development and Behaviour-Driven-Development</h3>
+<p>A test is a short snippet of code that tests the behavior of another short snippet of code. For example, if a function is called <code>is_negative_number</code>, the test will check that <code>is_negative_number(-1)</code> returns <code>TRUE</code> and <code>is_negative_number(1)</code> returns <code>FALSE</code>.</p>
+<p>Tests are a form of quality control, and are traditionally written <em>after</em> the production code - the code you want to test - has been written.</p>
+<p>Test-Driven Development is a (initially unintuitive) practice of writing tests <em>before</em> writing any functioning code. Specifically, there are three rules to follow:</p>
+<ol>
+<li>You are not allowed to write any production code unless it is to make a failing unit test pass.</li>
+<li>You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.</li>
+<li>You are not allowed to write any more production code than is sufficient to pass the one failing unit test.</li>
+</ol>
+<p>These three rules produce short iterative cycles of development that:</p>
+<ul>
+<li>Ensure the developer is always asking themselves, what is this code meant to do?</li>
+<li>Ensure that every line of code a developer writes is covered by a verifiable unit test</li>
+<li>Reduce debugging time, as errors are limited to short periods of time</li>
+<li>Reduce the fear of large system changes, as breakages are immediately detectable and quantifiable</li>
+<li>Create reliable low level documentation of how the code is used and should behave</li>
+<li>Naturally evolve decent architectures, as the testing process ensures code modularity</li>
+</ul>
+<p>Behavior-Driven Development is a derivative of Test-Driven Development, which accomplishes the same thing but uses English-like syntax. It may help encourage developers to keep their mindset aligned with business requirements.</p>
+<h3>SpecBDD and StoryBDD</h3>
+<p>BDD further specialises into two forms of syntax: SpecBDD and StoryBDD. Here's an example of SpecBDD syntax:</p>
+<pre><code class="language-php">$this-&gt;get_user_id()-&gt;shouldReturn('id');
+$this-&gt;shouldThrow('Exception\Authorisation')-&gt;duringAuthorise();
+</code></pre>
+<p>Here is an example testing the same code using StoryBDD syntax:</p>
+<pre><code class="language-markup">When I ask for a user ID
+Then I should receive 'id'
+When I try to authorise
+Then there should be an authorisation exception
+</code></pre>
+<p>Whereas SpecBDD focuses on specific function calls of the class you are testing and offers assertions such as <code>shouldBe</code> or <code>shouldNotEqual</code>, StoryBDD allows you to invent your own sentences to describe a scenario following a simple structure of <code>Given [this assumption], When [I do this], Then [this should happen]</code>.</p>
+<p>SpecBDD and StoryBDD are also technically interchangeable, but it is usually more natural to use SpecBDD to test small units of code as unit tests, and use StoryBDD to test the full stack in a short scenario as acceptance tests.</p>
+<h3>Release early, release often</h3>
+<p>Delivering working software, adapting it often, and keeping close to the customer is vital. Being agile is easily summarised by these 12 principles:</p>
+<ol>
+<li>Customer satisfaction by rapid delivery of useful software</li>
+<li>Welcome changing requirements, even late in development</li>
+<li>Working software is delivered frequently (weeks rather than months)</li>
+<li>Close, daily cooperation between business people and developers</li>
+<li>Projects are built around motivated individuals, who should be trusted</li>
+<li>Face-to-face conversation is the best form of communication (co-location)</li>
+<li>Working software is the principal measure of progress</li>
+<li>Sustainable development, able to maintain a constant pace</li>
+<li>Continuous attention to technical excellence and good design</li>
+<li>Simplicity—the art of maximizing the amount of work not done—is essential</li>
+<li>Self-organizing teams</li>
+<li>Regular adaptation to changing circumstances</li>
+</ol>
+<h3>Other processes</h3>
+<p>Although not vital, you may consider:</p>
+<ul>
+<li>Semantic versioning</li>
+<li>Code reviews</li>
+<li>Pair programming</li>
+</ul>
+<h2>Handling legacy projects</h2>
+<p>Great, so you're convinced by the benefits of understandable code and want to start writing some right away. Unfortunately, you're stuck with an old project without tests, and cryptic code. How do you deal with it?</p>
+<p>There is a simple solution: <em>every time you make a commit, make sure you are leaving the code cleaner than when you found it</em>. If every single commit results in a minute improvement, such as a refactoring or even simple syntax cleanup, over time even the most messy of software would fix itself. There is no need for an expensive rewrite, just incremental improvement.</p>
+<p>If you feel that your code is too fragile even for incremental improvement, at least enforce a policy that every new bug fix or feature implementation is accompanied by a test. Over time, you will develop a comprehensive test suite. This test suite allows you to reliably detect and quantify breakages. This will give you the confidence to refactor mercilessly when the time is right, as you can be assured of the impacts of the refactor.</p>
+<h2>Further reading</h2>
+<p>None of the concepts I have talked about are original. They are practiced and proven concepts by much smarter people. It is worth noting that I have changed many of the terminology of the original concepts for the benefit of simplicity and explanation.</p>
+<p>For example, Data is usually called Entities, Tools known as Helpers or Collaborators, Interfaces are known as delivery mechanisms, functions doing what they say they do is usually named misplaced responsibility, repositories usually come hand in hand with gateways, and so on.</p>
+<p>Many of these concepts have originated from and heavily inspired by Charles Simonyi, Robert Martin, and Trygve Reenskaug.</p>
+<p>Many thanks to Paul Schwarz for proof-reading.</p>
+<p>Help can be found on IRC at <code>#cleancode</code> on Freenode.</p>
+<p>Links:</p>
+<ul>
+<li><a href="http://cleancoders.com/">CleanCoders</a> - Training videos on writing cleaner code</li>
+<li><a href="http://en.wikipedia.org/wiki/Intentional_programming">Charles Simonyi: Intentional Programming</a> - A greater emphasis on the domain</li>
+<li><a href="http://butunclebob.com/ArticleS.UncleBob.TheThreeRulesOfTdd">Robert Martin: The Three Rules of TDD</a> - How to practice TDD</li>
+<li><a href="https://www.youtube.com/watch?v=WpkDN78P884">Robert Martin: Architecture: The Lost Years</a> - How to structure files, usecases and plugins in a unified architecture</li>
+</ul>
     </article>
     <section>
 	<h2>Comments</h2>
